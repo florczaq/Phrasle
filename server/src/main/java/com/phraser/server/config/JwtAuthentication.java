@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.phraser.server.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

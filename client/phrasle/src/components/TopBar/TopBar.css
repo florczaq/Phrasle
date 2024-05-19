@@ -1,0 +1,42 @@
+#topBar {
+  background-color: #000;
+  width: 100vw;
+  height: 40px;
+  color: #fff;
+  padding-right: 20px;
+  font-size: 22px;
+  flex-direction: row;
+}
+
+#topBar > .name {
+  width: 70%;
+  font-size: 28px;
+  padding-left: 20px;
+}
+
+#topBar > ul {
+  height: 100%;
+  width: 30%;
+  justify-content: flex-end;
+}
+
+#topBar > ul > ol {
+  height: 100%;
+  width: 100px;
+}
+
+#topBar > ul > ol > a {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+#topBar > ul > ol > a:hover {
+  background-color: #ffffff36;
+}
+
+#topBar > ul > ol > a > label {
+  cursor: pointer;
+}

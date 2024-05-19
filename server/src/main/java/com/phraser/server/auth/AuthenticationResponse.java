@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.phraser.server.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

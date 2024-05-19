@@ -12,6 +12,6 @@ public class UserController {
 
     @GetMapping
     public String testController(@RequestParam(name = "u", defaultValue = "somebody") String s){
-        return  repository.findByLogin("test").get().getLogin();
+        return  repository.findByUsername("test").get().getUsername();
     }
 }

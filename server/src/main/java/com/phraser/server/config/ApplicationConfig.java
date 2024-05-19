@@ -1,7 +1,7 @@
-package com.example.demo.config;
+package com.phraser.server.config;
 
 
-import com.example.demo.user.UserRepository;
+import com.phraser.server.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
