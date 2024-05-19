@@ -1,10 +1,7 @@
 package com.phraser.server.phrase.object;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -24,5 +21,6 @@ public class Phrase {
     @Getter
     private final String definition;
     @Getter
-    private final Integer user_id;
+    @Column(name = "user_id", nullable = false)
+    private final Integer userId;
 }

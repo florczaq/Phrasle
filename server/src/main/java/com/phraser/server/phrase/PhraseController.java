@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @CrossOrigin
@@ -25,6 +26,13 @@ public class PhraseController {
 
     @GetMapping("/list")
     public List<Phrase> getAllValues() {
-        return repository.findByValueIsNotNull();
+        return repository.findByValueIsNotNullOrderByValue();
     }
+
+    @GetMapping("/random")
+    public Phrase getUserRandomPhrase(@RequestParam(name = "uid", required = true) int userId){
+        List<Phrase> phrases = repository.findByUserId(userId);
+        return phrases.get(new Random().nextInt(phrases.size()));
+    }
+
 }
