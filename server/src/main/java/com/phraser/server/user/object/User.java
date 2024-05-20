@@ -19,7 +19,7 @@ public class User implements UserDetails {
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Integer id;
-    private final String username;
+    private final String email;
     @Getter
     private final String password;
 
@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
