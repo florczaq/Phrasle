@@ -13,26 +13,26 @@ import java.util.Random;
 @RequestMapping("/api/v1/phrase")
 public class PhraseController {
     private final PhraseRepository repository;
+    private final PhraseService service;
 
     @GetMapping
     public Phrase getPhraseByValue(@RequestParam(name = "v") String value) {
-        return repository.findByValue(value).orElse(null);
+        return service.getPhrase(value);
     }
 
     @GetMapping("/id")
-    public Phrase getByInt() {
-        return repository.findById(1).orElse(null);
+    public Phrase getByInt(@RequestParam(name = "id") int id) {
+        return service.getPhrase(id);
     }
 
     @GetMapping("/list")
     public List<Phrase> getAllValues() {
-        return repository.findByValueIsNotNullOrderByValue();
+       return service.getAllPhrases();
     }
 
     @GetMapping("/random")
-    public Phrase getUserRandomPhrase(@RequestParam(name = "uid", required = true) int userId){
-        List<Phrase> phrases = repository.findByUserId(userId);
-        return phrases.get(new Random().nextInt(phrases.size()));
+    public Phrase getUserRandomPhrase(@RequestParam(name = "uid", required = true) int userId) {
+        return service.getUserRandomPhrase(userId);
     }
 
 }
