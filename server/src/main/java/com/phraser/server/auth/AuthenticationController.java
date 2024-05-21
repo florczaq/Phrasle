@@ -15,11 +15,11 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         try {
-            return ResponseEntity.ok(service.register(request).toString());
+            return ResponseEntity.ok(service.register(request));
         } catch (EntityExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
