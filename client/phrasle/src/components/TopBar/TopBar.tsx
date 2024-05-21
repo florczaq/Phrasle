@@ -24,9 +24,9 @@ export const TopBar = () => {
         </ol>
         <ol className='center'>
           <a
-            href='*'
+            href='/login'
             className='center'>
-            <label>Sign Out</label>
+            <label>Sign in</label>
           </a>
         </ol>
       </ul>
