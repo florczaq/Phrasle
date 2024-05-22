@@ -32,7 +32,7 @@ public class PhraseController {
     }
 
     @GetMapping("/random")
-    public Phrase getUserRandomPhrase(@RequestParam(name = "uid") int userId) {
+    public Phrase getUserRandomPhrase(@RequestParam(name = "uid") String userId) {
         return service.getUserRandomPhrase(userId);
     }
 
@@ -40,7 +40,7 @@ public class PhraseController {
     public ResponseEntity<HttpStatus> addNewPhrase(@RequestBody Phrase phrase) {
         try {
             service.addNewPhrase(phrase);
-        } catch (RecordAlreadyExistsException e) {
+        } catch (RecordAlreadyExistsException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();

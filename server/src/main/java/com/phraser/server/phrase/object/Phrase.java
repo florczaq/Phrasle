@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Phrase {
     @Id
     @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Integer id;
     @Getter
     private final String value;
@@ -22,5 +23,5 @@ public class Phrase {
     private final String definition;
     @Getter
     @Column(name = "user_id", nullable = false)
-    private final Integer userId;
+    private final String userId;
 }

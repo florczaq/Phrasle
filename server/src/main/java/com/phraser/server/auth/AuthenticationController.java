@@ -1,6 +1,6 @@
 package com.phraser.server.auth;
 
-import jakarta.persistence.EntityExistsException;
+import com.phraser.server.exception.RecordAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         try {
             return ResponseEntity.ok(service.register(request));
-        } catch (EntityExistsException e) {
+        } catch (RecordAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }

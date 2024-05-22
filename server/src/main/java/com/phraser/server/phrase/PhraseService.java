@@ -25,14 +25,16 @@ public class PhraseService {
         return repository.findByValueIsNotNullOrderByValue();
     }
 
-    public Phrase getUserRandomPhrase(int userId) {
+    public Phrase getUserRandomPhrase(String userId) {
         List<Phrase> phrases = repository.findByUserId(userId);
         return repository.findByUserId(userId).get(new Random().nextInt(phrases.size()));
     }
 
-    public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException {
-        if (repository.findByValue(phrase.getValue()).isEmpty())
+    public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException, IllegalArgumentException {
+        if (repository.findByValue(phrase.getValue()).isPresent())
             throw new RecordAlreadyExistsException();
+        if (phrase.getUserId().length() < 36)
+            throw new IllegalArgumentException();
         repository.save(phrase);
     }
 }

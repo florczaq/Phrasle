@@ -2,11 +2,14 @@ package com.phraser.server.user.object;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -18,7 +21,8 @@ public class User implements UserDetails {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Integer id;
+    @UuidGenerator
+    private final String id;
     private final String email;
     @Getter
     private final String password;
