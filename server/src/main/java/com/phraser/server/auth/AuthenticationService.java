@@ -27,7 +27,7 @@ public class AuthenticationService {
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
             .build();
-        System.out.println(user.toString());
+
         if (repository.findByEmail(user.getUsername()).isEmpty())
             repository.save(user);
         else throw new RecordAlreadyExistsException();
@@ -48,7 +48,6 @@ public class AuthenticationService {
                 )
             );
         } catch (Exception e) {
-            System.out.println("---" + e.getMessage());
             return null;
         }
 

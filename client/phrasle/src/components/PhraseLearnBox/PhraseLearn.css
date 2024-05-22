@@ -1,0 +1,52 @@
+#phraseBox {
+  width: 500px;
+  height: 300px;
+  background-color: #000000;
+  color: #fff;
+  font-size: 35px;
+  border-radius: 30px;
+  user-select: none;
+}
+
+#phraseBox {
+  cursor: pointer;
+}
+
+#phraseBox:hover {
+  background-color: #000000ee;
+}
+
+#phraseLearnContainer {
+  height: 90vh;
+  flex-direction: column;
+}
+
+#phraseLearnContainer > .buttons {
+  width: 500px;
+  height: 70px;
+  justify-content: space-between;
+}
+
+#phraseLearnContainer > .buttons > button {
+  width: 90px;
+  height: 50px;
+  font-size: 30px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+}
+
+#phraseLearnContainer > .buttons > button:hover {
+  background-color: #000000cc;
+  cursor: pointer;
+}
+
+#phraseLearnContainer > .buttons > button:disabled {
+  cursor: auto;
+  background-color: rgba(0, 0, 0, 0.521);
+}
+
+#phraseLearnContainer > .buttons > .counterInfo {
+  font-size: 25px;
+}
