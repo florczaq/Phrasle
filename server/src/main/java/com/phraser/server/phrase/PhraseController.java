@@ -1,18 +1,19 @@
 package com.phraser.server.phrase;
 
+import com.phraser.server.exception.RecordAlreadyExistsException;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/phrase")
 public class PhraseController {
-    private final PhraseRepository repository;
     private final PhraseService service;
 
     @GetMapping
@@ -27,12 +28,22 @@ public class PhraseController {
 
     @GetMapping("/list")
     public List<Phrase> getAllValues() {
-       return service.getAllPhrases();
+        return service.getAllPhrases();
     }
 
     @GetMapping("/random")
-    public Phrase getUserRandomPhrase(@RequestParam(name = "uid", required = true) int userId) {
+    public Phrase getUserRandomPhrase(@RequestParam(name = "uid") int userId) {
         return service.getUserRandomPhrase(userId);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<HttpStatus> addNewPhrase(@RequestBody Phrase phrase) {
+        try {
+            service.addNewPhrase(phrase);
+        } catch (RecordAlreadyExistsException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
 }

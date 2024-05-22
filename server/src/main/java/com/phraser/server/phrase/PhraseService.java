@@ -1,5 +1,6 @@
 package com.phraser.server.phrase;
 
+import com.phraser.server.exception.RecordAlreadyExistsException;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,11 @@ public class PhraseService {
     public Phrase getUserRandomPhrase(int userId) {
         List<Phrase> phrases = repository.findByUserId(userId);
         return repository.findByUserId(userId).get(new Random().nextInt(phrases.size()));
+    }
+
+    public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException {
+        if (repository.findByValue(phrase.getValue()).isEmpty())
+            throw new RecordAlreadyExistsException();
+        repository.save(phrase);
     }
 }
