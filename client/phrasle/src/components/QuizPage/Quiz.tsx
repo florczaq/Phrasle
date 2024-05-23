@@ -24,7 +24,7 @@ export const Quiz = () => {
     { phrase: 'Orange', definition: 'Not apple' },
     { phrase: 'Strawberry', definition: 'Neither of those above' },
   ]);
-  
+
   const pickNewPhrase = (): typeof Phrase => {
     let index: number;
     do index = Math.floor(Math.random() * data.length);
@@ -37,13 +37,22 @@ export const Quiz = () => {
     let pickedDefinitions: Set<typeof Phrase> = new Set<typeof Phrase>().add(correctAnswer);
     do pickedDefinitions.add(data[Math.floor(Math.random() * data.length)]);
     while (pickedDefinitions.size < 4);
-    setAnswers(Array.from(pickedDefinitions));
+    setAnswers(shuffle(Array.from(pickedDefinitions)));
   };
 
   const pickNewSet = () => {
     if (data.length >= 4) {
       pickWrongAnswers(pickNewPhrase());
     }
+  };
+
+  const shuffle = (array: Array<typeof Phrase>): Array<typeof Phrase> => {
+    let randomIndex;
+    for (let i = 0; i < array.length; i++) {
+      randomIndex = Math.floor(Math.random() * array.length);
+      [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
+    }
+    return array;
   };
 
   useEffect(() => {
