@@ -21,7 +21,7 @@ public class PhraseService {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Phrase> getAllPhrases() {
+    public List<Phrase> getAllPhrasesAsc() {
         return repository.findByValueIsNotNullOrderByValue();
     }
 

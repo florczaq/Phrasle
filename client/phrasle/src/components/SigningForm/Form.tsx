@@ -45,11 +45,11 @@ export const Form = ({ title, register }: FormParams) => {
 
       {!register ? (
         <p className='signUpMessage'>
-          Don't have an account? <a href='*'>Sign Up</a>
+          Don't have an account? <a href='/register'>Sign Up</a>
         </p>
       ) : (
         <p className='signUpMessage'>
-          Already have an account? <a href='*'>Sign In</a>
+          Already have an account? <a href='/login'>Sign In</a>
         </p>
       )}
     </div>

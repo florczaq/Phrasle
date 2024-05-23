@@ -28,7 +28,7 @@ public class PhraseController {
 
     @GetMapping("/list")
     public List<Phrase> getAllValues() {
-        return service.getAllPhrases();
+        return service.getAllPhrasesAsc();
     }
 
     @GetMapping("/random")
