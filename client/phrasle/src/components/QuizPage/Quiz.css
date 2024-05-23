@@ -1,0 +1,27 @@
+#quizContainer {
+  height: 90vh;
+  flex-direction: column;
+}
+
+#quizContainer > .optionButtonContainer {
+  width: 500px;
+  height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#quizContainer > .optionButtonContainer > button {
+  width: 45%;
+  height: 40%;
+  font-size: 20px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+}
+
+#quizContainer > .optionButtonContainer > button:hover {
+  background-color: #000000cc;
+  cursor: pointer;
+}

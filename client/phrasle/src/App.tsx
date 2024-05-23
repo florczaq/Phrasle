@@ -3,8 +3,9 @@ import './App.css';
 import { TopBar } from './components/TopBar/TopBar';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Form } from './components/SigningForm/Form';
-import { Box } from './components/PhraseLearnBox/Box';
-import { PhraseLearn } from './components/PhraseLearnBox/PhraseLearn';
+import { Box } from './components/PhraseBox/Box';
+import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
+import { Quiz } from './components/QuizPage/Quiz';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
     path: '/phrase',
     element: <PhraseLearn />,
   },
+  {
+    path: "/quiz",
+    element: <Quiz/>
+  }
 ]);
 
 function App() {
