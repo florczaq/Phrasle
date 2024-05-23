@@ -4,6 +4,8 @@ import './Quiz.css';
 
 interface OptionButtonParams {
   text: string;
+  onClick: (u: string) => void;
+  isCorrect?: boolean | null;
 }
 
 const Phrase = {
@@ -11,12 +13,19 @@ const Phrase = {
   definition: '',
 };
 
-const OptionButton = ({ text }: OptionButtonParams) => {
-  return <button className='center'>{text}</button>;
+const OptionButton = ({ text, onClick, isCorrect }: OptionButtonParams) => {
+  return (
+    <button
+      className={`center ${isCorrect != null && (isCorrect ? '_correct' : '_incorrect')}`}
+      onClick={() => onClick(text)}>
+      {text}
+    </button>
+  );
 };
 
 export const Quiz = () => {
   const [answers, setAnswers] = useState<Array<typeof Phrase>>([]);
+  const [reveal, setReveal] = useState<boolean>(false);
   const [correctAnswer, setCorrectAnswer] = useState<typeof Phrase>(Phrase);
   const [data] = useState<Array<{ phrase: string; definition: string }>>([
     { phrase: 'Apple', definition: 'Not orange' },
@@ -60,6 +69,10 @@ export const Quiz = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onAnswerPick = (userAnswer: string) => {
+    setReveal(true);
+  };
+
   return (
     <div
       id='quizContainer'
@@ -68,10 +81,29 @@ export const Quiz = () => {
         <Box phrase={correctAnswer.phrase || ' '} />
       </div>
       <div className='optionButtonContainer center'>
-        <OptionButton text={answers[0]?.definition || ''} />
-        <OptionButton text={answers[1]?.definition || ''} />
-        <OptionButton text={answers[2]?.definition || ''} />
-        <OptionButton text={answers[3]?.definition || ''} />
+        <OptionButton
+          text={answers[0]?.definition || ''}
+          onClick={onAnswerPick}
+          isCorrect={reveal ? answers[0] === correctAnswer : null}
+        />
+        <OptionButton
+          text={answers[1]?.definition || ''}
+          onClick={onAnswerPick}
+          isCorrect={reveal ? answers[1] === correctAnswer : null}
+
+        />
+        <OptionButton
+          text={answers[2]?.definition || ''}
+          onClick={onAnswerPick}
+          isCorrect={reveal ? answers[2] === correctAnswer : null}
+
+        />
+        <OptionButton
+          text={answers[3]?.definition || ''}
+          onClick={onAnswerPick}
+          isCorrect={reveal ? answers[3] === correctAnswer : null}
+
+        />
       </div>
     </div>
   );

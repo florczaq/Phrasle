@@ -3,7 +3,7 @@
   flex-direction: column;
 }
 
-#quizContainer > .boxContainer{
+#quizContainer > .boxContainer {
   width: 700px;
   height: 200px;
 }
@@ -29,4 +29,22 @@
 #quizContainer > .optionButtonContainer > button:hover {
   background-color: #000000cc;
   cursor: pointer;
+}
+
+#quizContainer > .optionButtonContainer ._correct {
+  background-color: green;
+}
+
+#quizContainer > .optionButtonContainer ._correct:hover {
+  cursor: auto;
+  background-color: green;
+}
+
+#quizContainer > .optionButtonContainer ._incorrect {
+  background-color: red;
+}
+
+#quizContainer > .optionButtonContainer ._incorrect:hover {
+  cursor: auto;
+  background-color: red;
 }
