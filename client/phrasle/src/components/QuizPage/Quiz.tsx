@@ -64,7 +64,9 @@ export const Quiz = () => {
     <div
       id='quizContainer'
       className='center'>
-      <Box phrase={correctAnswer.phrase || ' '} />
+      <div className='boxContainer'>
+        <Box phrase={correctAnswer.phrase || ' '} />
+      </div>
       <div className='optionButtonContainer center'>
         <OptionButton text={answers[0]?.definition || ''} />
         <OptionButton text={answers[1]?.definition || ''} />
