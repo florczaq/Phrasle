@@ -17,12 +17,12 @@ public class PhraseService {
         return repository.findByValue(value).orElse(null);
     }
 
-    public Phrase getPhrase(int id) {
-        return repository.findById(id).orElse(null);
-    }
+//    public Phrase getPhrase(int id) {
+//        return repository.findById(id).orElse(null);
+//    }
 
-    public List<Phrase> getAllPhrasesAsc() {
-        return repository.findByValueIsNotNullOrderByValue();
+    public List<Phrase> getAllPhrasesAsc(String uid) {
+        return repository.findByUserIdOrderByValue(uid);
     }
 
     public Phrase getUserRandomPhrase(String userId) {

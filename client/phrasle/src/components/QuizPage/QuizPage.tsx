@@ -8,6 +8,7 @@ interface NextQuizButtonParams {
   onClick: () => void;
 }
 
+//TODO change button text and functionality to FINISH when answered 10 questions 
 const NextQuizButton = ({ onClick }: NextQuizButtonParams) => {
   return (
     <button
@@ -31,6 +32,8 @@ export const QuizPage = () => {
 
   const [answers, setAnswers] = useState<Array<typeof Phrase>>([]);
   const [correctAnswer, setCorrectAnswer] = useState<typeof Phrase>(Phrase);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
 
   const pickNewPhrase = (): typeof Phrase => {
     let set = new Set<typeof Phrase>().add(correctAnswer);
@@ -51,7 +54,7 @@ export const QuizPage = () => {
     do pickedDefinitions.add(data[Math.floor(Math.random() * data.length)]);
     while (pickedDefinitions.size < 4);
 
-    setAnswers(shuffle(Array.from(pickedDefinitions)));
+    setAnswers(shuffle(shuffle(Array.from(pickedDefinitions))));
   };
 
   const pickNewSet = () => {
@@ -78,8 +81,10 @@ export const QuizPage = () => {
     setQuestionCounter((prev) => prev + 1);
   };
 
-  const onAnswer = () => {
+  const onAnswer = (pickedAnswer: typeof Phrase) => {
     setAnswered(true);
+    if (pickedAnswer.definition === correctAnswer.definition)
+      setCountCorrectAnswers((prev) => prev + 1);
   };
 
   return (

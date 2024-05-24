@@ -21,18 +21,18 @@ public class PhraseController {
         return service.getPhrase(value);
     }
 
-    @GetMapping("/id")
-    public Phrase getByInt(@RequestParam(name = "id") int id) {
-        return service.getPhrase(id);
-    }
+//    @GetMapping("/id")
+//    public Phrase getByInt(@RequestParam(name = "id") int id) {
+//        return service.getPhrase(id);
+//    }
 
     @GetMapping("/list")
-    public List<Phrase> getAllValues() {
-        return service.getAllPhrasesAsc();
+    public List<Phrase> getAllValues(@RequestParam (name = "u") String uid) {
+        return service.getAllPhrasesAsc(uid);
     }
 
     @GetMapping("/random")
-    public Phrase getUserRandomPhrase(@RequestParam(name = "uid") String userId) {
+    public Phrase getUserRandomPhrase(@RequestParam(name = "u") String userId) {
         return service.getUserRandomPhrase(userId);
     }
 

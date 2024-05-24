@@ -19,7 +19,7 @@ const OptionButton = ({ text, onClick, isCorrect }: OptionButtonParams) => {
 };
 
 interface QuizParams {
-  onAnswer: () => void;
+  onAnswer: (pickedAnswer: typeof Phrase) => void;
   reveal: boolean;
   correctAnswer: typeof Phrase;
   answers: Array<typeof Phrase>;
@@ -39,7 +39,7 @@ export const Quiz = ({ answers, reveal, correctAnswer, onAnswer }: QuizParams) =
           <OptionButton
             key={i}
             text={element?.definition || ''}
-            onClick={onAnswer}
+            onClick={() => onAnswer(element)}
             isCorrect={reveal ? element === correctAnswer : null}
           />
         ))}
