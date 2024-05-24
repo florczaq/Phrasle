@@ -1,5 +1,6 @@
 package com.phraser.server.config;
 
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +40,13 @@ public class JwtAuthentication extends OncePerRequestFilter {
     }
 
     jwtToken = authHeader.substring(7);
-    username = jwtService.extractUsername(jwtToken);
+    try{
+      username = jwtService.extractUsername(jwtToken);
+    }catch (MalformedJwtException e){
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
       if (jwtService.isTokenValid(jwtToken, userDetails)) {

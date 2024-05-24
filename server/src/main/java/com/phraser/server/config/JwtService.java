@@ -2,6 +2,7 @@ package com.phraser.server.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -20,11 +21,11 @@ public class JwtService {
 
     private static final String SECRET_KEY = "40C888AF5DC6CB4ACB059BA3F086F62662D440309C5E9C12BFAE5F1C0EB0792B0FD681CE308CB6FC69278E00A4C81FCED3B66C9B4A9D916F05471695792455DBA6F0C7B4950C89A9A60ED2153D1D22FEFE8DB24F94FC65142F07F7523C4A30C5C43F84ECD66B89C00AE663044C786EFA78DDBAFD78B2CB8F41889A5E4D81A586";
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token) throws MalformedJwtException{
         return extractClaims(token, Claims::getSubject);
     }
 
-    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) throws MalformedJwtException {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -57,7 +58,7 @@ public class JwtService {
         return extractClaims(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws MalformedJwtException {
         return Jwts
             .parserBuilder()
             .setSigningKey(getSignInKey())

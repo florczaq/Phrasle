@@ -40,8 +40,10 @@ public class PhraseController {
     public ResponseEntity<HttpStatus> addNewPhrase(@RequestBody Phrase phrase) {
         try {
             service.addNewPhrase(phrase);
-        } catch (RecordAlreadyExistsException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
+        }catch (RecordAlreadyExistsException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok().build();
     }
