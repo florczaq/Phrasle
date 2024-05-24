@@ -1,11 +1,14 @@
-import React from 'react';
-import './App.css';
-import { TopBar } from './components/TopBar/TopBar';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Form } from './components/SigningForm/Form';
-import { Box } from './components/PhraseBox/Box';
+import './App.css';
 import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
-import { Quiz } from './components/QuizPage/Quiz';
+import { QuizPage } from './components/QuizPage/QuizPage';
+import { Form } from './components/SigningForm/Form';
+import { TopBar } from './components/TopBar/TopBar';
+
+export const Phrase = {
+  phrase: '',
+  definition: '',
+};
 
 const router = createBrowserRouter([
   {
@@ -40,9 +43,9 @@ const router = createBrowserRouter([
     element: <PhraseLearn />,
   },
   {
-    path: "/quiz",
-    element: <Quiz/>
-  }
+    path: '/quiz',
+    element: <QuizPage />,
+  },
 ]);
 
 function App() {

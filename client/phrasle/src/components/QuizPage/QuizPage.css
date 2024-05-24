@@ -1,0 +1,31 @@
+#quizPageContainer {
+  width: 100%;
+  height: 90vh;
+}
+
+#quizPageContainer > .nextQuizButton {
+  position: absolute;
+  right: 20px;
+  width: 200px;
+  height: 70px;
+  background-color: #000;
+  color: #fff;
+  font-size: 40px;
+  border-radius: 30px;
+  border: 0;
+}
+
+#quizPageContainer > .nextQuizButton:hover {
+  background-color: #000000cc;
+  cursor: pointer;
+}
+
+#quizPageContainer > .questionCounter {
+  position: absolute;
+  left: 60px;
+  top: 60px;
+  border: 2px solid black;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 20px;
+}
