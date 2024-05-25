@@ -4,6 +4,7 @@ import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
 import { QuizPage } from './components/QuizPage/QuizPage';
 import { Form } from './components/SigningForm/Form';
 import { TopBar } from './components/TopBar/TopBar';
+import { ListOfPhrasesPage } from './components/ListOfPhrasesPage/ListOfPhrasesPage';
 
 export const Phrase = {
   phrase: '',
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/quiz',
     element: <QuizPage />,
+  },
+  {
+    path: '/list',
+    element: <ListOfPhrasesPage />,
   },
 ]);
 

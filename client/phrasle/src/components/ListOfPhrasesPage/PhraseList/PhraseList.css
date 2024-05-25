@@ -1,0 +1,67 @@
+#phraseListContainer {
+  width: 100%;
+  flex-direction: column;
+  height: 100%;
+  /* border: 1px solid red; */
+  gap: 30px;
+}
+
+#phraseListContainer > .listTitle {
+  font-size: 20px;
+  /* border: 1px solid red; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#phraseListContainer > .listTitle:hover {
+  cursor: pointer;
+}
+
+#phraseListContainer > .listTitle > .underline {
+  width: 100%;
+  height: .1em;
+  background-color: rgb(80, 79, 79);
+}
+
+#phraseListContainer > .listTitle > .title {
+  display: flex;
+  margin-top: 30px;
+  align-items: center;
+}
+
+#phraseListContainer > .listTitle > .title > p {
+  margin-right: 15px;
+}
+
+#phraseListContainer > .listTitle > .title > .stateArrow {
+  transition: .15s;
+  border-top: 7px solid #000;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+}
+
+#phraseListContainer > .listTitle > .title > ._right {
+  transform: rotate(-90deg);
+  transition: .15s;
+  /* border-top: 7px solid transparent;
+  border-left: 7px solid #000000;
+  border-bottom: 7px solid transparent; */
+}
+
+
+
+#phraseListContainer > .listContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100vh;
+  overflow: scroll;
+  transition: .5s;
+  transition: max-height 0.15s ease-out;
+}
+
+._hide{
+  max-height: 0px !important;
+  transition: max-height 0.15s ease-out !important;
+}
