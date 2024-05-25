@@ -3,20 +3,25 @@
 }
 
 #formContainer {
-  flex-direction: column;
   height: 500px;
   width: 400px;
   border: 4px solid #000;
   border-radius: 20px;
+}
+
+#formContainer > form{
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
   justify-content: space-around;
 }
 
-#formContainer > h2 {
+#formContainer > form > h2 {
   font-size: 35px;
   height: 25%;
 }
 
-#formContainer > .fields {
+#formContainer > form> .fields {
   height: 40%;
   width: 80%;
   display: flex;
