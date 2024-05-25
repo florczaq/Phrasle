@@ -24,7 +24,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         var response = service.authenticate(request);
         if (response == null)
             return new ResponseEntity<>((AuthenticationResponse) null, HttpStatus.BAD_REQUEST);
