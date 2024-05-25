@@ -8,8 +8,7 @@ import java.util.Optional;
 
 public interface PhraseRepository extends JpaRepository<Phrase, Integer> {
     Optional<Phrase> findByValue(String value);
-//    Optional<Phrase> findById(int id);
-    
+
     List<Phrase> findByUserId(String uid);
     List<Phrase> findByUserIdOrderByValue(String uid);
 }

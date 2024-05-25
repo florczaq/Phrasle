@@ -24,4 +24,6 @@ public class Phrase {
     @Getter
     @Column(name = "user_id", nullable = false)
     private final String userId;
+    @Getter
+    private boolean starred;
 }

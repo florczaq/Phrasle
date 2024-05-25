@@ -20,11 +20,6 @@ public class PhraseController {
         return service.getPhrase(value);
     }
 
-//    @GetMapping("/id")
-//    public Phrase getByInt(@RequestParam(name = "id") int id) {
-//        return service.getPhrase(id);
-//    }
-
     @GetMapping("/list")
     public List<Phrase> getAllValues(@RequestParam (name = "u") String uid) {
         return service.getAllPhrasesAsc(uid);
