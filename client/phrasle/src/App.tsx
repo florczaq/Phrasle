@@ -1,14 +1,20 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
-import { QuizPage } from './components/QuizPage/QuizPage';
-import { Form } from './components/SigningForm/Form';
-import { TopBar } from './components/TopBar/TopBar';
 import { ListOfPhrasesPage } from './components/ListOfPhrasesPage/ListOfPhrasesPage';
+import { QuizPage } from './components/QuizPage/QuizPage';
+import { SignInPage } from './components/SignInPage/SignInPage';
+import { SignUpPage } from './components/SignUpPage/SignUpPage';
+import { TopBar } from './components/TopBar/TopBar';
 
 export const Phrase = {
   phrase: '',
   definition: '',
+};
+
+export const User = {
+  email: '',
+  password: '',
 };
 
 const router = createBrowserRouter([
@@ -18,26 +24,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: (
-      <div
-        className='center'
-        style={{ height: '90vh' }}>
-        <Form title='You are signing in!' />
-      </div>
-    ),
+    element: <SignInPage />,
   },
   {
     path: '/register',
-    element: (
-      <div
-        className='center'
-        style={{ height: '90vh' }}>
-        <Form
-          title='You are signing up!'
-          register
-        />
-      </div>
-    ),
+    element: <SignUpPage />,
   },
   {
     path: '/phrase',
