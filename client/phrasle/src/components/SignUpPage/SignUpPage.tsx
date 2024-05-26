@@ -4,11 +4,16 @@ import './SignUpPage.css';
 import { User } from '../../App';
 import { register } from '../../service';
 import { save, KEY, TYPE } from '../../storage';
+import { useNavigate } from 'react-router-dom';
 
 export const SignUpPage = () => {
+  const navigate = useNavigate();
   const onSumbit = (credentials: typeof User) => {
     register(credentials)
-      .then((response) => save(TYPE.COOKIE, KEY.UID, response.data.token))
+      .then((response) => {
+        save(TYPE.COOKIE, KEY.UID, response.data.token);
+        navigate('/list');
+      })
       .catch((response) => console.warn(response.message));
   };
 

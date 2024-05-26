@@ -9,10 +9,49 @@ export interface FormParams {
 }
 
 export const Form = ({ title, register, onSubmit }: FormParams) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const validateEmail = (text: string) => {
+    return text
+      .toLocaleLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const validate = () => {
+    if (email === '' || password === '') {
+      setErrorMessage('Fill all fields');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMessage('Type correct email format');
+      return;
+    }
+
+    onSubmit({ email, password });
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage !== null) {
+      setErrorMessage(null);
+    }
+    const element = e.target.classList.toString();
+
+    if (element.includes('email')) {
+      setEmail(e.target.value);
+    }
+    if (element.includes('password')) {
+      setPassword(e.target.value);
+    }
+    if (element.includes('repeatPassword')) {
+      setRepeatPassword(e.target.value);
+    }
+  };
 
   return (
     <div
@@ -21,44 +60,52 @@ export const Form = ({ title, register, onSubmit }: FormParams) => {
       <form className='center'>
         <h2 className='center'>{title}</h2>
         <div className='fields'>
-
           <input
-            className='usernameField'
+            className='emailField'
             type='email'
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => handleInput(e)}
             placeholder='Email...'
             required
           />
+
           <input
             className='passwordField'
             type='password'
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => handleInput(e)}
             placeholder='Password...'
             required
           />
+
           {register && (
             <input
-              className='passwordField'
+              className='repeatPasswordField'
               type='password'
               placeholder='Repeat password...'
               value={repeatPassword}
-              onChange={e => setRepeatPassword(e.target.value)}
+              onChange={(e) => handleInput(e)}
             />
           )}
+          {!register && (
+            <div className='stayLoggedIn center'>
+              <input
+                type='checkbox'
+                name=''
+                id='stayLogged_box'
+              />
+              <p>Stay logged in</p>
+            </div>
+          )}
+          <p className='alert center'>{errorMessage || ''}</p>
         </div>
-        {!register && (
-          <div className='stayLoggedIn center'>
-            <input
-              type='checkbox'
-              name=''
-              id='stayLogged_box'
-            />
-            <p>Stay logged in</p>
-          </div>
-        )}
-        <button type='button' className='confirmButton' onClick={() => onSubmit({ email, password })}>Sign In</button>
+
+        <button
+          type='button'
+          className='confirmButton'
+          onClick={() => validate()}>
+          {register ? 'Sign Up' : 'Sign In'}
+        </button>
 
         {!register ? (
           <p className='signUpMessage'>

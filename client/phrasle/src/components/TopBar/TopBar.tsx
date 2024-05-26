@@ -1,5 +1,6 @@
 import React from 'react';
 import './TopBar.css';
+import { KEY, TYPE, get } from '../../storage';
 
 export const TopBar = () => {
   return (
@@ -26,7 +27,7 @@ export const TopBar = () => {
           <a
             href='/login'
             className='center'>
-            <label>Sign in</label>
+            <label>Sign In</label>
           </a>
         </ol>
       </ul>

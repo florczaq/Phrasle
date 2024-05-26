@@ -3,13 +3,13 @@
 }
 
 #formContainer {
-  height: 500px;
-  width: 400px;
+  height: 550px;
+  width: 450px;
   border: 4px solid #000;
   border-radius: 20px;
 }
 
-#formContainer > form{
+#formContainer > form {
   width: 100%;
   height: 100%;
   flex-direction: column;
@@ -18,20 +18,20 @@
 
 #formContainer > form > h2 {
   font-size: 35px;
-  height: 25%;
+  height: 20%;
 }
 
-#formContainer > form> .fields {
-  height: 40%;
+#formContainer > form > .fields {
+  min-height: 50%;
   width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
-.fields > input {
+#formContainer > form > .fields > input {
   width: 100%;
-  height: 30%;
+  height: 20%;
   border: 3px solid black;
   border-radius: 10px;
   padding-inline: 10px;
@@ -46,24 +46,22 @@
 
 .stayLoggedIn {
   width: 80%;
-  height: 10%;
 }
 
-#stayLogged_box{
-  width: max-content;  
+#stayLogged_box {
+  width: max-content;
 }
 
-#stayLogged_box:hover{
+#stayLogged_box:hover {
   cursor: pointer;
 }
-
 
 .stayLoggedIn > p {
   width: 90%;
   padding-inline: 15px;
 }
 
-.signUpMessage >a{
+.signUpMessage > a {
   font-weight: 700;
   height: 10%;
 }
@@ -78,7 +76,13 @@
   font-size: 23px;
 }
 
-.confirmButton:hover{
+.confirmButton:hover {
   cursor: pointer;
   background-color: #000000c7;
+}
+
+.alert {
+  color: red;
+  width: 100%;
+  height: 10%;
 }
