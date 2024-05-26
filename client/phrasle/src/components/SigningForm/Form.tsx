@@ -37,20 +37,11 @@ export const Form = ({ title, register, onSubmit }: FormParams) => {
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (errorMessage !== null) {
-      setErrorMessage(null);
-    }
+    if (errorMessage !== null) setErrorMessage(null);
     const element = e.target.classList.toString();
-
-    if (element.includes('email')) {
-      setEmail(e.target.value);
-    }
-    if (element.includes('password')) {
-      setPassword(e.target.value);
-    }
-    if (element.includes('repeatPassword')) {
-      setRepeatPassword(e.target.value);
-    }
+    if (element.includes('email')) setEmail(e.target.value);
+    if (element.includes('password')) setPassword(e.target.value);
+    if (element.includes('repeatPassword')) setRepeatPassword(e.target.value);
   };
 
   return (
@@ -78,7 +69,7 @@ export const Form = ({ title, register, onSubmit }: FormParams) => {
             required
           />
 
-          {register && (
+          {register ? (
             <input
               className='repeatPasswordField'
               type='password'
@@ -86,12 +77,12 @@ export const Form = ({ title, register, onSubmit }: FormParams) => {
               value={repeatPassword}
               onChange={(e) => handleInput(e)}
             />
-          )}
-          {!register && (
+          ) : (
             <div className='stayLoggedIn center'>
               <input
                 type='checkbox'
                 name=''
+                className='css-checkbox'
                 id='stayLogged_box'
               />
               <p>Stay logged in</p>

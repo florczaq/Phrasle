@@ -1,0 +1,54 @@
+#addPhrasePageContainer {
+  height: 95vh;
+  width: 100%;
+}
+
+#addPhrasePageContainer > .fields {
+  width: 40%;
+  height: 70%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#addPhrasePageContainer > .fields input,
+textarea {
+  width: 100%;
+  height: 15%;
+  border: 3px solid black;
+  border-radius: 30px;
+  padding-inline: 10px;
+  font-size: 20px;
+}
+#addPhrasePageContainer > .fields .definition {
+  padding: 15px;
+  height: 50%;
+}
+
+#addPhrasePageContainer > .fields button {
+  width: 40%;
+  height: 10%;
+  color: #fff;
+  background-color: #000;
+  border-radius: 20px;
+  font-size: 25px;
+  border: 0;
+}
+
+#addPhrasePageContainer > .fields button:hover {
+  background-color: #000000da;
+  cursor: pointer;
+}
+
+
+#addPhrasePageContainer .star {
+  width: fit-content;
+  height: 70%;
+}
+#addPhrasePageContainer .star > img {
+  width: 60px;
+  margin-inline: 10px;
+}
+
+#addPhrasePageContainer .star img:hover {
+  cursor: pointer;
+}

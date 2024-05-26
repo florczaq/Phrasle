@@ -1,6 +1,7 @@
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 export enum KEY {
+  TOKEN = 'token',
   UID = 'uid',
 }
 
@@ -11,10 +12,10 @@ export enum TYPE {
 }
 
 /**
- * 
- * @param type 
- * @param key 
- * @param data 
+ *
+ * @param type
+ * @param key
+ * @param data
  */
 export const save = (type: TYPE, key: KEY, data: string): void => {
   switch (type) {

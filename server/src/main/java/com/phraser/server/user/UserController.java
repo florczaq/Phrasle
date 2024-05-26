@@ -4,10 +4,7 @@ import com.phraser.server.auth.AuthenticationResponse;
 import com.phraser.server.user.object.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -23,6 +20,8 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+//    @GetMapping("/")
 
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/v1/phrase")
 public class PhraseController {
     private final PhraseService service;

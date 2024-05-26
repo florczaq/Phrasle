@@ -11,8 +11,10 @@ export const SignInPage = () => {
   const onSumbit = (credentials: typeof User) => {
     authenticate(credentials)
       .then((response) => {
-        save(TYPE.COOKIE, KEY.UID, response.data.token);
+        save(TYPE.COOKIE, KEY.TOKEN, response.data.token);
+        save(TYPE.COOKIE, KEY.UID, response.data.userId);
         navigate("/list");
+        window.location.reload();
       })
       .catch((response) => console.warn(response.message));
   };

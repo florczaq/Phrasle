@@ -6,12 +6,18 @@
 }
 
 .App {
-  display: flex; 
+  display: flex;
   flex-direction: column;
+  padding-top: 5vh;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#topBarContainer {
+  position: fixed;
+  top: 0;
 }
