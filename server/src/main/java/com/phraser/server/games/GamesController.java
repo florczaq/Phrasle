@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.NoSuchObjectException;
+import java.util.EmptyStackException;
 import java.util.List;
 
 @RestController
@@ -18,15 +19,16 @@ import java.util.List;
 public class GamesController {
     private final QuizService quizService;
 
-    @PostMapping("/quiz/renderNew/{userId}")
-    public ResponseEntity<QuizGameResponse> getNewSet(@PathVariable String userId) {
+    @GetMapping("/quiz/renderNew")
+    public ResponseEntity<QuizGameResponse> getNewSet(@RequestParam(name = "u") String userId) {
         try {
             return ResponseEntity.ok(quizService.pickAnotherQuiz(userId));
-        } catch (NoSuchObjectException e) {
+        } catch (NoSuchObjectException | EmptyStackException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            throw e;
+//            return ResponseEntity.badRequest().build();
         }
     }
 
