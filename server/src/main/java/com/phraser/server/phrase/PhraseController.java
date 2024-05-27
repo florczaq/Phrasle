@@ -11,24 +11,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 @RequestMapping("/api/v1/phrase")
 public class PhraseController {
     private final PhraseService service;
 
-    @GetMapping
-    public Phrase getPhraseByValue(@RequestParam(name = "v") String value) {
-        return service.getPhrase(value);
-    }
+//    @GetMapping
+//    public Phrase getPhraseByValue(@RequestParam(name = "v") String value) {
+//        return service.getPhrase(value);
+//    }
 
     @GetMapping("/list")
-    public List<Phrase> getAllValues(@RequestParam (name = "u") String uid) {
+    public List<Phrase> getAllValues(@RequestParam(name = "u") String uid) {
         return service.getAllPhrasesAsc(uid);
     }
 
     @GetMapping("/random")
     public Phrase getUserRandomPhrase(@RequestParam(name = "u") String userId) {
         return service.getUserRandomPhrase(userId);
+
     }
 
     @PostMapping("/add")
@@ -37,7 +38,7 @@ public class PhraseController {
             service.addNewPhrase(phrase);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
-        }catch (RecordAlreadyExistsException e){
+        } catch (RecordAlreadyExistsException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok().build();

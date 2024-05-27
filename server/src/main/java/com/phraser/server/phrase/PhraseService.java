@@ -13,9 +13,9 @@ import java.util.Random;
 public class PhraseService {
     private final PhraseRepository repository;
 
-    public Phrase getPhrase(String value) {
-        return repository.findByValue(value).orElse(null);
-    }
+//    public Phrase getPhrase(String value) {
+//        return repository.findByValueAndUserId(value).orElse(null);
+//    }
 
     public List<Phrase> getAllPhrasesAsc(String uid) {
         return repository.findByUserIdOrderByValue(uid);
@@ -27,7 +27,7 @@ public class PhraseService {
     }
 
     public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException, IllegalArgumentException {
-        if (repository.findByValue(phrase.getValue()).isPresent())
+        if (repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId()).isPresent())
             throw new RecordAlreadyExistsException();
         if (phrase.getUserId().length() < 36)
             throw new IllegalArgumentException();

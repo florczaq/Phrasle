@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "phrase")
-public class Phrase {
+public class Phrase implements Cloneable {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,13 @@ public class Phrase {
     private final String userId;
     @Getter
     private boolean starred;
+
+    @Override
+    public Phrase clone() {
+        try {
+            return (Phrase) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
