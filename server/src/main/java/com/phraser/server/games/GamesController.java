@@ -1,7 +1,7 @@
 package com.phraser.server.games;
 
 
-import com.phraser.server.games.quiz.QuizGameResponse;
+import com.phraser.server.games.quiz.QuizResponse;
 import com.phraser.server.games.quiz.QuizService;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.rmi.NoSuchObjectException;
 import java.util.EmptyStackException;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/games")
@@ -20,15 +19,13 @@ public class GamesController {
     private final QuizService quizService;
 
     @GetMapping("/quiz/renderNew")
-    public ResponseEntity<QuizGameResponse> getNewSet(@RequestParam(name = "u") String userId) {
+    public ResponseEntity<QuizResponse> getNewSet(@RequestParam(name = "u") String userId) {
         try {
             return ResponseEntity.ok(quizService.pickAnotherQuiz(userId));
         } catch (NoSuchObjectException | EmptyStackException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            throw e;
-//            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -38,6 +35,17 @@ public class GamesController {
             return ResponseEntity.ok(quizService.getCorrectAnswer(gameId));
         } catch (NoSuchObjectException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    @DeleteMapping("/quiz/finish/{userId}")
+    public ResponseEntity<Void> finishQuizAndDeleteRecord(@PathVariable String userId) {
+        try {
+            quizService.finishQuizAndClear(userId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 

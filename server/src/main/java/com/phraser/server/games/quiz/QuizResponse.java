@@ -7,9 +7,13 @@ import lombok.Getter;
 import java.util.List;
 
 @AllArgsConstructor
-public class QuizGameResponse {
+public class QuizResponse {
     @Getter
-    private final List<Phrase> answers;
+    private final List<String> answers;
     @Getter
     private final int gameId;
+    @Getter
+    private final String question;
+    @Getter
+    private final String userId;
 }

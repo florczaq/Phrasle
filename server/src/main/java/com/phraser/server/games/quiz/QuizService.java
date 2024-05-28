@@ -25,37 +25,51 @@ public class QuizService {
                 .filter(item -> !alreadyUsedPhrases.contains(item.getId()))
                 .collect(Collectors.toList());
 
-        if (userPhrases.isEmpty()) throw new NoSuchObjectException("This user doesn't have any phrases added yet.");
+        if (userPhrases.isEmpty())
+            throw new NoSuchObjectException("This user doesn't have any phrases added yet.");
 
-        if(userPhrases.size()<4) throw new EmptyStackException();
+        if (userPhrases.size() < 4)
+            throw new EmptyStackException();
 
         Set<Phrase> result = new HashSet<>();
         Random random = new Random();
-
-        do result.add(userPhrases.get(random.nextInt(userPhrases.size())).clone()); while (result.size() < 4);
+        do
+            result.add(
+                userPhrases.get(
+                    random.nextInt(userPhrases.size())
+                ).clone()
+            );
+        while (result.size() < 4);
 
         return new ArrayList<>(result);
     }
 
-    public QuizGameResponse pickAnotherQuiz(String userId) throws NoSuchObjectException, EmptyStackException {
+    public QuizResponse pickAnotherQuiz(String userId) throws NoSuchObjectException, EmptyStackException {
         ArrayList<Phrase> response = pickNewAnswersSet(userId);
-        //TEMPORARY
-        while (quizRepository.findByPhraseId(response.get(0).getId()).isPresent()) {
-            System.out.println(response.get(0).getId());
-            response = pickNewAnswersSet(userId);
-        }
-        //TEMPORARY
-
         Phrase correctAnswer = response.get(0);
 
-        quizRepository.save(new Quiz(correctAnswer.getId(), correctAnswer.getUserId()));
+        quizRepository.save(
+            new Quiz(
+                correctAnswer.getId(),
+                correctAnswer.getUserId())
+        );
+
         var game = quizRepository.findByPhraseId(correctAnswer.getId());
 
-        if (game.isEmpty()) throw new RuntimeException();
+        if (game.isEmpty())
+            throw new RuntimeException();
 
         Collections.shuffle(response);
 
-        return new QuizGameResponse(response, game.get().getId());
+        return new QuizResponse(
+            response
+                .stream()
+                .map(Phrase::getDefinition)
+                .collect(Collectors.toList()),
+            game.get().getId(),
+            correctAnswer.getValue(),
+            userId
+        );
     }
 
     public Phrase getCorrectAnswer(int gameId) throws NoSuchObjectException {
@@ -63,9 +77,16 @@ public class QuizService {
         if (game.isEmpty()) throw new NoSuchObjectException("No record of such a game.");
 
         var correctAnswer = phraseRepository.findById(game.get().getPhraseId());
-        if (correctAnswer.isEmpty()) throw new NoSuchObjectException("No record of such a phrase.");
+
+        if (correctAnswer.isEmpty())
+            throw new NoSuchObjectException("No record of such a phrase.");
 
         return correctAnswer.get();
+    }
+
+    public void finishQuizAndClear(String userId) {
+        quizRepository.deleteByUserId(userId);
+
     }
 
 }
