@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
-import { getNewQuizSet } from '../../services/quiz';
+import { getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
 
 interface NextQuizButtonParams {
   onClick: () => void;
@@ -26,6 +26,7 @@ export const QuizPage = () => {
   const [answers, setAnswers] = useState<Array<string>>([]);
   const [question, setQuestion] = useState<string>('');
   const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
+  const [gameId, setGameId] = useState<number>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
 
@@ -39,16 +40,17 @@ export const QuizPage = () => {
         }
         setQuestion(response.data.question);
         setAnswers(response.data.answers);
+        setGameId(response.data.gameId);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  // useEffect(() => {
-  //   pickNewSet()
-  //   console.log();
-  // }, []);
+  useEffect(() => {
+    pickNewSet();
+    console.log();
+  }, []);
 
   const goNext = () => {
     setAnswered(false);
@@ -57,15 +59,21 @@ export const QuizPage = () => {
   };
 
   const onAnswer = (pickedAnswer: string) => {
-    setAnswered(true);
-    if (pickedAnswer === correctAnswer.definition) setCountCorrectAnswers((prev) => prev + 1);
+    getCorrectAnswer(gameId)
+      .then((response) => {
+        setCorrectAnswer(response.data);
+        if (pickedAnswer === correctAnswer.definition)
+          setCountCorrectAnswers((prev) => prev + 1);
+        setAnswered(true);
+
+      })
+      .catch((error) => { console.error(error) });
   };
 
   return (
     <div
       id='quizPageContainer'
-      className='center'
-    >
+      className='center'>
       <div className='questionCounter center'>{questionCounter}/10</div>
       <Quiz
         answers={answers}

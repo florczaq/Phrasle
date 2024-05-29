@@ -11,7 +11,7 @@ export const getNewQuizSet = () => {
   });
 };
 
-export const getCorrectAnswer = (gameId: number) => {
+export const getCorrectAnswer = (gameId: number | undefined) => {
   const token = get(TYPE.COOKIE, KEY.TOKEN);
   return axios.get(`${origin}/getAnswer?g=${gameId}`, {
     headers: { Authorization: `Bearer ${token}` },
