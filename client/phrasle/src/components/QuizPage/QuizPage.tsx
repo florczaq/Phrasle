@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
+import { getNewQuizSet } from '../../services/quiz';
 
 interface NextQuizButtonParams {
   onClick: () => void;
@@ -22,58 +23,32 @@ const NextQuizButton = ({ onClick }: NextQuizButtonParams) => {
 export const QuizPage = () => {
   const [questionCounter, setQuestionCounter] = useState<number>(1);
   const [answered, setAnswered] = useState<boolean>(false);
-  //TODO fetch from server
-  const [data] = useState<Array<{ value: string; definition: string }>>([
-    { value: 'Apple', definition: '1 Not orange' },
-    { value: 'Orange', definition: '2 Not apple' },
-    { value: 'Pear', definition: '3 Not an apple or orange' },
-    { value: 'Strawberry', definition: '4 Neither of those above' },
-  ]);
-
-  const [answers, setAnswers] = useState<Array<Phrase>>([]);
+  const [answers, setAnswers] = useState<Array<string>>([]);
+  const [question, setQuestion] = useState<string>('');
   const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
 
-  const pickNewPhrase = (): Phrase => {
-    let set = new Set<Phrase>().add(correctAnswer);
-    let index: number;
-
-    do {
-      index = Math.floor(Math.random() * data.length);
-      set.add(data[index]);
-    } while (set.size < 2);
-    setCorrectAnswer(data[index]);
-
-    return data[index];
-  };
-
-  const pickWrongAnswers = (correctAnswer: Phrase) => {
-    let pickedDefinitions: Set<Phrase> = new Set<Phrase>().add(correctAnswer);
-
-    do pickedDefinitions.add(data[Math.floor(Math.random() * data.length)]);
-    while (pickedDefinitions.size < 4);
-
-    setAnswers(shuffle(shuffle(Array.from(pickedDefinitions))));
-  };
-
   const pickNewSet = () => {
-    if (data.length >= 4) pickWrongAnswers(pickNewPhrase());
-    //TODO message when length is less than 4
+    getNewQuizSet()
+      .then((response) => {
+        console.log(response.status, response.data);
+        if (response.status === 204) {
+          alert('No more words');
+          return;
+        }
+        setQuestion(response.data.question);
+        setAnswers(response.data.answers);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const shuffle = (array: Array<Phrase>): Array<Phrase> => {
-    let randomIndex: number;
-    array.forEach((e, i) => {
-      randomIndex = Math.floor(Math.random() * array.length);
-      [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
-    });
-    return array;
-  };
-
-  useEffect(() => {
-    pickNewSet();
-  }, []);
+  // useEffect(() => {
+  //   pickNewSet()
+  //   console.log();
+  // }, []);
 
   const goNext = () => {
     setAnswered(false);
@@ -81,20 +56,21 @@ export const QuizPage = () => {
     setQuestionCounter((prev) => prev + 1);
   };
 
-  const onAnswer = (pickedAnswer: Phrase) => {
+  const onAnswer = (pickedAnswer: string) => {
     setAnswered(true);
-    if (pickedAnswer.definition === correctAnswer.definition)
-      setCountCorrectAnswers((prev) => prev + 1);
+    if (pickedAnswer === correctAnswer.definition) setCountCorrectAnswers((prev) => prev + 1);
   };
 
   return (
     <div
       id='quizPageContainer'
-      className='center'>
+      className='center'
+    >
       <div className='questionCounter center'>{questionCounter}/10</div>
       <Quiz
         answers={answers}
-        correctAnswer={correctAnswer}
+        question={question}
+        correctAnswer={correctAnswer.definition}
         onAnswer={onAnswer}
         reveal={answered}
       />

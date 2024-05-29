@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './AddPhrasePage.css';
 import star from '../../assets/image/star.png';
 import yellowStar from '../../assets/image/yellow_star.png';
-import { addPhrase } from '../../service';
+import { addPhrase } from '../../services/phrase';
 import { useNavigate } from 'react-router-dom';
 
 export const AddPhrasePage = () => {

@@ -19,26 +19,27 @@ const OptionButton = ({ text, onClick, isCorrect }: OptionButtonParams) => {
 };
 
 interface QuizParams {
-  onAnswer: (pickedAnswer: Phrase) => void;
+  onAnswer: (pickedAnswer: string) => void;
   reveal: boolean;
-  correctAnswer: Phrase;
-  answers: Array<Phrase>;
+  correctAnswer: string;
+  answers: Array<string>;
+  question: string
 }
 
-export const Quiz = ({ answers, reveal, correctAnswer, onAnswer }: QuizParams) => {
+export const Quiz = ({ answers, reveal, question, onAnswer, correctAnswer }: QuizParams) => {
   return (
     <div
       id='quizContainer'
       className='center'>
       <div className='boxContainer'>
-        <Box phrase={correctAnswer.value || ' '} />
+        <Box phrase={ question || ' '} />
       </div>
 
       <div className='optionButtonContainer center'>
         {answers.map((element, i) => (
           <OptionButton
             key={i}
-            text={element?.definition || ''}
+            text={element || ''}
             onClick={() => onAnswer(element)}
             isCorrect={reveal ? element === correctAnswer : null}
           />

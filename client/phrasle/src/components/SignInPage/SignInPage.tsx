@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../App';
-import { authenticate } from '../../service';
+import { authenticate } from '../../services/authentication';
 import { KEY, TYPE, save } from '../../storage';
 import { Form } from '../SigningForm/Form';
 import './SignInPage.css';
