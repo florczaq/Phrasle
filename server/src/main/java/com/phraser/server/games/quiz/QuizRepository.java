@@ -16,5 +16,5 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
     @Query("SELECT q.phraseId FROM Quiz q WHERE q.userId = ?1")
     List<Integer> findAll(@Param("uid") String userId);
     @Transactional
-    long deleteByUserId(String userId);
+    void deleteByUserId(String userId);
 }

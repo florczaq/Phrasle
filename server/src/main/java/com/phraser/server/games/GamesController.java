@@ -14,6 +14,7 @@ import java.util.EmptyStackException;
 
 @RestController
 @RequestMapping("api/v1/games")
+@CrossOrigin
 @RequiredArgsConstructor
 public class GamesController {
     private final QuizService quizService;

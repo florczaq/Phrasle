@@ -33,12 +33,11 @@ public class QuizService {
 
         Set<Phrase> result = new HashSet<>();
         Random random = new Random();
-        do
-            result.add(
-                userPhrases.get(
-                    random.nextInt(userPhrases.size())
-                ).clone()
-            );
+        do result.add(
+            userPhrases.get(
+                random.nextInt(userPhrases.size())
+            ).clone()
+        );
         while (result.size() < 4);
 
         return new ArrayList<>(result);
