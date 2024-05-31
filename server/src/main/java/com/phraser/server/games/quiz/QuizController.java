@@ -1,8 +1,5 @@
-package com.phraser.server.games;
+package com.phraser.server.games.quiz;
 
-
-import com.phraser.server.games.quiz.QuizResponse;
-import com.phraser.server.games.quiz.QuizService;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,13 +10,14 @@ import java.rmi.NoSuchObjectException;
 import java.util.EmptyStackException;
 
 @RestController
-@RequestMapping("api/v1/games")
+@RequestMapping("api/v1/games/quiz")
 @CrossOrigin
 @RequiredArgsConstructor
-public class GamesController {
+
+public class QuizController {
     private final QuizService quizService;
 
-    @GetMapping("/quiz/renderNew")
+    @GetMapping("/renderNew")
     public ResponseEntity<QuizResponse> getNewSet(@RequestParam(name = "u") String userId) {
         try {
             return ResponseEntity.ok(quizService.pickAnotherQuiz(userId));
@@ -30,7 +28,7 @@ public class GamesController {
         }
     }
 
-    @GetMapping("/quiz/getAnswer")
+    @GetMapping("/getAnswer")
     public ResponseEntity<Phrase> getCorrectAnswer(@RequestParam(name = "g") int gameId) {
         try {
             return ResponseEntity.ok(quizService.getCorrectAnswer(gameId));
@@ -39,8 +37,8 @@ public class GamesController {
         }
     }
 
-    @DeleteMapping("/quiz/finish/{userId}")
-    public ResponseEntity<Void> finishQuizAndDeleteRecord(@PathVariable String userId) {
+    @DeleteMapping("/finish")
+    public ResponseEntity<Void> finishQuizAndDeleteRecord(@RequestBody String userId) {
         try {
             quizService.finishQuizAndClear(userId);
             return ResponseEntity.ok().build();
@@ -50,5 +48,5 @@ public class GamesController {
         }
     }
 
-}
 
+}
