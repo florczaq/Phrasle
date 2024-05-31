@@ -17,6 +17,8 @@ import java.util.EmptyStackException;
 public class QuizController {
     private final QuizService quizService;
 
+
+
     @GetMapping("/renderNew")
     public ResponseEntity<QuizResponse> getNewSet(@RequestParam(name = "u") String userId) {
         try {
@@ -47,6 +49,7 @@ public class QuizController {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
 
 }

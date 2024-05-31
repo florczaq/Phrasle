@@ -16,10 +16,10 @@ import java.util.List;
 public class PhraseController {
     private final PhraseService service;
 
-//    @GetMapping
-//    public Phrase getPhraseByValue(@RequestParam(name = "v") String value) {
-//        return service.getPhrase(value);
-//    }
+    @GetMapping("/amount")
+    public long getNumberOfRecords(@RequestParam(name = "u") String userId) {
+        return service.getAllUserPhrases(userId).size();
+    }
 
     @GetMapping("/list")
     public List<Phrase> getAllValues(@RequestParam(name = "u") String uid) {

@@ -13,9 +13,6 @@ import java.util.Random;
 public class PhraseService {
     private final PhraseRepository repository;
 
-//    public Phrase getPhrase(String value) {
-//        return repository.findByValueAndUserId(value).orElse(null);
-//    }
 
     public List<Phrase> getAllPhrasesAsc(String uid) {
         return repository.findByUserIdOrderByValue(uid);
@@ -32,5 +29,9 @@ public class PhraseService {
         if (phrase.getUserId().length() < 36)
             throw new IllegalArgumentException();
         repository.save(phrase);
+    }
+
+    public List<Phrase> getAllUserPhrases(String userId){
+        return repository.findByUserId(userId);
     }
 }
