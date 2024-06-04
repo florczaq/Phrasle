@@ -29,7 +29,6 @@ public class PhraseController {
     @GetMapping("/random")
     public Phrase getUserRandomPhrase(@RequestParam(name = "u") String userId) {
         return service.getUserRandomPhrase(userId);
-
     }
 
     @PostMapping("/add")

@@ -1,8 +1,12 @@
 package com.phraser.server.games.quiz;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.phraser.server.phrase.PhraseRepository;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.rmi.NoSuchObjectException;
@@ -36,8 +40,7 @@ public class QuizService {
         do result.add(
             userPhrases.get(
                 random.nextInt(userPhrases.size())
-            ).clone()
-        );
+            ).clone());
         while (result.size() < 4);
 
         return new ArrayList<>(result);
@@ -83,9 +86,9 @@ public class QuizService {
         return correctAnswer.get();
     }
 
-    public void finishQuizAndClear(String userId) {
-        quizRepository.deleteByUserId(userId);
-
+    public void finishQuizAndClear(String userId)  {
+        JSONObject jsonObject = new JSONObject(userId);
+        quizRepository.deleteByUserId(jsonObject.getString("userId"));
     }
 
 }
