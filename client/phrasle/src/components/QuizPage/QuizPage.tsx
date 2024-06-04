@@ -5,6 +5,7 @@ import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../..
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
 import { getAmountOfUserPhrases } from '../../services/phrase';
+import { createKeywordTypeNode } from 'typescript';
 
 interface NextQuizButtonParams {
   onClick: () => void;
@@ -37,7 +38,7 @@ export const QuizPage = () => {
   const pickNewSet = () => {
     getNewQuizSet()
       .then((response) => {
-        console.log(response.status, response.data);
+        // console.log(response.status, response.data);
         if (response.status === 204) {
           alert('No more words');
           return;
@@ -47,16 +48,19 @@ export const QuizPage = () => {
         setGameId(response.data.gameId);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   useEffect(() => {
+    setFinish(false);
     finishQuizAndClearRecord()
       .then((r) => {
-        console.log(r);
+        // console.log(r);
         getAmountOfUserPhrases()
-          .then((r) => setNumberOfQuestions(r.data / 4))
+          .then((r) => {
+            // console.log(r.data);
+            setNumberOfQuestions(r.data - 3)})
           .then(() => pickNewSet())
       }
       )
@@ -65,6 +69,10 @@ export const QuizPage = () => {
 
   const goNext = () => {
     setAnswered(false);
+    if(questionCounter === numberOfQuestions){
+      setFinish(true);
+      return;
+    }
     pickNewSet();
     setQuestionCounter((prev) => prev + 1);
   };
@@ -73,7 +81,7 @@ export const QuizPage = () => {
     getCorrectAnswer(gameId)
       .then((response) => {
         setCorrectAnswer(response.data);
-        if (pickedAnswer === correctAnswer.definition) setCountCorrectAnswers((prev) => prev + 1);
+        if (pickedAnswer === response.data.definition) setCountCorrectAnswers((prev) => prev + 1);
         setAnswered(true);
       })
       .catch((error) => {
@@ -81,13 +89,13 @@ export const QuizPage = () => {
       });
   };
 
-  const onFinish = () => { };
+  const onFinish = () => {console.log(countCorrectAnswers);};
 
   return (
     <div
       id='quizPageContainer'
       className='center'>
-      <div className='questionCounter center'>{questionCounter}/10</div>
+      <div className='questionCounter center'>{questionCounter}/{numberOfQuestions}</div>
       <Quiz
         answers={answers}
         question={question}
