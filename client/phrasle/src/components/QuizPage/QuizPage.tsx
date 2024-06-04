@@ -1,34 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
+import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
-import { getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
+import { getAmountOfUserPhrases } from '../../services/phrase';
 
 interface NextQuizButtonParams {
   onClick: () => void;
+  finish: boolean;
+  onFinish: () => void;
 }
 
 //TODO change button text and functionality to FINISH when answered 10 questions
-const NextQuizButton = ({ onClick }: NextQuizButtonParams) => {
+const NextQuizButton = ({ onClick, finish, onFinish }: NextQuizButtonParams) => {
   return (
     <button
       className='nextQuizButton'
-      onClick={onClick}>
-      {'Next'}
+      onClick={finish ? onFinish : onClick}>
+      {finish ? 'Finish' : 'Next'}
     </button>
   );
 };
 
 export const QuizPage = () => {
-  const [questionCounter, setQuestionCounter] = useState<number>(1);
+  const [gameId, setGameId] = useState<number>();
+  const [question, setQuestion] = useState<string>('');
   const [answered, setAnswered] = useState<boolean>(false);
   const [answers, setAnswers] = useState<Array<string>>([]);
-  const [question, setQuestion] = useState<string>('');
-  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
-  const [gameId, setGameId] = useState<number>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [questionCounter, setQuestionCounter] = useState<number>(1);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
+  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
+  const [finish, setFinish] = useState<boolean>(false);
+  const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
 
   const pickNewSet = () => {
     getNewQuizSet()
@@ -48,8 +52,15 @@ export const QuizPage = () => {
   };
 
   useEffect(() => {
-    pickNewSet();
-    console.log();
+    finishQuizAndClearRecord()
+      .then((r) => {
+        console.log(r);
+        getAmountOfUserPhrases()
+          .then((r) => setNumberOfQuestions(r.data / 4))
+          .then(() => pickNewSet())
+      }
+      )
+      .catch((err) => console.error(err.message));
   }, []);
 
   const goNext = () => {
@@ -62,13 +73,15 @@ export const QuizPage = () => {
     getCorrectAnswer(gameId)
       .then((response) => {
         setCorrectAnswer(response.data);
-        if (pickedAnswer === correctAnswer.definition)
-          setCountCorrectAnswers((prev) => prev + 1);
+        if (pickedAnswer === correctAnswer.definition) setCountCorrectAnswers((prev) => prev + 1);
         setAnswered(true);
-
       })
-      .catch((error) => { console.error(error) });
+      .catch((error) => {
+        console.error(error);
+      });
   };
+
+  const onFinish = () => { };
 
   return (
     <div
@@ -82,7 +95,13 @@ export const QuizPage = () => {
         onAnswer={onAnswer}
         reveal={answered}
       />
-      {answered && <NextQuizButton onClick={goNext} />}
+      {answered && (
+        <NextQuizButton
+          onClick={goNext}
+          onFinish={onFinish}
+          finish={finish}
+        />
+      )}
     </div>
   );
 };

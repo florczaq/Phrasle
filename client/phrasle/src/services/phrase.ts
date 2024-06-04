@@ -1,10 +1,8 @@
-import axios from "axios";
-import {Phrase} from "../App"
-import { KEY, TYPE, get } from "../storage";
-
+import axios from 'axios';
+import { Phrase } from '../App';
+import { KEY, TYPE, get } from '../storage';
 
 const origin = 'http://localhost:8080/api/v1/phrase';
-
 
 /**
  * @param phrase typeof Phrase
@@ -17,4 +15,13 @@ export const addPhrase = (phrase: Phrase) => {
     `${origin}/add`,
     { ...phrase, userId },
     { headers: { Authorization: `Bearer ${token}` } }
-  );};
+  );
+};
+
+export const getAmountOfUserPhrases = () => {
+  const userId = get(TYPE.COOKIE, KEY.UID);
+  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  return axios.get(`${origin}/amount?u=${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

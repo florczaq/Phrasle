@@ -23,7 +23,7 @@ interface QuizParams {
   reveal: boolean;
   correctAnswer: string;
   answers: Array<string>;
-  question: string
+  question: string;
 }
 
 export const Quiz = ({ answers, reveal, question, onAnswer, correctAnswer }: QuizParams) => {
@@ -31,20 +31,23 @@ export const Quiz = ({ answers, reveal, question, onAnswer, correctAnswer }: Qui
     <div
       id='quizContainer'
       className='center'>
-      <div className='boxContainer'>
-        <Box phrase={ question || ' '} />
-      </div>
-
-      <div className='optionButtonContainer center'>
-        {answers.map((element, i) => (
-          <OptionButton
-            key={i}
-            text={element || ''}
-            onClick={() => onAnswer(element)}
-            isCorrect={reveal ? element === correctAnswer : null}
-          />
-        ))}
-      </div>
+      <div
+        className='boxContainer'
+        children={<Box phrase={question || ' '} />}
+      />
+      <div
+        className='optionButtonContainer center'
+        children={
+          answers.map(
+            (element, i) =>
+              <OptionButton
+                key={i}
+                text={element || ''}
+                onClick={() => onAnswer(element)}
+                isCorrect={reveal ? element === correctAnswer : null}
+              />
+          )}
+      />
     </div>
   );
 };

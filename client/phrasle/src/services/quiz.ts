@@ -21,7 +21,8 @@ export const getCorrectAnswer = (gameId: number | undefined) => {
 export const finishQuizAndClearRecord = () => {
   const userId = get(TYPE.COOKIE, KEY.UID);
   const token = get(TYPE.COOKIE, KEY.TOKEN);
-  return axios.delete(`{origin}/finish/${userId}`, {
+  return axios.delete(`${origin}/finish`, {
+    data:{userId},
     headers: { Authorization: `Bearer ${token}` },
   });
 };
