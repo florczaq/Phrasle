@@ -7,7 +7,7 @@ import { SignInPage } from './components/SignInPage/SignInPage';
 import { SignUpPage } from './components/SignUpPage/SignUpPage';
 import { TopBar } from './components/TopBar/TopBar';
 import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
-import { KEY, TYPE, remove } from './storage';
+import { KEY, TYPE, get, remove } from './storage';
 import { useEffect } from 'react';
 
 export interface Phrase {
@@ -32,10 +32,21 @@ const Logout = () => {
   return <></>;
 };
 
+const OnLoad = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    get(TYPE.COOKIE, KEY.UID) ?
+      navigate('/list') :
+      navigate('/login');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return <></>;
+}
+
 const router = createBrowserRouter([
   {
-    path: '*',
-    element: <div></div>,
+    path: '/',
+    element: <OnLoad />,
   },
   {
     path: '/login',
