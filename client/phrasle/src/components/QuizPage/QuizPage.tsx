@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
+import { getAmountOfUserPhrases } from '../../services/phrase';
 import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
-import { getAmountOfUserPhrases } from '../../services/phrase';
-import { createKeywordTypeNode } from 'typescript';
 
 interface NextQuizButtonParams {
   onClick: () => void;
@@ -13,7 +12,6 @@ interface NextQuizButtonParams {
   onFinish: () => void;
 }
 
-//TODO change button text and functionality to FINISH when answered 10 questions
 const NextQuizButton = ({ onClick, finish, onFinish }: NextQuizButtonParams) => {
   return (
     <button
@@ -38,7 +36,6 @@ export const QuizPage = () => {
   const pickNewSet = () => {
     getNewQuizSet()
       .then((response) => {
-        // console.log(response.status, response.data);
         if (response.status === 204) {
           alert('No more words');
           return;
@@ -56,20 +53,18 @@ export const QuizPage = () => {
     setFinish(false);
     finishQuizAndClearRecord()
       .then((r) => {
-        // console.log(r);
         getAmountOfUserPhrases()
           .then((r) => {
-            // console.log(r.data);
-            setNumberOfQuestions(r.data - 3)})
-          .then(() => pickNewSet())
-      }
-      )
+            setNumberOfQuestions(r.data - 3);
+          })
+          .then(() => pickNewSet());
+      })
       .catch((err) => console.error(err.message));
   }, []);
 
   const goNext = () => {
     setAnswered(false);
-    if(questionCounter === numberOfQuestions){
+    if (questionCounter === numberOfQuestions) {
       setFinish(true);
       return;
     }
@@ -89,13 +84,17 @@ export const QuizPage = () => {
       });
   };
 
-  const onFinish = () => {console.log(countCorrectAnswers);};
+  const onFinish = () => {
+    console.log(countCorrectAnswers);
+  };
 
   return (
     <div
       id='quizPageContainer'
       className='center'>
-      <div className='questionCounter center'>{questionCounter}/{numberOfQuestions}</div>
+      <div className='questionCounter center'>
+        {questionCounter}/{numberOfQuestions}
+      </div>
       <Quiz
         answers={answers}
         question={question}

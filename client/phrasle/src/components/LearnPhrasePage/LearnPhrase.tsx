@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Box } from '../PhraseBox/Box';
 import './LearnPhrase.css';
+import { getListOfPhrases } from '../../services/phrase';
+import { Phrase } from '../../App';
 
 export const PhraseLearn = () => {
-  const [data, setData] = useState<Array<{ phrase: string; definition: string }>>([]);
+  const [data, setData] = useState<Array<Phrase>>([]);
   const [count, setCount] = useState<number>(0);
-  
+
   useEffect(() => {
-    setData([
-      { phrase: 'Apple', definition: 'Not orange' },
-      { phrase: 'Orange', definition: 'Not apple' },
-    ]);
+    getListOfPhrases()
+      .then((res) => {
+        console.log(res);
+        setData(res.data);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const increaseCount = () => count < data.length - 1 && setCount((prev) => prev + 1);
@@ -21,7 +25,9 @@ export const PhraseLearn = () => {
     <div
       id='phraseLearnContainer'
       className='center'>
-      <Box {...data[count]} />
+      <div className='boxContainer'>
+        <Box {...data[count]} />
+      </div>
 
       <div className='buttons center'>
         <button

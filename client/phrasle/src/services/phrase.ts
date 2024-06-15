@@ -25,3 +25,12 @@ export const getAmountOfUserPhrases = () => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+
+export const getListOfPhrases = ()=>{
+  const userId = get(TYPE.COOKIE, KEY.UID);
+  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  return axios.get(`${origin}/list?u=${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}

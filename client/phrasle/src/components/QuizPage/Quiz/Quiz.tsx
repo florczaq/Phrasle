@@ -33,7 +33,7 @@ export const Quiz = ({ answers, reveal, question, onAnswer, correctAnswer }: Qui
       className='center'>
       <div
         className='boxContainer'
-        children={<Box phrase={question || ' '} />}
+        children={<Box value={question || ' '} definition='' />}
       />
       <div
         className='optionButtonContainer center'

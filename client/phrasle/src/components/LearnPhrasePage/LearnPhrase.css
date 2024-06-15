@@ -8,6 +8,11 @@
   height: 70px;
   justify-content: space-between;
 }
+#phraseLearnContainer > .boxContainer {
+  width: 50vw;
+  height: 50vh;
+}
+
 
 #phraseLearnContainer > .buttons > button {
   width: 90px;
