@@ -9,6 +9,7 @@ import { TopBar } from './components/TopBar/TopBar';
 import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
 import { KEY, TYPE, get, remove } from './storage';
 import { useEffect } from 'react';
+import { GameChooser } from './components/GameChooser/GameChooser';
 
 export interface Phrase {
   value: string;
@@ -70,24 +71,29 @@ const router = createBrowserRouter([
     element: <SignUpPage />,
   },
   {
-    path: '/phrase',
-    element: <AuthenticateOnLoad component={<PhraseLearn/>} />,
+    path: '/logout',
+    element: <Logout />,
   },
+  //REQUIRE AUTHENTICATION//
   {
-    path: '/quiz',
-    element: <AuthenticateOnLoad component={<QuizPage/>} />,
+    path: '/phrase',
+    element: <AuthenticateOnLoad component={<PhraseLearn />} />,
   },
   {
     path: '/list',
-    element: <AuthenticateOnLoad component={<ListOfPhrasesPage/>} />,
+    element: <AuthenticateOnLoad component={<ListOfPhrasesPage />} />,
   },
   {
     path: '/add',
-    element: <AuthenticateOnLoad component={<AddPhrasePage/>} />,
+    element: <AuthenticateOnLoad component={<AddPhrasePage />} />,
   },
   {
-    path: '/logout',
-    element: <Logout />,
+    path: '/play',
+    element: <GameChooser />,
+  },
+  {
+    path: '/play/quiz',
+    element: <AuthenticateOnLoad component={<QuizPage />} />,
   },
 ]);
 

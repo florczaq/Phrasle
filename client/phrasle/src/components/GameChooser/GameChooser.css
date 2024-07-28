@@ -1,0 +1,23 @@
+.gameBoxContainer {
+  width: 100vw;
+  height: 95vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gameBoxContainer .gameBox {
+  width: 35%;
+  height: 35%;
+  background-color: black;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 30px;
+}
+
+.gameBoxContainer .gameBox:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.918);
+
+}

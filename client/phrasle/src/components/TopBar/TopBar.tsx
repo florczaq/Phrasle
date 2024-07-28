@@ -27,7 +27,7 @@ export const TopBar = () => {
         </ol>
         <ol className='center'>
           <a
-            href='*'
+            href='/play'
             className='center'>
             <label>Play</label>
           </a>
