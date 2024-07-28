@@ -3,7 +3,7 @@
   width: 100vw;
   height: 40px;
   color: #fff;
-  padding-right: 2px;
+  padding-right: 10px;
   font-size: 22px;
   flex-direction: row;
 }
@@ -12,6 +12,7 @@
   width: 70%;
   font-size: 28px;
   padding-left: 20px;
+  user-select: none;
 }
 
 #topBar > ul {

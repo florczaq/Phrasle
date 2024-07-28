@@ -11,10 +11,10 @@ import { KEY, TYPE, get, remove } from './storage';
 import { useEffect } from 'react';
 
 export interface Phrase {
-  value: string,
-  definition: string,
-  starred?: boolean
-};
+  value: string;
+  definition: string;
+  starred?: boolean;
+}
 
 export const User = {
   email: '',
@@ -23,30 +23,43 @@ export const User = {
 
 const Logout = () => {
   const navigate = useNavigate();
+  const reload = () => window.location.reload();
+
   useEffect(() => {
     remove(TYPE.COOKIE, KEY.TOKEN);
     remove(TYPE.COOKIE, KEY.UID);
     navigate('/login');
+    reload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <></>;
 };
 
-const OnLoad = () => {
+const ChangeRoute = ({ path = '' }) => {
   const navigate = useNavigate();
   useEffect(() => {
-    get(TYPE.COOKIE, KEY.UID) ?
-      navigate('/list') :
-      navigate('/login');
+    navigate(path);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <></>;
+};
+
+interface AuthenticateOnLoadInterface {
+  component: JSX.Element;
 }
+const AuthenticateOnLoad = ({ component }: AuthenticateOnLoadInterface) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    !get(TYPE.COOKIE, KEY.UID) && navigate('/login');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return component;
+};
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <OnLoad />,
+    element: <ChangeRoute path={'list'} />,
   },
   {
     path: '/login',
@@ -58,19 +71,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/phrase',
-    element: <PhraseLearn />,
+    element: <AuthenticateOnLoad component={<PhraseLearn/>} />,
   },
   {
     path: '/quiz',
-    element: <QuizPage />,
+    element: <AuthenticateOnLoad component={<QuizPage/>} />,
   },
   {
     path: '/list',
-    element: <ListOfPhrasesPage />,
+    element: <AuthenticateOnLoad component={<ListOfPhrasesPage/>} />,
   },
   {
     path: '/add',
-    element: <AddPhrasePage />,
+    element: <AuthenticateOnLoad component={<AddPhrasePage/>} />,
   },
   {
     path: '/logout',
