@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @Service
@@ -31,7 +32,13 @@ public class PhraseService {
         repository.save(phrase);
     }
 
-    public List<Phrase> getAllUserPhrases(String userId){
+    public List<Phrase> getAllUserPhrases(String userId) {
         return repository.findByUserId(userId);
+    }
+
+    public void deletePhrase(Phrase phrase) {
+        if (repository.findById(phrase.getId()).isEmpty())
+            throw new NoSuchElementException();
+        repository.deletePhrase(phrase.getId());
     }
 }

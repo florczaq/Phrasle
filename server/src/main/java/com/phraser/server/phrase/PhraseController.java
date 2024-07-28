@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.List;
 
 @RestController
@@ -43,4 +44,18 @@ public class PhraseController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<HttpStatus> deletePhrase(@RequestBody Phrase phrase) {
+        try {
+            service.deletePhrase(phrase);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }
+

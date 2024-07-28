@@ -47,7 +47,4 @@ public class QuizController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
-
 }

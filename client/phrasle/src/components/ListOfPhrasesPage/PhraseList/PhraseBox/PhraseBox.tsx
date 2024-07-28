@@ -5,9 +5,12 @@ interface PhraseBoxParams {
   text: string
   definition: string
   addDate: Date
+  onDelete: ()=>void
 }
 
-export const PhraseBox = ({ text, definition, addDate }: PhraseBoxParams) => {
+export const PhraseBox = ({ text, definition, addDate, onDelete }: PhraseBoxParams) => {
+  
+
   return (
     <div className="phraseBoxContainer center">
       <div className='phraseBox center'>
@@ -17,7 +20,7 @@ export const PhraseBox = ({ text, definition, addDate }: PhraseBoxParams) => {
       </div>
       <div className="buttons center">
         <button className='editButton'>Edit</button>
-        <button className='deleteButton'>Delete</button>
+        <button className='deleteButton' onClick={()=>onDelete()}>Delete</button>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
-import { getAmountOfUserPhrases } from '../../services/phrase';
+import { getAmountOfPhrases } from '../../services/phrase';
 import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
@@ -53,7 +53,7 @@ export const QuizPage = () => {
     setFinish(false);
     finishQuizAndClearRecord()
       .then((r) => {
-        getAmountOfUserPhrases()
+        getAmountOfPhrases()
           .then((r) => {
             setNumberOfQuestions(r.data - 3);
           })

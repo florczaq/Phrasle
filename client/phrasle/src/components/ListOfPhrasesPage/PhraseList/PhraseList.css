@@ -28,6 +28,7 @@
   display: flex;
   margin-top: 30px;
   align-items: center;
+  user-select: none;
 }
 
 #phraseListContainer > .listTitle > .title > p {
@@ -35,7 +36,7 @@
 }
 
 #phraseListContainer > .listTitle > .title > .stateArrow {
-  transition: .15s;
+  transition: .35s;
   border-top: 7px solid #000;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
@@ -43,25 +44,20 @@
 
 #phraseListContainer > .listTitle > .title > ._right {
   transform: rotate(-90deg);
-  transition: .15s;
-  /* border-top: 7px solid transparent;
-  border-left: 7px solid #000000;
-  border-bottom: 7px solid transparent; */
+  transition: .35s;
 }
-
-
 
 #phraseListContainer > .listContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 100vh;
+  max-height: 300vh;
   overflow: scroll;
   transition: .5s;
-  transition: max-height 0.15s ease-out;
+  transition: max-height 0.35s ease-in;
 }
 
 ._hide{
   max-height: 0px !important;
-  transition: max-height 0.15s ease-out !important;
+  transition: max-height 0.35s ease-out !important;
 }

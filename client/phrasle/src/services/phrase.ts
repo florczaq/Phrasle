@@ -18,7 +18,7 @@ export const addPhrase = (phrase: Phrase) => {
   );
 };
 
-export const getAmountOfUserPhrases = () => {
+export const getAmountOfPhrases = () => {
   const userId = get(TYPE.COOKIE, KEY.UID);
   const token = get(TYPE.COOKIE, KEY.TOKEN);
   return axios.get(`${origin}/amount?u=${userId}`, {
@@ -26,11 +26,21 @@ export const getAmountOfUserPhrases = () => {
   });
 };
 
-
-export const getListOfPhrases = ()=>{
+export const getListOfPhrases = () => {
   const userId = get(TYPE.COOKIE, KEY.UID);
   const token = get(TYPE.COOKIE, KEY.TOKEN);
   return axios.get(`${origin}/list?u=${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-}
+};
+
+//TODO edit
+//TODO delete
+export const deletePhrase = (phrase: Phrase) => {
+  const userId = get(TYPE.COOKIE, KEY.UID);
+  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  return axios.delete(`${origin}/delete`, {
+    headers: { Authorization: `Bearer ${token}` },
+    data: { ...phrase, userId },
+  });
+};
