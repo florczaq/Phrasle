@@ -6,10 +6,10 @@ import { deletePhrase } from '../../../services/phrase';
 
 interface PhraseListParams {
   listTitle: string;
-  data: Phrase[];
+  phrases: Phrase[];
 }
 
-export const PhraseList = ({ listTitle, data }: PhraseListParams) => {
+export const PhraseList = ({ listTitle, phrases }: PhraseListParams) => {
   const [visible, setVisible] = useState(true);
 
   const handleTitleClick = () => {
@@ -36,14 +36,14 @@ export const PhraseList = ({ listTitle, data }: PhraseListParams) => {
         <div className='underline' />
       </div>
       <div className={`listContainer ${!visible ? '_hide' : ''}`}>
-        {data.map((element, i) => {
+        {phrases.map((element, i) => {
           return (
             <PhraseBox
               key={i}
               text={element.value}
               definition={element.definition}
               addDate={new Date()}
-              onDelete={()=>onDelete(element)}
+              onDelete={() => onDelete(element)}
             />
           );
         })}

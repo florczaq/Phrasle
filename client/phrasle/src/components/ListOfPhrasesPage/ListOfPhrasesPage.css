@@ -1,10 +1,10 @@
-#listOfWordsContainer{
+#listOfWordsContainer {
   height: fit-content;
   justify-content: flex-start;
   flex-direction: column;
   padding-top: 30px;
 }
 
-#listOfWordsContainer > .list{
+#listOfWordsContainer > .list {
   width: 90%;
 }

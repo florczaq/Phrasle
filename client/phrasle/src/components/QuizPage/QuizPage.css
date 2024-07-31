@@ -4,7 +4,7 @@
   height: 90vh;
 }
 
-#quizPageContainer > .nextQuizButton {
+#quizPageContainer > .nextQuestionButton {
   position: absolute;
   right: 20px;
   width: 200px;
@@ -16,7 +16,7 @@
   border: 0;
 }
 
-#quizPageContainer > .nextQuizButton:hover {
+#quizPageContainer > .nextQuestionButton:hover {
   background-color: #000000cc;
   cursor: pointer;
 }

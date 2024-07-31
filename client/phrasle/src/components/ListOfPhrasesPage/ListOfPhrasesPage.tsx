@@ -5,10 +5,10 @@ import { Phrase } from '../../App';
 import { getListOfPhrases } from '../../services/phrase';
 
 export const ListOfPhrasesPage = () => {
-  const [data, setData] = useState<Phrase[]>([]);
+  const [phrases, setPhrases] = useState<Phrase[]>([]);
   useEffect(() => {
     getListOfPhrases().then((res) => {
-      setData(res.data);
+      setPhrases(res.data);
       console.log(res.data);
     });
   }, []);
@@ -20,16 +20,12 @@ export const ListOfPhrasesPage = () => {
       <div className='list'>
         <PhraseList
           listTitle='Starred'
-          data={data.filter((d) => {
-            return d.starred;
-          })}
+          phrases={phrases.filter((phrase) => phrase.starred)}
         />
-        
+
         <PhraseList
           listTitle='Phrases'
-          data={data.filter((d) => {
-            return !d.starred;
-          })}
+          phrases={phrases.filter((phrase) => !phrase.starred)}
         />
       </div>
     </div>

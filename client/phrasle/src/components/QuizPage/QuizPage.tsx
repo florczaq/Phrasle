@@ -9,24 +9,24 @@ import './QuizPage.css';
 interface NextQuizButtonParams {
   onClick: () => void;
   finish: boolean;
-  onFinish: () => void;
 }
 
-const NextQuizButton = ({ onClick, finish, onFinish }: NextQuizButtonParams) => {
+const NextQuestionButton = ({ onClick, finish }: NextQuizButtonParams) => {
   return (
     <button
-      className='nextQuizButton'
-      onClick={finish ? onFinish : onClick}>
+      className='nextQuestionButton'
+      onClick={onClick}>
       {finish ? 'Finish' : 'Next'}
     </button>
   );
 };
 
+//TODO confirmation on reload
 export const QuizPage = () => {
   const [gameId, setGameId] = useState<number>();
   const [question, setQuestion] = useState<string>('');
-  const [answered, setAnswered] = useState<boolean>(false);
-  const [answers, setAnswers] = useState<Array<string>>([]);
+  const [questionAnswered, setQuestionAnswered] = useState<boolean>(false);
+  const [avaibleAnswers, setAvaibleAnswers] = useState<Array<string>>([]);
   const [questionCounter, setQuestionCounter] = useState<number>(1);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
   const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
@@ -40,34 +40,26 @@ export const QuizPage = () => {
           alert('No more words');
           return;
         }
-        setQuestion(response.data.question);
-        setAnswers(response.data.answers);
         setGameId(response.data.gameId);
+        setQuestion(response.data.question);
+        setAvaibleAnswers(response.data.answers);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {
     setFinish(false);
     finishQuizAndClearRecord()
-      .then((r) => {
+      .then(() =>
         getAmountOfPhrases()
-          .then((r) => {
-            setNumberOfQuestions(r.data - 3);
-          })
-          .then(() => pickNewSet());
-      })
+          .then((r) => setNumberOfQuestions(r.data - 3))
+          .then(() => pickNewSet())
+      )
       .catch((err) => console.error(err.message));
   }, []);
 
   const goNext = () => {
-    setAnswered(false);
-    if (questionCounter === numberOfQuestions) {
-      setFinish(true);
-      return;
-    }
+    setQuestionAnswered(false);
     pickNewSet();
     setQuestionCounter((prev) => prev + 1);
   };
@@ -76,11 +68,13 @@ export const QuizPage = () => {
     getCorrectAnswer(gameId)
       .then((response) => {
         setCorrectAnswer(response.data);
-        if (pickedAnswer === response.data.definition) setCountCorrectAnswers((prev) => prev + 1);
-        setAnswered(true);
+        if (pickedAnswer === response.data.definition) 
+          setCountCorrectAnswers((prev) => prev + 1);
+        setQuestionAnswered(true);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((error) => console.error(error))
+      .finally(() => {
+        if (questionCounter === numberOfQuestions) setFinish(true);
       });
   };
 
@@ -96,16 +90,15 @@ export const QuizPage = () => {
         {questionCounter}/{numberOfQuestions}
       </div>
       <Quiz
-        answers={answers}
+        answers={avaibleAnswers}
         question={question}
         correctAnswer={correctAnswer.definition}
         onAnswer={onAnswer}
-        reveal={answered}
+        reveal={questionAnswered}
       />
-      {answered && (
-        <NextQuizButton
-          onClick={goNext}
-          onFinish={onFinish}
+      {questionAnswered && (
+        <NextQuestionButton
+          onClick={finish ? onFinish : goNext}
           finish={finish}
         />
       )}
