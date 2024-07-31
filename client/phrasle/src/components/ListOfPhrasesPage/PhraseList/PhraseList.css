@@ -36,7 +36,7 @@
 }
 
 #phraseListContainer > .listTitle > .title > .stateArrow {
-  transition: .35s;
+  transition: .25s;
   border-top: 7px solid #000;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
@@ -44,7 +44,7 @@
 
 #phraseListContainer > .listTitle > .title > ._right {
   transform: rotate(-90deg);
-  transition: .35s;
+  transition: .25s;
 }
 
 #phraseListContainer > .listContainer {
@@ -54,10 +54,10 @@
   max-height: 300vh;
   overflow: scroll;
   transition: .5s;
-  transition: max-height 0.35s ease-in;
+  transition: max-height 0.25s ease-in;
 }
 
 ._hide{
   max-height: 0px !important;
-  transition: max-height 0.35s ease-out !important;
+  transition: max-height 0.25s ease-out !important;
 }

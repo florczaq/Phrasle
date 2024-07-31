@@ -8,8 +8,11 @@ import { SignUpPage } from './components/SignUpPage/SignUpPage';
 import { TopBar } from './components/TopBar/TopBar';
 import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
 import { KEY, TYPE, get, remove } from './storage';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GameChooser } from './components/GameChooser/GameChooser';
+import { testServerConnection } from './services/connection';
+import { NoConnection } from './components/NoConnectionScreen/NoConnection';
+import { Spinner } from './components/Spinner/Spinner';
 
 export interface Phrase {
   value: string;
@@ -98,12 +101,28 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [connectionEstablished, setConnectionStatus] = useState<boolean>(true);
+  const [spinnerVisible, setSpinnerVisibile] = useState<boolean>(true);
+
+  useEffect(() => {
+    testServerConnection()
+      .catch(() => setConnectionStatus(false))
+      .finally(() => setSpinnerVisibile(false));
+  }, []);
+
   return (
     <div className='App'>
-      <div id='topBarContainer'>
-        <TopBar />
-      </div>
-      <RouterProvider router={router} />
+      {spinnerVisible && <Spinner text='Connecting to server...' />}
+      {connectionEstablished ? (
+        <>
+          <div id='topBarContainer'>
+            <TopBar />
+          </div>
+          <RouterProvider router={router} />
+        </>
+      ) : (
+        <NoConnection />
+      )}
     </div>
   );
 }
