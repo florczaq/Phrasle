@@ -1,18 +1,18 @@
+import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import './App.css';
+import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
+import { GameChooser } from './components/GameChooser/GameChooser';
 import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
 import { ListOfPhrasesPage } from './components/ListOfPhrasesPage/ListOfPhrasesPage';
+import { NoConnection } from './components/NoConnectionScreen/NoConnection';
 import { QuizPage } from './components/QuizPage/QuizPage';
 import { SignInPage } from './components/SignInPage/SignInPage';
 import { SignUpPage } from './components/SignUpPage/SignUpPage';
-import { TopBar } from './components/TopBar/TopBar';
-import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
-import { KEY, TYPE, get, remove } from './storage';
-import { useEffect, useState } from 'react';
-import { GameChooser } from './components/GameChooser/GameChooser';
-import { testServerConnection } from './services/connection';
-import { NoConnection } from './components/NoConnectionScreen/NoConnection';
 import { Spinner } from './components/Spinner/Spinner';
+import { TopBar } from './components/TopBar/TopBar';
+import { testServerConnection } from './services/connection';
+import { KEY, TYPE, get, remove } from './storage';
 
 export interface Phrase {
   value: string;

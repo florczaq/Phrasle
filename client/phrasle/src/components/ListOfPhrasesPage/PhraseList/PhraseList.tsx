@@ -42,7 +42,6 @@ export const PhraseList = ({ listTitle, phrases }: PhraseListParams) => {
               key={i}
               text={element.value}
               definition={element.definition}
-              addDate={new Date()}
               onDelete={() => onDelete(element)}
             />
           );
