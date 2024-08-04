@@ -3,13 +3,14 @@ import './ListOfPhrasesPage.css';
 import { PhraseList } from './PhraseList/PhraseList';
 import { Phrase } from '../../App';
 import { getListOfPhrases } from '../../services/phrase';
+import { get, KEY, TYPE } from '../../storage';
 
 export const ListOfPhrasesPage = () => {
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   useEffect(() => {
+    if (!get(TYPE.COOKIE, KEY.TOKEN)) return;
     getListOfPhrases().then((res) => {
       setPhrases(res.data);
-      console.log(res.data);
     });
   }, []);
 

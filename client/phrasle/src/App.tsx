@@ -92,7 +92,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/play',
-    element: <GameChooser />,
+    element: <AuthenticateOnLoad component={<GameChooser />} />,
   },
   {
     path: '/play/quiz',
