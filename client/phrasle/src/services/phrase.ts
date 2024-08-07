@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { Phrase } from '../App';
-import { KEY, TYPE, get } from '../storage';
+import { getTokenAndId } from './authentication';
 
 const origin = 'http://localhost:8080/api/v1/phrase';
 
-const getTokenAndId = () => [get(TYPE.COOKIE, KEY.TOKEN), get(TYPE.COOKIE, KEY.UID)];
 
 /**
  * @param phrase typeof Phrase

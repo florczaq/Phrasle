@@ -12,7 +12,6 @@ export enum TYPE {
 }
 
 /**
- *
  * @param type
  * @param key
  * @param data

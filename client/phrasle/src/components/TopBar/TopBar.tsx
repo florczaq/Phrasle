@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { getToken } from '../../services/authentication';
 import './TopBar.css';
-import { KEY, TYPE, get } from '../../storage';
 
 export const TopBar = () => {
-  const [signIn, setSignIn] = useState<boolean>(true);
-
   useEffect(() => {
-    setSignIn(get(TYPE.COOKIE, KEY.TOKEN) === null)
-    console.log(get(TYPE.COOKIE, KEY.TOKEN));
+    console.log(getToken());
   }, []);
 
   return (
@@ -18,38 +15,53 @@ export const TopBar = () => {
         <label>PHRASLE</label>
       </div>
       <ul className='center'>
-        <ol className='center'>
-          <a
-            href='/add'
-            className='center'>
-            <label>Add</label>
-          </a>
-        </ol>
-        <ol className='center'>
-          <a
-            href='/play'
-            className='center'>
-            <label>Play</label>
-          </a>
-        </ol>
-        <ol className='center'>
-          <a
-            href='/list'
-            className='center'>
-            <label>List</label>
-          </a>
-        </ol>
-        <ol className='center'>
-          {signIn ? (
+        {getToken()? (
+          <>
+            <ol className='center'>
+              <a
+                href='/add'
+                className='center'>
+                <label>Add</label>
+              </a>
+            </ol>
+            <ol className='center'>
+              <a
+                href='/phrases'
+                className='center'>
+                <label>Cards</label>
+              </a>
+            </ol>
+            <ol className='center'>
+              <a
+                href='/play'
+                className='center'>
+                <label>Play</label>
+              </a>
+            </ol>
+            <ol className='center'>
+              <a
+                href='/list'
+                className='center'>
+                <label>List</label>
+              </a>
+            </ol>
+            <ol className='center'>
+              <a
+                className='center'
+                href='/logout'>
+                Sign Out
+              </a>
+            </ol>
+          </>
+        ) : (
+          <ol className='center'>
             <a
               href='/login'
               className='center'>
               <label>Sign In</label>
             </a>
-          ) : (
-            <a className='center' href='/logout'>Sign Out</a>
-          )}
-        </ol>
+          </ol>
+        )}
       </ul>
     </div>
   );

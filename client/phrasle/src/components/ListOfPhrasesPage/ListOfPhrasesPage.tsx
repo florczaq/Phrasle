@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Phrase } from '../../App';
+import { getToken } from '../../services/authentication';
+import { getListOfPhrases } from '../../services/phrase';
 import './ListOfPhrasesPage.css';
 import { PhraseList } from './PhraseList/PhraseList';
-import { Phrase } from '../../App';
-import { getListOfPhrases } from '../../services/phrase';
-import { get, KEY, TYPE } from '../../storage';
 
 export const ListOfPhrasesPage = () => {
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   useEffect(() => {
-    if (!get(TYPE.COOKIE, KEY.TOKEN)) return;
+    if (!getToken()) return;
     getListOfPhrases().then((res) => {
       setPhrases(res.data);
     });

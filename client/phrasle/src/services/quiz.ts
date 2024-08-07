@@ -1,28 +1,28 @@
 import axios from 'axios';
-import { KEY, TYPE, get } from '../storage';
+import { getToken, getTokenAndId } from './authentication';
 
 const origin = 'http://localhost:8080/api/v1/games/quiz';
 
 export const getNewQuizSet = () => {
-  const userId = get(TYPE.COOKIE, KEY.UID);
-  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  const [token, userId] = getTokenAndId();
+
   return axios.get(`${origin}/renderNew?u=${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const getCorrectAnswer = (gameId: number | undefined) => {
-  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  const token = getToken();
   return axios.get(`${origin}/getAnswer?g=${gameId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const finishQuizAndClearRecord = () => {
-  const userId = get(TYPE.COOKIE, KEY.UID);
-  const token = get(TYPE.COOKIE, KEY.TOKEN);
+  const [token, userId] = getTokenAndId();
+
   return axios.delete(`${origin}/finish`, {
-    data:{userId},
+    data: { userId },
     headers: { Authorization: `Bearer ${token}` },
   });
 };

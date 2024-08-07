@@ -11,8 +11,9 @@ import { SignInPage } from './components/SignInPage/SignInPage';
 import { SignUpPage } from './components/SignUpPage/SignUpPage';
 import { Spinner } from './components/Spinner/Spinner';
 import { TopBar } from './components/TopBar/TopBar';
+import { getUserId } from './services/authentication';
 import { testServerConnection } from './services/connection';
-import { KEY, TYPE, get, remove } from './storage';
+import { KEY, TYPE, remove } from './services/storage';
 
 export interface Phrase {
   value: string;
@@ -54,7 +55,7 @@ interface AuthenticateOnLoadInterface {
 const AuthenticateOnLoad = ({ component }: AuthenticateOnLoadInterface) => {
   const navigate = useNavigate();
   useEffect(() => {
-    !get(TYPE.COOKIE, KEY.UID) && navigate('/login');
+    !getUserId() && navigate('/login');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return component;
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
   },
   //REQUIRE AUTHENTICATION//
   {
-    path: '/phrase',
+    path: '/phrases',
     element: <AuthenticateOnLoad component={<PhraseLearn />} />,
   },
   {

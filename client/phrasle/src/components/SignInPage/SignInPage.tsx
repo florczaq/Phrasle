@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../App';
 import { authenticate } from '../../services/authentication';
-import { KEY, TYPE, save } from '../../storage';
+import { KEY, TYPE, save } from '../../services/storage';
 import { Form } from '../SigningForm/Form';
 import './SignInPage.css';
 
