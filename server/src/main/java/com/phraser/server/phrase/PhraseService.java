@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -27,8 +28,7 @@ public class PhraseService {
     public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException, IllegalArgumentException {
         if (repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId()).isPresent())
             throw new RecordAlreadyExistsException();
-        if (phrase.getUserId().length() < 36)
-            throw new IllegalArgumentException();
+        if (phrase.getUserId().length() < 36) throw new IllegalArgumentException();
         repository.save(phrase);
     }
 
@@ -37,8 +37,14 @@ public class PhraseService {
     }
 
     public void deletePhrase(Phrase phrase) {
-        if (repository.findById(phrase.getId()).isEmpty())
-            throw new NoSuchElementException();
+        if (repository.findById(phrase.getId()).isEmpty()) throw new NoSuchElementException();
         repository.deletePhrase(phrase.getId());
+    }
+
+    public void editPhrase(Phrase phrase) {
+        Optional<Phrase> response = repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId());
+        if (response.isEmpty()) throw new NoSuchElementException();
+        Phrase existringPhrase = response.get();
+        repository.save(new Phrase(existringPhrase.getId(), phrase.getValue(), phrase.getDefinition(), existringPhrase.getUserId(), phrase.isStarred()));
     }
 }

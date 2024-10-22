@@ -57,5 +57,10 @@ public class PhraseController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/edit")
+    public ResponseEntity<HttpStatus> editPhrase(@RequestBody Phrase phrase){
+        service.editPhrase(phrase);
+        return ResponseEntity.ok().build();
+    }
 }
 

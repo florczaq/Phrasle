@@ -18,4 +18,6 @@ public interface PhraseRepository extends JpaRepository<Phrase, Integer> {
     @Modifying
     @Query("delete from Phrase p where p.id=:id")
     void deletePhrase(int id);
+
+
 }
