@@ -19,7 +19,7 @@ export const TopBar = () => {
           <>
             <ol className='center'>
               <a
-                href='/add'
+                href='/phraseForm?m=add'
                 className='center'>
                 <label>Add</label>
               </a>

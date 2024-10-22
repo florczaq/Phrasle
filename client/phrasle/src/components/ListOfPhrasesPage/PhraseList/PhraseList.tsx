@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import './PhraseList.css';
-import { PhraseBox } from './PhraseBox/PhraseBox';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phrase } from '../../../App';
 import { deletePhrase } from '../../../services/phrase';
+import { PhraseBox } from './PhraseBox/PhraseBox';
+import './PhraseList.css';
 
 interface PhraseListParams {
   listTitle: string;
@@ -11,6 +12,7 @@ interface PhraseListParams {
 
 export const PhraseList = ({ listTitle, phrases }: PhraseListParams) => {
   const [visible, setVisible] = useState(true);
+  const navigate = useNavigate();
 
   const handleTitleClick = () => {
     setVisible((prev) => !prev);
@@ -20,6 +22,10 @@ export const PhraseList = ({ listTitle, phrases }: PhraseListParams) => {
     deletePhrase(phrase)
       .then(() => window.location.reload())
       .catch((er) => console.error(er));
+  };
+
+  const onEdit = (phrase: Phrase) => {
+    navigate('/phraseForm?m=edit', { state: { phrase } });
   };
 
   return (
@@ -43,6 +49,7 @@ export const PhraseList = ({ listTitle, phrases }: PhraseListParams) => {
               text={element.value}
               definition={element.definition}
               onDelete={() => onDelete(element)}
+              onEdit={()=>onEdit(element)}
             />
           );
         })}

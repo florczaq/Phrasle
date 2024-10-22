@@ -1,33 +1,52 @@
-import React, { useState } from 'react';
-import './AddPhrasePage.css';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import star from '../../assets/image/star.png';
 import yellowStar from '../../assets/image/yellow_star.png';
-import { addPhrase } from '../../services/phrase';
-import { useNavigate } from 'react-router-dom';
+import { addPhrase, editPhrase } from '../../services/phrase';
+import './AddPhrasePage.css';
 
 export const AddPhrasePage = () => {
   const [starred, setStarred] = useState<boolean>(false);
-  const [phrase, setPhrase] = useState<string>('');
+  const [value, setValue] = useState<string>('');
   const [definition, setDefiniton] = useState<string>('');
+  const [edit, setEdit] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const state = useLocation();
+
+  useEffect(() => {
+    const phrase = state?.state?.phrase || undefined;
+    if (phrase) {
+      setStarred(phrase.starred || false);
+      setValue(phrase.value);
+      setDefiniton(phrase.definition);
+      setEdit(true);
+    }
+    return () => {};
+  }, [state?.state?.phrase]);
 
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const element = e.target.classList.toString();
-    if (element.includes('phrase')) setPhrase(e.target.value);
+    if (element.includes('phrase')) setValue(e.target.value);
     if (element.includes('definition')) setDefiniton(e.target.value);
   };
 
   const onSumbit = () => {
-    addPhrase({ value: phrase, definition, starred })
-      .then((response) => navigate('/list'))
-      .catch((error) => {
-        if (error.response.status === 409) {
-          console.log(error.response.status);
-        }
-      });
+    !edit
+      ? addPhrase({ value: value, definition, starred })
+          .then(() => navigate('/list'))
+          .catch((error) => {
+            if (error.response.status === 409) {
+              console.log(error.response.status);
+            }
+          })
+      : editPhrase({ value, definition, starred })
+          .then(() => navigate('/list'))
+          .catch((error) => {
+            console.log(error.response.status);
+          });
   };
 
   return (
@@ -38,7 +57,7 @@ export const AddPhrasePage = () => {
         <input
           type='text'
           className='phrase'
-          value={phrase}
+          value={value}
           onChange={handleInput}
           placeholder='Phrase...'
         />
@@ -49,7 +68,7 @@ export const AddPhrasePage = () => {
           onChange={handleInput}
           placeholder='Definition...'
         />
-        <button onClick={() => onSumbit()}>Add</button>
+        <button onClick={() => onSumbit()}>{edit ? 'Edit' : 'Add'}</button>
       </div>
       <div className='star'>
         <img

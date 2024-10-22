@@ -18,7 +18,7 @@ export const SignInPage = () => {
       })
       .catch((response) => console.warn(response.message));
   };
-
+  //TODO stay logged in
   return (
     <div
       id='signInContainer'

@@ -88,7 +88,7 @@ const router = createBrowserRouter([
     element: <AuthenticateOnLoad component={<ListOfPhrasesPage />} />,
   },
   {
-    path: '/add',
+    path: '/phraseForm',
     element: <AuthenticateOnLoad component={<AddPhrasePage />} />,
   },
   {

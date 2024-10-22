@@ -4,7 +4,6 @@ import { getTokenAndId } from './authentication';
 
 const origin = 'http://localhost:8080/api/v1/phrase';
 
-
 /**
  * @param phrase typeof Phrase
  * @returns https status
@@ -32,11 +31,19 @@ export const getListOfPhrases = () => {
   });
 };
 
-//TODO edit
 export const deletePhrase = (phrase: Phrase) => {
   const [token, userId] = getTokenAndId();
   return axios.delete(`${origin}/delete`, {
     headers: { Authorization: `Bearer ${token}` },
     data: { ...phrase, userId },
   });
+};
+
+export const editPhrase = (phrase: Phrase) => {
+  const [token, userId] = getTokenAndId();
+  return axios.put(
+    `${origin}/edit`,
+    { ...phrase, userId },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 };
