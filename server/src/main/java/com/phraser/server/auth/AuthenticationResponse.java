@@ -7,9 +7,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class AuthenticationResponse {
-  private String token;
+  private String token = "";
   private String userId = "";
+  private String errorMessage = "";
+
+  public AuthenticationResponse(String token, String userId) {
+    this.token = token;
+    this.userId = userId;
+  }
+
+  public AuthenticationResponse(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
 }

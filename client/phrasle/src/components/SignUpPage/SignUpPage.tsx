@@ -4,8 +4,10 @@ import { register } from '../../services/authentication';
 import { KEY, TYPE, save } from '../../services/storage';
 import { Form } from '../SigningForm/Form';
 import './SignUpPage.css';
+import { useState } from 'react';
 
 export const SignUpPage = () => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const navigate = useNavigate();
   const onSumbit = (credentials: typeof User) => {
     register(credentials)
@@ -26,6 +28,8 @@ export const SignUpPage = () => {
         title='You are signing up!'
         onSubmit={onSumbit}
         register
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
       />
     </div>
   );

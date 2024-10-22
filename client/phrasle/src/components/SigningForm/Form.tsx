@@ -6,13 +6,14 @@ export interface FormParams {
   title: string;
   register?: boolean;
   onSubmit: (credentials: typeof User) => void;
+  errorMessage: string;
+  setErrorMessage: (message: string) => void;
 }
 
-export const Form = ({ title, register, onSubmit }: FormParams) => {
+export const Form = ({ title, register, errorMessage, onSubmit, setErrorMessage }: FormParams) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const validateEmail = (text: string) => {
     return text
@@ -37,7 +38,7 @@ export const Form = ({ title, register, onSubmit }: FormParams) => {
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (errorMessage !== null) setErrorMessage(null);
+    if (errorMessage !== null) setErrorMessage('');
     const element = e.target.classList.toString();
     if (element.includes('email')) setEmail(e.target.value);
     if (element.includes('password')) setPassword(e.target.value);

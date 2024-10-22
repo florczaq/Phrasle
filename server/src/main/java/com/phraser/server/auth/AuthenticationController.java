@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @CrossOrigin
@@ -25,7 +27,12 @@ public class AuthenticationController {
 
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        var response = service.authenticate(request);
+        AuthenticationResponse response = null;
+        try {
+            response = service.authenticate(request);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(new AuthenticationResponse("No account assigned to this email."), HttpStatus.BAD_REQUEST);
+        }
         if (response == null)
             return new ResponseEntity<>((AuthenticationResponse) null, HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(response);

@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -43,14 +44,20 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
+            repository.findByEmail(request.getEmail()).orElseThrow();
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     request.getEmail(), request.getPassword()
                 )
             );
-        } catch (Exception e) {
+        }
+        catch (NoSuchElementException e){
+            throw new NoSuchElementException("No such email");
+        }
+        catch (Exception e) {
             return null;
         }
+
 
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
