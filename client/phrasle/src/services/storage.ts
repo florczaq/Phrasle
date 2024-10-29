@@ -3,6 +3,7 @@ import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 export enum KEY {
   TOKEN = 'token',
   UID = 'uid',
+  QUIZ_QUESTION_AMOUNT="qqa"
 }
 
 export enum TYPE {

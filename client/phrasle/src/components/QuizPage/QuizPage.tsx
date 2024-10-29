@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
-import { getAmountOfPhrases } from '../../services/phrase';
 import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
+import { get, KEY, TYPE } from '../../services/storage';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
 
@@ -50,11 +50,8 @@ export const QuizPage = () => {
   useEffect(() => {
     setFinish(false);
     finishQuizAndClearRecord()
-      .then(() =>
-        getAmountOfPhrases()
-          .then((r) => setNumberOfQuestions(r.data - 3))
-          .then(() => pickNewSet())
-      )
+      .then(() => setNumberOfQuestions(Number(get(TYPE.SESSION, KEY.QUIZ_QUESTION_AMOUNT))))
+      .then(() => pickNewSet())
       .catch((err) => console.error(err.message));
   }, []);
 
@@ -68,8 +65,7 @@ export const QuizPage = () => {
     getCorrectAnswer(gameId)
       .then((response) => {
         setCorrectAnswer(response.data);
-        if (pickedAnswer === response.data.definition) 
-          setCountCorrectAnswers((prev) => prev + 1);
+        if (pickedAnswer === response.data.definition) setCountCorrectAnswers((prev) => prev + 1);
         setQuestionAnswered(true);
       })
       .catch((error) => console.error(error))

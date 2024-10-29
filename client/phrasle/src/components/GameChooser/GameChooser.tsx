@@ -8,9 +8,12 @@ interface GameBoxInterface {
 }
 
 const GameBox = ({ name, path, navigation }: GameBoxInterface) => {
-  const OnClick = () => {navigation(path); console.log("123");};
+  const OnClick = () => navigation(path);
+
   return (
-    <div className='gameBox center' onClick={() => OnClick()}>
+    <div
+      className='gameBox center'
+      onClick={() => OnClick()}>
       <p className='name'>{name}</p>
     </div>
   );
@@ -22,7 +25,7 @@ export const GameChooser = () => {
     <div className='gameBoxContainer'>
       <GameBox
         name='Quiz'
-        path='/play/quiz'
+        path='/play/quiz/settings'
         navigation={navigation}
       />
       <GameBox

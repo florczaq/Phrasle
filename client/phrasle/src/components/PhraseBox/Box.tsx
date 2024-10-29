@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './Box.css';
 import { Phrase } from '../../App';
 
-
 export const Box = ({ value, definition }: Phrase) => {
   const [showPhrase, setPhraseVisible] = useState(true);
 
@@ -15,7 +14,7 @@ export const Box = ({ value, definition }: Phrase) => {
       id='phraseBox'
       className={`center ${definition && 'pBox_hoverable'}`}
       onClick={() => onBoxClick()}>
-      <p>{showPhrase ? "#1 " + value : "#2 " + definition}</p>
+      <p>{showPhrase ? value : definition}</p>
     </div>
   );
 };

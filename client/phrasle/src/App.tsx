@@ -14,6 +14,7 @@ import { TopBar } from './components/TopBar/TopBar';
 import { getUserId } from './services/authentication';
 import { testServerConnection } from './services/connection';
 import { KEY, TYPE, remove } from './services/storage';
+import { QuizSettings } from './components/QuizPage/QuizSettings/QuizSettings';
 
 export interface Phrase {
   value: string;
@@ -96,8 +97,12 @@ const router = createBrowserRouter([
     element: <AuthenticateOnLoad component={<GameChooser />} />,
   },
   {
-    path: '/play/quiz',
+    path: '/play/quiz/game',
     element: <AuthenticateOnLoad component={<QuizPage />} />,
+  },
+  {
+    path: '/play/quiz/settings',
+    element: <AuthenticateOnLoad component={<QuizSettings />} />,
   },
 ]);
 
