@@ -20,9 +20,7 @@ export const getCorrectAnswer = (gameId: number | undefined) => {
 
 export const finishQuizAndClearRecord = () => {
   const [token, userId] = getTokenAndId();
-
-  return axios.delete(`${origin}/finish`, {
-    data: { userId },
+  return axios.delete(`${origin}/finish?u=${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

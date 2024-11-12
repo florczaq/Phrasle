@@ -38,7 +38,7 @@ public class QuizController {
     }
 
     @DeleteMapping("/finish")
-    public ResponseEntity<Void> finishQuizAndDeleteRecord(@RequestBody String userId) {
+    public ResponseEntity<Void> finishQuizAndDeleteRecord(@RequestParam(name = "u") String userId) {
         try {
             service.finishQuizAndClear(userId);
             return ResponseEntity.ok().build();
