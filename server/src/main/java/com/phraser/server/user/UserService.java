@@ -28,10 +28,6 @@ public class UserService {
         );
 
         return authenticate.authenticate(
-            new AuthenticationRequest(
-                newUserData.getEmail(),
-                newUserData.getPassword()
-            )
-        );
+            new AuthenticationRequest(newUserData.getEmail(), newUserData.getPassword(), false));
     }
 }

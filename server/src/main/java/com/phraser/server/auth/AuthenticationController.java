@@ -1,6 +1,7 @@
 package com.phraser.server.auth;
 
 import com.phraser.server.exception.RecordAlreadyExistsException;
+import com.phraser.server.games.quiz.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;
+    private final QuizService quizService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
@@ -35,6 +37,8 @@ public class AuthenticationController {
         }
         if (response == null)
             return new ResponseEntity<>((AuthenticationResponse) null, HttpStatus.BAD_REQUEST);
+
+        quizService.finishQuizAndClear(response.getUserId());
         return ResponseEntity.ok(response);
     }
 }

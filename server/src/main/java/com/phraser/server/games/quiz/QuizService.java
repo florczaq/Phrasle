@@ -87,8 +87,7 @@ public class QuizService {
     }
 
     public void finishQuizAndClear(String userId)  {
-        JSONObject jsonObject = new JSONObject(userId);
-        quizRepository.deleteByUserId(jsonObject.getString("userId"));
+        quizRepository.deleteByUserId(userId);
     }
 
 }
