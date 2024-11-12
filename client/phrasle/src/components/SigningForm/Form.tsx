@@ -8,9 +8,19 @@ export interface FormParams {
   onSubmit: (credentials: typeof User) => void;
   errorMessage: string;
   setErrorMessage: (message: string) => void;
+  staySignedIn?: boolean;
+  setStaySignedIn?: (arg: boolean) => void;
 }
 
-export const Form = ({ title, register, errorMessage, onSubmit, setErrorMessage }: FormParams) => {
+export const Form = ({
+  title,
+  register,
+  errorMessage,
+  staySignedIn,
+  setStaySignedIn,
+  onSubmit,
+  setErrorMessage,
+}: FormParams) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
@@ -43,6 +53,10 @@ export const Form = ({ title, register, errorMessage, onSubmit, setErrorMessage 
     if (element.includes('email')) setEmail(e.target.value);
     if (element.includes('password')) setPassword(e.target.value);
     if (element.includes('repeatPassword')) setRepeatPassword(e.target.value);
+  };
+
+  const handleCheckChange = () => {
+    if (setStaySignedIn !== undefined) setStaySignedIn(!staySignedIn || false);
   };
 
   return (
@@ -82,7 +96,9 @@ export const Form = ({ title, register, errorMessage, onSubmit, setErrorMessage 
             <div className='stayLoggedIn center'>
               <input
                 type='checkbox'
-                name=''
+                name='staySignedIn'
+                onChange={() => handleCheckChange()}
+                checked={staySignedIn}
                 className='css-checkbox'
                 id='stayLogged_box'
               />

@@ -27,6 +27,11 @@ public class PhraseController {
         return service.getAllPhrasesAsc(uid);
     }
 
+    @GetMapping("/list/starred")
+    public List<Phrase> getAllUserStarred(@RequestParam (name = "u") String userId){
+        return service.getAllUserPhrasesStarred(userId);
+    }
+
     @GetMapping("/random")
     public Phrase getUserRandomPhrase(@RequestParam(name = "u") String userId) {
         return service.getUserRandomPhrase(userId);

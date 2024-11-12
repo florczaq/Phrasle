@@ -8,23 +8,29 @@ import { useState } from 'react';
 
 export const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [staySignedIn, setStaySignedIn] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const onSumbit = (credentials: typeof User) => {
-    authenticate(credentials)
+    authenticate(credentials, staySignedIn)
       .then((response) => {
-        save(TYPE.COOKIE, KEY.TOKEN, response.data.token);
-        save(TYPE.COOKIE, KEY.UID, response.data.userId);
+        if (staySignedIn) {
+          save(TYPE.LOCAL, KEY.TOKEN, response.data.token);
+          save(TYPE.LOCAL, KEY.UID, response.data.userId);
+        } else {
+          save(TYPE.COOKIE, KEY.TOKEN, response.data.token);
+          save(TYPE.COOKIE, KEY.UID, response.data.userId);
+        }
         navigate('/list');
         window.location.reload();
       })
       .catch((err) => {
-        const response: string = err.response.data.errorMessage || "";
+        const response: string = err.response.data.errorMessage || '';
         if (response.indexOf('email') !== -1) setErrorMessage(response);
         else setErrorMessage('Bad credentials');
       });
   };
-  //TODO stay logged in
+
   return (
     <div
       id='signInContainer'
@@ -34,6 +40,8 @@ export const SignInPage = () => {
         onSubmit={onSumbit}
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
+        staySignedIn={staySignedIn}
+        setStaySignedIn={setStaySignedIn}
       />
     </div>
   );

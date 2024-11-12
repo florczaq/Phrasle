@@ -3,13 +3,19 @@ import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 export enum KEY {
   TOKEN = 'token',
   UID = 'uid',
-  QUIZ_QUESTION_AMOUNT="qqa"
+  QUIZ_QUESTION_AMOUNT="qqa",
+  QUIZ="qz"
 }
 
 export enum TYPE {
   SESSION,
   LOCAL,
   COOKIE,
+}
+
+export interface QUIZ{
+  score?: number,
+  numberOfQuestions: number;
 }
 
 /**

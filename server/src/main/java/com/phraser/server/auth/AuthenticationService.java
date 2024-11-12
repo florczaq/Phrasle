@@ -1,6 +1,7 @@
 package com.phraser.server.auth;
 
 import com.phraser.server.config.JwtService;
+import com.phraser.server.enums.EXPIRATION_TIME;
 import com.phraser.server.exception.RecordAlreadyExistsException;
 import com.phraser.server.user.UserRepository;
 import com.phraser.server.user.object.User;
@@ -33,7 +34,7 @@ public class AuthenticationService {
             repository.save(user);
         else throw new RecordAlreadyExistsException();
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user, EXPIRATION_TIME.TWO_DAYS);
 
         return AuthenticationResponse
             .builder()
@@ -50,17 +51,15 @@ public class AuthenticationService {
                     request.getEmail(), request.getPassword()
                 )
             );
-        }
-        catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new NoSuchElementException("No such email");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
 
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user, request.isStaySignedIn() ? EXPIRATION_TIME.SIX_MONTHS : EXPIRATION_TIME.TWO_DAYS);
 
 
         return AuthenticationResponse

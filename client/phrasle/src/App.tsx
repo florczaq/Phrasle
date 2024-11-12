@@ -7,14 +7,14 @@ import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
 import { ListOfPhrasesPage } from './components/ListOfPhrasesPage/ListOfPhrasesPage';
 import { NoConnection } from './components/NoConnectionScreen/NoConnection';
 import { QuizPage } from './components/QuizPage/QuizPage';
+import { QuizSettings } from './components/QuizPage/QuizSettings/QuizSettings';
+import { ScoreWindow } from './components/ScoreWindow/ScoreWindow';
 import { SignInPage } from './components/SignInPage/SignInPage';
 import { SignUpPage } from './components/SignUpPage/SignUpPage';
 import { Spinner } from './components/Spinner/Spinner';
 import { TopBar } from './components/TopBar/TopBar';
-import { getUserId } from './services/authentication';
+import { getUserId, signOut } from './services/authentication';
 import { testServerConnection } from './services/connection';
-import { KEY, TYPE, remove } from './services/storage';
-import { QuizSettings } from './components/QuizPage/QuizSettings/QuizSettings';
 
 export interface Phrase {
   value: string;
@@ -32,8 +32,7 @@ const Logout = () => {
   const reload = () => window.location.reload();
 
   useEffect(() => {
-    remove(TYPE.COOKIE, KEY.TOKEN);
-    remove(TYPE.COOKIE, KEY.UID);
+    signOut();
     navigate('/login');
     reload();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,8 +96,16 @@ const router = createBrowserRouter([
     element: <AuthenticateOnLoad component={<GameChooser />} />,
   },
   {
+    path: '/play/score',
+    element: <AuthenticateOnLoad component={<ScoreWindow />} />,
+  },
+  {
     path: '/play/quiz/game',
     element: <AuthenticateOnLoad component={<QuizPage />} />,
+  },
+  {
+    path: '/play/quiz/settings',
+    element: <AuthenticateOnLoad component={<QuizSettings />} />,
   },
   {
     path: '/play/quiz/settings',

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './QuizSettings.css';
 import { getAmountOfPhrases } from '../../../services/phrase';
 import { useNavigate } from 'react-router-dom';
-import { KEY, save, TYPE } from '../../../services/storage';
+import { KEY, save, TYPE, QUIZ } from '../../../services/storage';
 
 export const QuizSettings = () => {
   const [maxAmount, setMaxAmount] = useState<number>(1);
@@ -25,9 +25,9 @@ export const QuizSettings = () => {
 
   const onStart = () => {
     console.log(count);
-    save(TYPE.SESSION, KEY.QUIZ_QUESTION_AMOUNT, count.toString());
-    navigate("../play/quiz/game");
-
+    const result: QUIZ = { numberOfQuestions: count };
+    save(TYPE.SESSION, KEY.QUIZ, JSON.stringify(result));
+    navigate('../play/quiz/game');
   };
 
   const onInputChange = (event: any) => {
@@ -35,10 +35,10 @@ export const QuizSettings = () => {
     setCount(value);
   };
 
-  const validateInputChange = () =>{
-    if(count <1) setCount(1);
-    if(count >maxAmount) setCount(maxAmount);
-  }
+  const validateInputChange = () => {
+    if (count < 1) setCount(1);
+    if (count > maxAmount) setCount(maxAmount);
+  };
 
   //TODO generate quiz on amount from session storage
   return (
@@ -59,7 +59,7 @@ export const QuizSettings = () => {
               type='number'
               value={count}
               onChange={onInputChange}
-              onBlur={()=>validateInputChange()}
+              onBlur={() => validateInputChange()}
             />
             <button
               onClick={increaseCount}

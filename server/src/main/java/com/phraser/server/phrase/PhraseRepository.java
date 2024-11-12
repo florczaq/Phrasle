@@ -13,7 +13,10 @@ public interface PhraseRepository extends JpaRepository<Phrase, Integer> {
     Optional<Phrase> findByValueAndUserId(String value, String userId);
     Optional<Phrase> findById(int id);
     List<Phrase> findByUserId(String uid);
+    List<Phrase> findByUserIdAndStarred(String uid, boolean starred);
     List<Phrase> findByUserIdOrderByValue(String uid);
+
+
     @Transactional
     @Modifying
     @Query("delete from Phrase p where p.id=:id")

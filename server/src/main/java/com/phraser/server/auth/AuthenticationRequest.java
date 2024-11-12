@@ -1,15 +1,14 @@
 package com.phraser.server.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class AuthenticationRequest {
-  private String email;
-  private String password;
+  private final String email = null;
+  private final String password = null;
+  private boolean staySignedIn = false;
 }

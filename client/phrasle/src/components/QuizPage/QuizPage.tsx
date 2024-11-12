@@ -2,9 +2,10 @@
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
 import { finishQuizAndClearRecord, getCorrectAnswer, getNewQuizSet } from '../../services/quiz';
-import { get, KEY, TYPE } from '../../services/storage';
+import { get, KEY, QUIZ, save, TYPE } from '../../services/storage';
 import { Quiz } from './Quiz/Quiz';
 import './QuizPage.css';
+import { useNavigate } from 'react-router-dom';
 
 interface NextQuizButtonParams {
   onClick: () => void;
@@ -33,6 +34,8 @@ export const QuizPage = () => {
   const [finish, setFinish] = useState<boolean>(false);
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
 
+  const navigate = useNavigate();
+
   const pickNewSet = () => {
     getNewQuizSet()
       .then((response) => {
@@ -50,10 +53,13 @@ export const QuizPage = () => {
   useEffect(() => {
     setFinish(false);
     finishQuizAndClearRecord()
-      .then(() => setNumberOfQuestions(Number(get(TYPE.SESSION, KEY.QUIZ_QUESTION_AMOUNT))))
+      .then(() => {
+        const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
+        setNumberOfQuestions(quizData.numberOfQuestions);
+      })
       .then(() => pickNewSet())
       .catch((err) => console.error(err.message));
-  }, []);
+  }, [setNumberOfQuestions]);
 
   const goNext = () => {
     setQuestionAnswered(false);
@@ -75,7 +81,10 @@ export const QuizPage = () => {
   };
 
   const onFinish = () => {
-    console.log(countCorrectAnswers);
+    const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
+    quizData.score = countCorrectAnswers;
+    save(TYPE.SESSION, KEY.QUIZ, JSON.stringify(quizData));
+    navigate("../play/score");
   };
 
   return (

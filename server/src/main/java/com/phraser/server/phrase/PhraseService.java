@@ -36,6 +36,11 @@ public class PhraseService {
         return repository.findByUserId(userId);
     }
 
+    public List<Phrase> getAllUserPhrasesStarred(String userId) {
+        return repository.findByUserIdAndStarred(userId, true);
+    }
+
+
     public void deletePhrase(Phrase phrase) {
         if (repository.findById(phrase.getId()).isEmpty()) throw new NoSuchElementException();
         repository.deletePhrase(phrase.getId());

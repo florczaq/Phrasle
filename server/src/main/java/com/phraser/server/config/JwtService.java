@@ -1,5 +1,6 @@
 package com.phraser.server.config;
 
+import com.phraser.server.enums.EXPIRATION_TIME;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -30,17 +31,17 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDetails userDetails, EXPIRATION_TIME expirationTime) {
+        return generateToken(new HashMap<>(), userDetails, expirationTime);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails, EXPIRATION_TIME expirationTime) {
         return Jwts
             .builder()
             .setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30))
+            .setExpiration(new Date(System.currentTimeMillis() + expirationTime.getValue()))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();
     }
