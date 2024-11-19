@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
-import { getListOfPhrases } from '../../services/phrase';
+import { getListOfPhrases, getShuffledListOfPhrases } from '../../services/phrase';
 import { Box } from '../PhraseBox/Box';
 import './Flashcards.css';
 
@@ -16,6 +16,7 @@ export const Flashcards = () => {
   const [data, setData] = useState<Array<Phrase>>([]);
   const [count, setCount] = useState<number>(0);
   const [starred, setStarred] = useState<boolean | null>(null);
+  const [shuffle, setShuffle] = useState<boolean>(false);
 
   const getPhrases = React.useCallback(() => {
     getListOfPhrases(starred)
@@ -23,9 +24,20 @@ export const Flashcards = () => {
       .catch((err) => console.error(err));
   }, [starred]);
 
+  const getShuffledPhrases = React.useCallback(() => {
+    getShuffledListOfPhrases(starred)
+      .then((res) => setData(res.data))
+      .catch((err) => console.error(err));
+  }, [starred]);
+
+  const getList = React.useCallback(() => {
+    setCount(0);
+    shuffle ? getShuffledPhrases() : getPhrases();
+  }, [getPhrases, getShuffledPhrases, shuffle]);
+
   useEffect(() => {
-    getPhrases();
-  }, [getPhrases]);
+    getList();
+  }, [getList]);
 
   const increaseCount = () => count < data.length - 1 && setCount((prev) => prev + 1);
 
@@ -52,6 +64,10 @@ export const Flashcards = () => {
     }
   };
 
+  const handleShuffleChange = () => {
+    setShuffle((prev) => !prev);
+  };
+
   return (
     <div
       id='phraseLearnContainer'
@@ -63,7 +79,7 @@ export const Flashcards = () => {
             name='starred'
             id={radioOptions.at(0)}
             onClick={(e) => handleRaioChange(e)}
-            onChange={() => {}}
+            onChange={() => { }}
             checked={starred === false}
           />
           <img
@@ -77,7 +93,7 @@ export const Flashcards = () => {
             name='starred'
             id={radioOptions.at(1)}
             onClick={(e) => handleRaioChange(e)}
-            onChange={() => {}}
+            onChange={() => { }}
             checked={starred === null}
           />
           <img
@@ -91,7 +107,7 @@ export const Flashcards = () => {
             name='starred'
             id={radioOptions.at(2)}
             onClick={(e) => handleRaioChange(e)}
-            onChange={() => {}}
+            onChange={() => { }}
             checked={starred === true}
           />
           <img
@@ -105,7 +121,12 @@ export const Flashcards = () => {
           <Box {...data[count]} />
         </div>
         <label>
-          <input type='checkbox' />
+          <input
+            type='checkbox'
+            checked={shuffle}
+            onChange={() => { }}
+            onClick={() => handleShuffleChange()}
+          />
           <img
             src={shuffleIcon}
             alt='shuffle'

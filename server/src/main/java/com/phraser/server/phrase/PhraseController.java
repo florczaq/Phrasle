@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +23,23 @@ public class PhraseController {
     public long getNumberOfRecords(@RequestParam(name = "u") String userId) {
         return service.getAllUserPhrases(userId).size();
     }
-//Return starred/all/unstarred
+
     @GetMapping("/list")
     public List<Phrase> getAllValues(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
-        if(starred.isEmpty())
+        if (starred.isEmpty())
             return service.getAllPhrasesAsc(uid);
         return service.getAllUserPhrases(uid, starred.get());
+    }
+
+    @GetMapping("/list/shuffle")
+    public List<Phrase> getAllValuesShuffled(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
+        List<Phrase> response;
+        if (starred.isEmpty())
+            response = service.getAllPhrasesAsc(uid);
+        else
+            response = service.getAllUserPhrases(uid, starred.get());
+        Collections.shuffle(response);
+        return response;
     }
 
     @GetMapping("/random")
@@ -61,7 +73,7 @@ public class PhraseController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<HttpStatus> editPhrase(@RequestBody Phrase phrase){
+    public ResponseEntity<HttpStatus> editPhrase(@RequestBody Phrase phrase) {
         service.editPhrase(phrase);
         return ResponseEntity.ok().build();
     }

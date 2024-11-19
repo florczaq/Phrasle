@@ -43,9 +43,26 @@ export const getAmountOfPhrases = (): Promise<any> => {
  */
 export const getListOfPhrases = (starred: boolean | null): Promise<any> => {
   const [token, userId] = getTokenAndId();
-  console.log(starred);
   return axios.get(
     `${origin}/list?u=${userId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
+/**
+ * Retrieves shuffled list of phrases associated with the current user.
+ * @param {boolean | null} starred - Determines if the request should filter by starred phrases.
+ *   - `true`: Fetch only starred phrases.
+ *   - `false`: Fetch only non-starred phrases.
+ *   - `null`: Fetch all phrases without filtering by starred status.
+ * @returns {Promise} - A promise resolving to the server response containing the list of phrases.
+ */
+export const getShuffledListOfPhrases = (starred: boolean | null): Promise<any> => {
+  const [token, userId] = getTokenAndId();
+  return axios.get(
+    `${origin}/list/shuffle?u=${userId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
