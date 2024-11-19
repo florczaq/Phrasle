@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import './App.css';
 import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
-import { GameChooser } from './components/GameChooser/GameChooser';
-import { PhraseLearn } from './components/LearnPhrasePage/LearnPhrase';
-import { ListOfPhrasesPage } from './components/ListOfPhrasesPage/ListOfPhrasesPage';
+import { GamesMenu } from './components/GamesMenu/GamesMenu';
+import { Flashcards } from './components/Flashcards/Flashcards';
+import { List } from './components/List/List';
 import { NoConnection } from './components/NoConnectionScreen/NoConnection';
 import { QuizPage } from './components/QuizPage/QuizPage';
 import { QuizSettings } from './components/QuizPage/QuizSettings/QuizSettings';
@@ -81,11 +81,11 @@ const router = createBrowserRouter([
   //REQUIRE AUTHENTICATION//
   {
     path: '/phrases',
-    element: <AuthenticateOnLoad component={<PhraseLearn />} />,
+    element: <AuthenticateOnLoad component={<Flashcards />} />,
   },
   {
     path: '/list',
-    element: <AuthenticateOnLoad component={<ListOfPhrasesPage />} />,
+    element: <AuthenticateOnLoad component={<List />} />,
   },
   {
     path: '/phraseForm',
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/play',
-    element: <AuthenticateOnLoad component={<GameChooser />} />,
+    element: <AuthenticateOnLoad component={<GamesMenu />} />,
   },
   {
     path: '/play/score',

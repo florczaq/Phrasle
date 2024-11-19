@@ -40,7 +40,6 @@ export const QuizSettings = () => {
     if (count > maxAmount) setCount(maxAmount);
   };
 
-  //TODO generate quiz on amount from session storage
   return (
     <div
       style={{ width: '100vw', height: '95vh', display: 'flex' }}

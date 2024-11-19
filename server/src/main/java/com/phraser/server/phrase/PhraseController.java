@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,15 +22,12 @@ public class PhraseController {
     public long getNumberOfRecords(@RequestParam(name = "u") String userId) {
         return service.getAllUserPhrases(userId).size();
     }
-
+//Return starred/all/unstarred
     @GetMapping("/list")
-    public List<Phrase> getAllValues(@RequestParam(name = "u") String uid) {
-        return service.getAllPhrasesAsc(uid);
-    }
-
-    @GetMapping("/list/starred")
-    public List<Phrase> getAllUserStarred(@RequestParam (name = "u") String userId){
-        return service.getAllUserPhrasesStarred(userId);
+    public List<Phrase> getAllValues(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
+        if(starred.isEmpty())
+            return service.getAllPhrasesAsc(uid);
+        return service.getAllUserPhrases(uid, starred.get());
     }
 
     @GetMapping("/random")

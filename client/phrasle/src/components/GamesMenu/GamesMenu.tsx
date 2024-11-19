@@ -1,5 +1,5 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import './GameChooser.css';
+import './GamesMenu.css';
 
 interface GameBoxInterface {
   name: string;
@@ -19,7 +19,7 @@ const GameBox = ({ name, path, navigation }: GameBoxInterface) => {
   );
 };
 
-export const GameChooser = () => {
+export const GamesMenu = () => {
   const navigation = useNavigate();
   return (
     <div className='gameBoxContainer'>

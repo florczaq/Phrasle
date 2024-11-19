@@ -1,0 +1,105 @@
+#phraseLearnContainer {
+  height: 90vh;
+  flex-direction: column;
+}
+
+#phraseLearnContainer > .buttons {
+  width: 500px;
+  height: 70px;
+  justify-content: space-between;
+}
+
+.flashCard {
+  padding-left: 55px;
+  display: flex;
+  width: 55vw;
+  height: 50vh;
+}
+
+#phraseLearnContainer > .flashCard > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+}
+
+#phraseLearnContainer > .flashCard label {
+  margin: 5px;
+}
+
+.flashCard input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.flashCard input[type='checkbox'] + img {
+  cursor: pointer;
+  width: 60px;
+  border-radius: 50px;
+  padding: 6px;
+}
+
+.flashCard input[type='checkbox']:checked + img {
+  outline: 2px solid rgb(0, 0, 0);
+}
+
+#phraseLearnContainer > .flashCard > button > img {
+  width: 100%;
+}
+
+#phraseLearnContainer > .flashCard > .boxContainer {
+  width: 100%;
+  height: 100%;
+}
+
+#phraseLearnContainer > .buttons > button {
+  width: 90px;
+  height: 50px;
+  font-size: 30px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+}
+
+#phraseLearnContainer > .buttons > button:hover {
+  background-color: #000000cc;
+  cursor: pointer;
+}
+
+#phraseLearnContainer > .buttons > button:disabled {
+  cursor: auto;
+  background-color: rgba(0, 0, 0, 0.521);
+}
+
+#phraseLearnContainer > .buttons > .counterInfo {
+  font-size: 25px;
+}
+
+.starOptions {
+  width: 20vw;
+  display: flex;
+  justify-content: space-around;
+}
+
+.starOptions input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.starOptions input[type='radio'] + img {
+  cursor: pointer;
+  width: 60px;
+  border-radius: 50px;
+  padding: 6px;
+}
+
+.starOptions input[type='radio']:checked + img {
+  outline: 2px solid rgb(0, 0, 0);
+}

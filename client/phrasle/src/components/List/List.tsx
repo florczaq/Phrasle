@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { Phrase } from '../../App';
 import { getToken } from '../../services/authentication';
 import { getListOfPhrases } from '../../services/phrase';
-import './ListOfPhrasesPage.css';
+import './List.css';
 import { PhraseList } from './PhraseList/PhraseList';
 
-export const ListOfPhrasesPage = () => {
+export const List = () => {
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   useEffect(() => {
     if (!getToken()) return;
-    getListOfPhrases().then((res) => {
+    getListOfPhrases(null).then((res) => {
       setPhrases(res.data);
     });
   }, []);

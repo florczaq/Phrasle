@@ -36,8 +36,8 @@ public class PhraseService {
         return repository.findByUserId(userId);
     }
 
-    public List<Phrase> getAllUserPhrasesStarred(String userId) {
-        return repository.findByUserIdAndStarred(userId, true);
+    public List<Phrase> getAllUserPhrases(String userId, boolean starred) {
+        return repository.findByUserIdAndStarred(userId, starred);
     }
 
 

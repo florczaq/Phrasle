@@ -49,7 +49,7 @@ export const QuizPage = () => {
       })
       .catch((error) => console.error(error));
   };
-    //TODO finish not called
+
   useEffect(() => {
     setFinish(false);
     finishQuizAndClearRecord()
