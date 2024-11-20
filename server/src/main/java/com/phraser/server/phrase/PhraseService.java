@@ -15,7 +15,7 @@ import java.util.Random;
 public class PhraseService {
     private final PhraseRepository repository;
 
-    
+
     public List<Phrase> getAllPhrasesAsc(String uid) {
         return repository.findByUserIdOrderByValue(uid);
     }
@@ -46,9 +46,8 @@ public class PhraseService {
     }
 
     public void editPhrase(Phrase phrase) {
-        Optional<Phrase> response = repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId());
-        if (response.isEmpty()) throw new NoSuchElementException();
-        Phrase existringPhrase = response.get();
-        repository.save(new Phrase(existringPhrase.getId(), phrase.getValue(), phrase.getDefinition(), existringPhrase.getUserId(), phrase.isStarred()));
+        if (repository.findByIdAndUserId(phrase.getId(), phrase.getUserId()).isEmpty())
+            throw new NoSuchElementException();
+        repository.save(new Phrase(phrase.getId(), phrase.getValue(), phrase.getDefinition(), phrase.getUserId(), phrase.isStarred()));
     }
 }

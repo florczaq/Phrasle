@@ -11,6 +11,7 @@ export const List = () => {
     if (!getToken()) return;
     getListOfPhrases(null).then((res) => {
       setPhrases(res.data);
+      console.log(res.data);
     });
   }, []);
 

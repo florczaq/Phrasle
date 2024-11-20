@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import './App.css';
-import { AddPhrasePage } from './components/AddPhrasePage/AddPhrasePage';
+import { AddPhrasePage } from './components/PhraseForm/PhraseForm';
 import { GamesMenu } from './components/GamesMenu/GamesMenu';
 import { Flashcards } from './components/Flashcards/Flashcards';
 import { List } from './components/List/List';
@@ -17,6 +17,7 @@ import { getUserId, signOut } from './services/authentication';
 import { testServerConnection } from './services/connection';
 
 export interface Phrase {
+  id?: number;
   value: string;
   definition: string;
   starred?: boolean;

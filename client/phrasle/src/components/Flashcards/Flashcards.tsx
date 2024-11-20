@@ -10,40 +10,44 @@ import halfStar from '../../assets/image/half_star.png';
 import shuffleIcon from '../../assets/image/shuffle.png';
 import React from 'react';
 
-const radioOptions = ['unstarredRadio', 'allRadio', 'starredRadio'];
+const radioOptions = ['unstarred', 'all', 'starred'];
 
 export const Flashcards = () => {
   const [data, setData] = useState<Array<Phrase>>([]);
   const [count, setCount] = useState<number>(0);
   const [starred, setStarred] = useState<boolean | null>(null);
   const [shuffle, setShuffle] = useState<boolean>(false);
+  //TEMP
+  const [showVal, setShowVal] = useState<boolean>(true);
 
-  const getPhrases = React.useCallback(() => {
-    getListOfPhrases(starred)
-      .then((res) => setData(res.data))
-      .catch((err) => console.error(err));
-  }, [starred]);
+  const getPhrases = React.useCallback(
+    () =>
+      getListOfPhrases(starred)
+        .then((res) => setData(res.data))
+        .catch((err) => console.error(err)),
+    [starred]
+  );
 
-  const getShuffledPhrases = React.useCallback(() => {
-    getShuffledListOfPhrases(starred)
-      .then((res) => setData(res.data))
-      .catch((err) => console.error(err));
-  }, [starred]);
+  const getShuffledPhrases = React.useCallback(
+    () =>
+      getShuffledListOfPhrases(starred)
+        .then((res) => setData(res.data))
+        .catch((err) => console.error(err)),
+    [starred]
+  );
 
   const getList = React.useCallback(() => {
     setCount(0);
     shuffle ? getShuffledPhrases() : getPhrases();
   }, [getPhrases, getShuffledPhrases, shuffle]);
 
-  useEffect(() => {
-    getList();
-  }, [getList]);
+  useEffect(() => getList(), [getList]);
 
   const increaseCount = () => count < data.length - 1 && setCount((prev) => prev + 1);
 
   const decreaseCount = () => count > 0 && setCount((prev) => prev - 1);
 
-  const handleRaioChange = (e: any) => {
+  const handleStarFilterRadioChange = (e: any) => {
     let optionIndex = -1;
     setCount(0);
 
@@ -64,13 +68,13 @@ export const Flashcards = () => {
     }
   };
 
-  const handleShuffleChange = () => {
+  const handleShuffleCheckboxChange = () => {
     setShuffle((prev) => !prev);
   };
 
   return (
     <div
-      id='phraseLearnContainer'
+      id='flashCardContainer'
       className='center'>
       <form className='starOptions'>
         <label>
@@ -78,8 +82,8 @@ export const Flashcards = () => {
             type='radio'
             name='starred'
             id={radioOptions.at(0)}
-            onClick={(e) => handleRaioChange(e)}
-            onChange={() => { }}
+            onClick={(e) => handleStarFilterRadioChange(e)}
+            onChange={() => {}}
             checked={starred === false}
           />
           <img
@@ -92,8 +96,8 @@ export const Flashcards = () => {
             type='radio'
             name='starred'
             id={radioOptions.at(1)}
-            onClick={(e) => handleRaioChange(e)}
-            onChange={() => { }}
+            onClick={(e) => handleStarFilterRadioChange(e)}
+            onChange={() => {}}
             checked={starred === null}
           />
           <img
@@ -106,8 +110,8 @@ export const Flashcards = () => {
             type='radio'
             name='starred'
             id={radioOptions.at(2)}
-            onClick={(e) => handleRaioChange(e)}
-            onChange={() => { }}
+            onClick={(e) => handleStarFilterRadioChange(e)}
+            onChange={() => {}}
             checked={starred === true}
           />
           <img
@@ -117,15 +121,21 @@ export const Flashcards = () => {
         </label>
       </form>
       <div className='flashCard center'>
-        <div className='boxContainer'>
-          <Box {...data[count]} />
+        <div className={`boxContainer ${showVal ? '_value' : '_definition'}`}>
+          <Box
+            value={data[count]?.value}
+            definition={data[count]?.definition}
+            onClick={(newVal: boolean) => {
+              setShowVal(newVal);
+            }}
+          />
         </div>
         <label>
           <input
             type='checkbox'
             checked={shuffle}
-            onChange={() => { }}
-            onClick={() => handleShuffleChange()}
+            onChange={() => {}}
+            onClick={() => handleShuffleCheckboxChange()}
           />
           <img
             src={shuffleIcon}

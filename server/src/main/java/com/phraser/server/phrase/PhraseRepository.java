@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface PhraseRepository extends JpaRepository<Phrase, Integer> {
     Optional<Phrase> findByValueAndUserId(String value, String userId);
+    Optional<Phrase> findByIdAndUserId(int id, String userId);
     Optional<Phrase> findById(int id);
     List<Phrase> findByUserId(String uid);
     List<Phrase> findByUserIdAndStarred(String uid, boolean starred);

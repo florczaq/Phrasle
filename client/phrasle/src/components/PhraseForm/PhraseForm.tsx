@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import star from '../../assets/image/star.png';
 import yellowStar from '../../assets/image/yellow_star.png';
 import { addPhrase, editPhrase } from '../../services/phrase';
-import './AddPhrasePage.css';
+import './PhraseForm.css';
 
 export const AddPhrasePage = () => {
+  const [phraseId, setPhraseId] = useState<number>(-1);
   const [starred, setStarred] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [definition, setDefiniton] = useState<string>('');
@@ -17,6 +18,7 @@ export const AddPhrasePage = () => {
   useEffect(() => {
     const phrase = state?.state?.phrase || undefined;
     if (phrase) {
+      setPhraseId(phrase.id || -1);
       setStarred(phrase.starred || false);
       setValue(phrase.value);
       setDefiniton(phrase.definition);
@@ -42,7 +44,7 @@ export const AddPhrasePage = () => {
               console.log(error.response.status);
             }
           })
-      : editPhrase({ value, definition, starred })
+      : editPhrase({ id: phraseId, value, definition, starred })
           .then(() => navigate('/list'))
           .catch((error) => {
             console.log(error.response.status);
@@ -61,7 +63,6 @@ export const AddPhrasePage = () => {
           onChange={handleInput}
           placeholder='Phrase...'
         />
-
         <textarea
           className='definition'
           value={definition}

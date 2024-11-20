@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import './Box.css';
 import { Phrase } from '../../App';
+import { defaultMaxListeners } from 'events';
 
-export const Box = ({ value, definition }: Phrase) => {
+type Box = {
+  value: string;
+  definition: string;
+  onClick?: (val: boolean) => void;
+};
+
+export const Box = ({ value, definition, onClick }: Box) => {
   const [showPhrase, setPhraseVisible] = useState(true);
 
   const onBoxClick = () => {
     definition && setPhraseVisible((prev) => !prev);
+    if (onClick) onClick(!showPhrase);
   };
 
   return (
