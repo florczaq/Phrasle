@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import './Box.css';
-import { Phrase } from '../../App';
-import { defaultMaxListeners } from 'events';
 
 type Box = {
   value: string;

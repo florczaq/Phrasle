@@ -30,7 +30,7 @@ export const QuizPage = () => {
   const [avaibleAnswers, setAvaibleAnswers] = useState<Array<string>>([]);
   const [questionCounter, setQuestionCounter] = useState<number>(1);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
-  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '' });
+  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '', groupId: -1 });
   const [finish, setFinish] = useState<boolean>(false);
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
 

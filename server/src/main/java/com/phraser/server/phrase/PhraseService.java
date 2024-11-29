@@ -48,6 +48,6 @@ public class PhraseService {
     public void editPhrase(Phrase phrase) {
         if (repository.findByIdAndUserId(phrase.getId(), phrase.getUserId()).isEmpty())
             throw new NoSuchElementException();
-        repository.save(new Phrase(phrase.getId(), phrase.getValue(), phrase.getDefinition(), phrase.getUserId(), phrase.isStarred()));
+        repository.save(new Phrase(phrase.getId(), phrase.getValue(), phrase.getDefinition(), phrase.getUserId(), phrase.isStarred(), phrase.getGroupId()));
     }
 }

@@ -10,6 +10,7 @@ export const AddPhrasePage = () => {
   const [starred, setStarred] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [definition, setDefiniton] = useState<string>('');
+  const [groupId, setGroupId] = useState<number>(-1);
   const [edit, setEdit] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -37,14 +38,14 @@ export const AddPhrasePage = () => {
 
   const onSumbit = () => {
     !edit
-      ? addPhrase({ value: value, definition, starred })
+      ? addPhrase({ value: value, definition, starred, groupId })
           .then(() => navigate('/list'))
           .catch((error) => {
             if (error.response.status === 409) {
               console.log(error.response.status);
             }
           })
-      : editPhrase({ id: phraseId, value, definition, starred })
+      : editPhrase({ id: phraseId, value, definition, starred, groupId })
           .then(() => navigate('/list'))
           .catch((error) => {
             console.log(error.response.status);

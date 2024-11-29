@@ -21,6 +21,7 @@ export interface Phrase {
   value: string;
   definition: string;
   starred?: boolean;
+  groupId: number;
 }
 
 export const User = {

@@ -26,6 +26,9 @@ public class Phrase implements Cloneable {
     private final String userId;
     @Getter
     private boolean starred;
+    @Getter
+    @Column(name = "group_id")
+    private final int groupId;
 
     @Override
     public Phrase clone() {
