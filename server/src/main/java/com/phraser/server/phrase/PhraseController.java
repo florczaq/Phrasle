@@ -25,7 +25,13 @@ public class PhraseController {
     }
 
     @GetMapping("/list")
-    public List<Phrase> getAllValues(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
+    public List<Phrase> getAllValuesByGroup(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred, @RequestParam(name = "gid") int groupId) {
+        if (starred.isEmpty()) return service.getAllUserPhrasesByGroup(uid, groupId);
+        return service.getAllUserPhrasesByGroup(uid, starred.get(), groupId);
+    }
+
+    @GetMapping("/list/all")
+    public List<Phrase> getAllValuesByGroup(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
         if (starred.isEmpty()) return service.getAllPhrasesAsc(uid);
         return service.getAllUserPhrases(uid, starred.get());
     }
@@ -33,9 +39,7 @@ public class PhraseController {
     @GetMapping("/list/shuffle")
     public List<Phrase> getAllValuesShuffled(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
         List<Phrase> response;
-        response = starred.isEmpty()
-            ? service.getAllPhrasesAsc(uid)
-            : service.getAllUserPhrases(uid, starred.get());
+        response = starred.isEmpty() ? service.getAllPhrasesAsc(uid) : service.getAllUserPhrases(uid, starred.get());
         Collections.shuffle(response);
         return response;
     }

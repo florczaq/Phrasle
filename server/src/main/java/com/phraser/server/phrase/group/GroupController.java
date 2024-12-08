@@ -1,8 +1,8 @@
 package com.phraser.server.phrase.group;
 
 
+import com.phraser.server.phrase.group.object.Group;
 import lombok.RequiredArgsConstructor;
-import org.json.HTTP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

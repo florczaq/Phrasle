@@ -41,10 +41,10 @@ export const getAmountOfPhrases = (): Promise<any> => {
  *   - `null`: Fetch all phrases without filtering by starred status.
  * @returns {Promise} - A promise resolving to the server response containing the list of phrases.
  */
-export const getListOfPhrases = (starred: boolean | null): Promise<any> => {
+export const getListOfPhrases = (starred: boolean | null, groupId: number): Promise<any> => {
   const [token, userId] = getTokenAndId();
   return axios.get(
-    `${origin}/list?u=${userId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
+    `${origin}/list?u=${userId}&&gid=${groupId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }

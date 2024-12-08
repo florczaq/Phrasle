@@ -23,6 +23,7 @@ export const AddPhrasePage = () => {
       setStarred(phrase.starred || false);
       setValue(phrase.value);
       setDefiniton(phrase.definition);
+      setGroupId(phrase.groupId);
       setEdit(true);
     }
     return () => {};

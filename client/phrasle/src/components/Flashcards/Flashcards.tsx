@@ -22,7 +22,7 @@ export const Flashcards = () => {
 
   const getPhrases = React.useCallback(
     () =>
-      getListOfPhrases(starred)
+      getListOfPhrases(starred, 2)
         .then((res) => setData(res.data))
         .catch((err) => console.error(err)),
     [starred]

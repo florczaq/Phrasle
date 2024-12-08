@@ -1,5 +1,6 @@
 package com.phraser.server.phrase.group;
 
+import com.phraser.server.phrase.group.object.Group;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

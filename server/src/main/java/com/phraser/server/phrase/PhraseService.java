@@ -15,7 +15,6 @@ import java.util.Random;
 public class PhraseService {
     private final PhraseRepository repository;
 
-
     public List<Phrase> getAllPhrasesAsc(String uid) {
         return repository.findByUserIdOrderByValue(uid);
     }
@@ -38,6 +37,14 @@ public class PhraseService {
 
     public List<Phrase> getAllUserPhrases(String userId, boolean starred) {
         return repository.findByUserIdAndStarred(userId, starred);
+    }
+
+    public List<Phrase> getAllUserPhrasesByGroup(String userId, int groupId) {
+        return repository.findByUserIdAndGroupId(userId, groupId);
+    }
+
+    public List<Phrase> getAllUserPhrasesByGroup(String userId, boolean starred, int groupId) {
+        return repository.findByUserIdAndStarredAndGroupId(userId, starred, groupId);
     }
 
     public void deletePhrase(Phrase phrase) {

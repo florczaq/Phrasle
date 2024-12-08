@@ -24,6 +24,12 @@ export interface Phrase {
   groupId: number;
 }
 
+export interface Group{
+  id: number;
+  name: string;
+  userId: string;
+}
+
 export const User = {
   email: '',
   password: '',

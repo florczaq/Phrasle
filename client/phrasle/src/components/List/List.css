@@ -8,3 +8,9 @@
 #listOfWordsContainer > .list {
   width: 90%;
 }
+
+.groupNameContainer{
+  width: 20vw;
+  height: 10vh;
+  margin-bottom: 5vh;
+}

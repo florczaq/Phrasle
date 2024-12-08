@@ -1,4 +1,4 @@
-package com.phraser.server.phrase.group;
+package com.phraser.server.phrase.group.object;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

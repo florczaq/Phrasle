@@ -1,5 +1,6 @@
 package com.phraser.server.phrase.group;
 
+import com.phraser.server.phrase.group.object.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
