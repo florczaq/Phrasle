@@ -1,5 +1,6 @@
 #flashCardContainer {
   height: 90vh;
+  padding-top: 10vh;
   flex-direction: column;
 }
 
@@ -10,9 +11,8 @@
 }
 
 .flashCard {
-  padding-left: 55px;
   display: flex;
-  width: 55vw;
+  width: 50vw;
   height: 50vh;
 }
 
@@ -29,21 +29,21 @@
   margin: 5px;
 }
 
-.flashCard input[type='checkbox'] {
+#flashCardContainer input[type='checkbox'] {
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.flashCard input[type='checkbox'] + img {
+#flashCardContainer input[type='checkbox'] + img {
   cursor: pointer;
   width: 60px;
   border-radius: 50px;
   padding: 6px;
 }
 
-.flashCard input[type='checkbox']:checked + img {
+#flashCardContainer input[type='checkbox']:checked + img {
   outline: 2px solid rgb(0, 0, 0);
 }
 
@@ -82,7 +82,7 @@
 }
 
 .starOptions {
-  width: 20vw;
+  width: 80%;
   display: flex;
   justify-content: space-around;
 }
@@ -121,4 +121,20 @@
   right: 2vw;
   bottom: 2vh;
   border: 1px solid #000;
+}
+
+.group_dropdown_container {
+  position: absolute;
+  width: 15vw;
+  margin: 1vw;
+  top: 7vh;
+}
+
+.options {
+  width: 50vw;
+  justify-content: flex-end;
+}
+
+.shuffle_button{
+  width: 10%;
 }

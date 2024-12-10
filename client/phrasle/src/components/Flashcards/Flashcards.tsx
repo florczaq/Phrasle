@@ -1,141 +1,138 @@
-import { useEffect, useState } from 'react';
-import { Phrase } from '../../App';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Group, Phrase } from '../../App';
 import { getListOfPhrases, getShuffledListOfPhrases } from '../../services/phrase';
+import { getGroupList } from '../../services/group';
 import { Box } from '../PhraseBox/Box';
+import { GroupListDropdown } from '../List/GroupListDropdown/GroupListDropdown';
 import './Flashcards.css';
 
 import yellowStar from '../../assets/image/yellow_star.png';
 import transparentStar from '../../assets/image/star.png';
 import halfStar from '../../assets/image/half_star.png';
 import shuffleIcon from '../../assets/image/shuffle.png';
-import React from 'react';
 
-const radioOptions = ['unstarred', 'all', 'starred'];
+const RADIO_OPTIONS = ['unstarred', 'all', 'starred'];
 
+/**
+ * Flashcards Component
+ * This component renders a flashcard application with functionality to filter, shuffle,
+ * and navigate through a list of phrases. Users can select groups, apply starred filters,
+ * and toggle between phrase value and definition.
+ */
 export const Flashcards = () => {
-  const [data, setData] = useState<Array<Phrase>>([]);
-  const [count, setCount] = useState<number>(0);
+  // State for the list of phrases to display
+  const [phrases, setPhrases] = useState<Phrase[]>([]);
+
+  // State for the current index of the displayed phrase
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // State for the starred filter: true (starred), false (unstarred), null (all)
   const [starred, setStarred] = useState<boolean | null>(null);
-  const [shuffle, setShuffle] = useState<boolean>(false);
-  //TEMP
-  const [showVal, setShowVal] = useState<boolean>(true);
 
-  const getPhrases = React.useCallback(
-    () =>
-      getListOfPhrases(starred, 2)
-        .then((res) => setData(res.data))
-        .catch((err) => console.error(err)),
-    [starred]
+  // State to determine if the list should be shuffled
+  const [shuffle, setShuffle] = useState(false);
+
+  // List of available groups and the current group selection
+  const [groupList, setGroupList] = useState<Group[]>([]);
+  const [currentGroupId, setCurrentGroupId] = useState(-1);
+
+  // State to toggle between showing the value or definition of a phrase
+  const [showValue, setShowValue] = useState(true);
+
+  /**
+   * Fetches the phrases based on the current starred filter, group, and shuffle state.
+   * @param groupId Optional group ID to fetch phrases for.
+   */
+  const fetchPhrases = useCallback(
+    (groupId?: number) => {
+      const fetchFn = shuffle ? getShuffledListOfPhrases : getListOfPhrases;
+      fetchFn(starred, groupId || currentGroupId)
+        .then((res) => setPhrases(res.data))
+        .catch(console.error);
+    },
+    [starred, currentGroupId, shuffle]
   );
 
-  const getShuffledPhrases = React.useCallback(
-    () =>
-      getShuffledListOfPhrases(starred)
-        .then((res) => setData(res.data))
-        .catch((err) => console.error(err)),
-    [starred]
-  );
+  /**
+   * Fetches the list of groups and initializes the selected group.
+   * Automatically fetches the phrases for the initial group.
+   */
+  useEffect(() => {
+    getGroupList()
+      .then((res) => {
+        const groups = res.data;
+        setGroupList(groups);
+        const initialGroupId = currentGroupId === -1 ? groups[0]?.id : currentGroupId;
+        setCurrentGroupId(initialGroupId);
+        fetchPhrases(initialGroupId);
+      })
+      .catch(console.error);
+  }, [fetchPhrases, currentGroupId]);
 
-  const getList = React.useCallback(() => {
-    setCount(0);
-    shuffle ? getShuffledPhrases() : getPhrases();
-  }, [getPhrases, getShuffledPhrases, shuffle]);
-
-  useEffect(() => getList(), [getList]);
-
-  const increaseCount = () => count < data.length - 1 && setCount((prev) => prev + 1);
-
-  const decreaseCount = () => count > 0 && setCount((prev) => prev - 1);
-
-  const handleStarFilterRadioChange = (e: any) => {
-    let optionIndex = -1;
-    setCount(0);
-
-    radioOptions.forEach((element, index) => {
-      if (element === e.target['id']) optionIndex = index;
-    });
-
-    switch (optionIndex) {
-      case 0:
-        setStarred(false);
-        break;
-      case 1:
-        setStarred(null);
-        break;
-      case 2:
-        setStarred(true);
-        break;
-    }
+  /**
+   * Updates the starred filter based on the selected option index.
+   * Resets the phrase index to the beginning.
+   * @param optionIndex Index of the selected filter option.
+   */
+  const updateStarredFilter = (optionIndex: number) => {
+    setCurrentIndex(0);
+    setStarred(optionIndex === 0 ? false : optionIndex === 2 ? true : null);
   };
 
-  const handleShuffleCheckboxChange = () => {
-    setShuffle((prev) => !prev);
+  /**
+   * Handles changes to the starred filter radio buttons.
+   * @param e Event triggered by the radio button change.
+   */
+  const handleStarFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const optionIndex = RADIO_OPTIONS.indexOf(e.target.id);
+    if (optionIndex !== -1) updateStarredFilter(optionIndex);
+  };
+
+  /**
+   * Handles navigation between phrases (next or previous).
+   * @param direction 'next' for forward navigation, 'prev' for backward navigation.
+   */
+  const handleNavigation = (direction: 'next' | 'prev') => {
+    setCurrentIndex((prevIndex) =>
+      direction === 'next'
+        ? Math.min(prevIndex + 1, phrases.length - 1)
+        : Math.max(prevIndex - 1, 0)
+    );
   };
 
   return (
     <div
       id='flashCardContainer'
       className='center'>
-      <form className='starOptions'>
-        <label>
-          <input
-            type='radio'
-            name='starred'
-            id={radioOptions.at(0)}
-            onClick={(e) => handleStarFilterRadioChange(e)}
-            onChange={() => {}}
-            checked={starred === false}
-          />
-          <img
-            src={transparentStar}
-            alt=''
-          />
-        </label>
-        <label>
-          <input
-            type='radio'
-            name='starred'
-            id={radioOptions.at(1)}
-            onClick={(e) => handleStarFilterRadioChange(e)}
-            onChange={() => {}}
-            checked={starred === null}
-          />
-          <img
-            src={halfStar}
-            alt=''
-          />
-        </label>
-        <label>
-          <input
-            type='radio'
-            name='starred'
-            id={radioOptions.at(2)}
-            onClick={(e) => handleStarFilterRadioChange(e)}
-            onChange={() => {}}
-            checked={starred === true}
-          />
-          <img
-            src={yellowStar}
-            alt=''
-          />
-        </label>
-      </form>
-      <div className='flashCard center'>
-        <div className={`boxContainer ${showVal ? '_value' : '_definition'}`}>
-          <Box
-            value={data[count]?.value}
-            definition={data[count]?.definition}
-            onClick={(newVal: boolean) => {
-              setShowVal(newVal);
-            }}
-          />
-        </div>
-        <label>
+      {/* Options Panel */}
+      <div className='options center'>
+        <form className='starOptions'>
+          {RADIO_OPTIONS.map((option, index) => (
+            <label key={option}>
+              <input
+                type='radio'
+                name='starred'
+                id={option}
+                checked={
+                  (index === 0 && starred === false) ||
+                  (index === 1 && starred === null) ||
+                  (index === 2 && starred === true)
+                }
+                onChange={handleStarFilterChange}
+              />
+              <img
+                src={index === 0 ? transparentStar : index === 1 ? halfStar : yellowStar}
+                alt={option}
+              />
+            </label>
+          ))}
+        </form>
+
+        <label className='shuffle_button'>
           <input
             type='checkbox'
             checked={shuffle}
-            onChange={() => {}}
-            onClick={() => handleShuffleCheckboxChange()}
+            onChange={() => setShuffle((prev) => !prev)}
           />
           <img
             src={shuffleIcon}
@@ -144,20 +141,43 @@ export const Flashcards = () => {
         </label>
       </div>
 
+      {/* Flashcard Display */}
+      <div className='flashCard center'>
+        <div className='group_dropdown_container'>
+          <GroupListDropdown
+            groupList={groupList}
+            currentGroupId={currentGroupId}
+            onChange={(gid) => {
+              setCurrentGroupId(gid);
+              fetchPhrases(gid);
+            }}
+          />
+        </div>
+
+        <div className={`boxContainer ${showValue ? '_value' : '_definition'}`}>
+          <Box
+            value={phrases[currentIndex]?.value}
+            definition={phrases[currentIndex]?.definition}
+            onClick={setShowValue}
+          />
+        </div>
+      </div>
+
+      {/* Navigation Buttons */}
       <div className='buttons center'>
         <button
-          disabled={count === 0}
-          onClick={decreaseCount}>
+          disabled={currentIndex === 0}
+          onClick={() => handleNavigation('prev')}>
           {'<'}
         </button>
 
         <p className='counterInfo'>
-          {count + 1}/{data.length}
+          {phrases.length ? currentIndex + 1 : 0}/{phrases.length}
         </p>
 
         <button
-          disabled={count === data.length - 1}
-          onClick={increaseCount}>
+          disabled={currentIndex === phrases.length - 1}
+          onClick={() => handleNavigation('next')}>
           {'>'}
         </button>
       </div>

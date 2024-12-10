@@ -10,12 +10,15 @@ import { getGroupList } from '../../services/group';
 export const List = () => {
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [groupList, setGroupList] = useState<Group[]>([]);
-  const [currentGroupId, setCurrentGroupId] = useState<number>(2);
+  const [currentGroupId, setCurrentGroupId] = useState<number>(-1);
 
   useEffect(() => {
     if (!getToken()) return;
     getListOfPhrases(null, currentGroupId).then((res) => setPhrases(res.data));
-    getGroupList().then((res) => setGroupList(res.data));
+    getGroupList().then((res) => {
+      setGroupList(res.data);
+      setCurrentGroupId(currentGroupId === -1 ? res.data[0].id : currentGroupId);
+    });
   }, [currentGroupId]);
 
   return (
@@ -28,7 +31,6 @@ export const List = () => {
           currentGroupId={currentGroupId}
           onChange={(gid) => {
             setCurrentGroupId(gid);
-            console.log(gid);
           }}
         />
       </div>

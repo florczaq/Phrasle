@@ -6,11 +6,10 @@ import { getTokenAndId } from './authentication';
 const origin = 'http://localhost:8080/api/v1/phrase';
 
 /**
- * Adds a new phrase associated with the current user.
+ * Adds a new phrase to the user's account.
  *
- * @param {Phrase} phrase - The phrase object to add, containing necessary details.
- *
- * @returns {Promise} - A promise resolving to the server response for the addition.
+ * @param {Phrase} phrase - An object representing the phrase to add, including value and definition.
+ * @returns {Promise} - A promise that resolves to the server's response.
  */
 export const addPhrase = (phrase: Phrase): Promise<any> => {
   const [token, userId] = getTokenAndId();
@@ -22,9 +21,9 @@ export const addPhrase = (phrase: Phrase): Promise<any> => {
 };
 
 /**
- * Retrieves the count of phrases associated with the current user.
+ * Retrieves the total number of phrases associated with the current user.
  *
- * @returns {Promise} - A promise resolving to the server response with the phrase count.
+ * @returns {Promise} - A promise that resolves to the count of phrases.
  */
 export const getAmountOfPhrases = (): Promise<any> => {
   const [token, userId] = getTokenAndId();
@@ -34,17 +33,21 @@ export const getAmountOfPhrases = (): Promise<any> => {
 };
 
 /**
- * Retrieves the list of phrases associated with the current user.
- * @param {boolean | null} starred - Determines if the request should filter by starred phrases.
- *   - `true`: Fetch only starred phrases.
- *   - `false`: Fetch only non-starred phrases.
- *   - `null`: Fetch all phrases without filtering by starred status.
- * @returns {Promise} - A promise resolving to the server response containing the list of phrases.
+ * Retrieves a list of phrases associated with the current user.
+ *
+ * @param {boolean | null} starred - Filter to specify phrase type:
+ *   - `true` fetches only starred phrases.
+ *   - `false` fetches only unstarred phrases.
+ *   - `null` fetches all phrases.
+ * @param {number} groupId - The ID of the group to fetch phrases for.
+ * @returns {Promise} - A promise resolving to the server's response containing the list of phrases.
  */
 export const getListOfPhrases = (starred: boolean | null, groupId: number): Promise<any> => {
   const [token, userId] = getTokenAndId();
   return axios.get(
-    `${origin}/list?u=${userId}&&gid=${groupId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
+    `${origin}/list?u=${userId}&&gid=${groupId}${
+      starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''
+    }`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -52,17 +55,21 @@ export const getListOfPhrases = (starred: boolean | null, groupId: number): Prom
 };
 
 /**
- * Retrieves shuffled list of phrases associated with the current user.
- * @param {boolean | null} starred - Determines if the request should filter by starred phrases.
- *   - `true`: Fetch only starred phrases.
- *   - `false`: Fetch only non-starred phrases.
- *   - `null`: Fetch all phrases without filtering by starred status.
- * @returns {Promise} - A promise resolving to the server response containing the list of phrases.
+ * Retrieves a shuffled list of phrases for the current user.
+ *
+ * @param {boolean | null} starred - Filter to specify phrase type:
+ *   - `true` fetches only starred phrases.
+ *   - `false` fetches only unstarred phrases.
+ *   - `null` fetches all phrases.
+ * @param {number} groupId - The ID of the group to fetch phrases for.
+ * @returns {Promise} - A promise resolving to the server's response containing the shuffled list.
  */
-export const getShuffledListOfPhrases = (starred: boolean | null): Promise<any> => {
+export const getShuffledListOfPhrases = (starred: boolean | null, groupId: number): Promise<any> => {
   const [token, userId] = getTokenAndId();
   return axios.get(
-    `${origin}/list/shuffle?u=${userId}${starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''}`,
+    `${origin}/list/shuffle?u=${userId}&&gid=${groupId}${
+      starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''
+    }`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -70,11 +77,10 @@ export const getShuffledListOfPhrases = (starred: boolean | null): Promise<any> 
 };
 
 /**
- * Deletes a specific phrase associated with the current user.
+ * Deletes a specific phrase from the user's account.
  *
- * @param {Phrase} phrase - The phrase object to delete, containing necessary details.
- *
- * @returns {Promise} - A promise resolving to the server response for the deletion.
+ * @param {Phrase} phrase - The phrase object to delete, identified by its unique properties.
+ * @returns {Promise} - A promise resolving to the server's response after deletion.
  */
 export const deletePhrase = (phrase: Phrase): Promise<any> => {
   const [token, userId] = getTokenAndId();
@@ -85,11 +91,10 @@ export const deletePhrase = (phrase: Phrase): Promise<any> => {
 };
 
 /**
- * Edits an existing phrase associated with the current user.
+ * Updates an existing phrase in the user's account.
  *
- * @param {Phrase} phrase - The phrase object to edit, containing updated details.
- *
- * @returns {Promise} - A promise resolving to the server response for the edit operation.
+ * @param {Phrase} phrase - The phrase object containing updated properties.
+ * @returns {Promise} - A promise resolving to the server's response after the update.
  */
 export const editPhrase = (phrase: Phrase): Promise<any> => {
   const [token, userId] = getTokenAndId();

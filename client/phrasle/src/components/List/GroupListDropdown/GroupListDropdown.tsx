@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import './GroupListDropdown.css';
 import { Group } from '../../../App';
 
-interface GroupListDropdown {
+interface GroupListDropdownInt {
   groupList: Group[];
   currentGroupId: number;
-  onChange: (gid: number) => void;
+  onChange: (group_id: number) => void;
 }
 
-export const GroupListDropdown = ({ groupList, currentGroupId,onChange }: GroupListDropdown) => {
+export const GroupListDropdown = ({ groupList, currentGroupId,onChange }: GroupListDropdownInt) => {
   const [options, setOptions] = useState<Group[]>([]);
 
   const handleOption = (e: any) => onChange(e.target.value);
