@@ -10,53 +10,11 @@ const AuthenticatedUserOptions = [
   { href: '/list', label: 'List' },
   { href: '/logout', label: 'Sign Out' },
 ];
-//   </a>
-// </ol>
-// <ol className='center'>
-//   <a
-//     href='/phrases'
-//     className='center'>
-//     <label>Cards</label>
-//   </a>
-// </ol>
-// <ol className='center'>
-//   <a
-//     href='/play'
-//     className='center'>
-//     <label>Play</label>
-//   </a>
-// </ol>
-// <ol className='center'>
-//   <a
-//     href='/list'
-//     className='center'>
-//     <label>List</label>
-//   </a>
-// </ol>
-// <ol className='center'>
-//   <a
-//     className='center'
-//     href='/logout'>
-//     Sign Out
-//   </a>
-// </ol>
 
 const UnauthenticatedUserOptions = [
   { href: '/login', label: 'Sign In' },
 ]
 
-//   return (
-//     <>
-//       <ol className='center'>
-//         <a
-//           href='/login'
-//           className='center'>
-//           <label>Sign In</label>
-//         </a>
-//       </ol>
-//     </>
-//   );
-// };
 
 export const TopBar = () => {
   useEffect(() => {
@@ -70,7 +28,7 @@ export const TopBar = () => {
       <div className='name'>
         <label>PHRASLE</label>
       </div>
-      <SlideMenu options={ AuthenticatedUserOptions}/>
+      <SlideMenu options={getToken() ? AuthenticatedUserOptions : UnauthenticatedUserOptions}/>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Phrase } from '../App';
 import { getTokenAndId } from './authentication';
 
 const origin = 'http://localhost:8080/api/v1/phrase/group';
