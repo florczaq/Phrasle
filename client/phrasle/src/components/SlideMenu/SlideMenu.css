@@ -48,15 +48,23 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 5vh;
   user-select: none;
 }
 
-.slideOptionList ol a:hover {
+.slideOptionList ol > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.slideOptionList a:hover {
   background-color: #242424;
 }
 
-.slideOptionList ol a {
+.slideOptionList a {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -64,16 +72,18 @@
   text-decoration: none;
   cursor: pointer;
   width: 100%;
-  height: 100%;
   min-width: 60px;
+  min-height: 5vh;
   text-wrap: nowrap;
   padding-left: 2vw;
   border-bottom: 1px solid #ffffff38;
+  font-size: 20px;
 }
 
-.slideOptionList ol:last-child a {
+.slideOptionList > ol:last-child a {
   border: 0;
 }
+
 ._visible {
   width: 100%;
 }
@@ -115,7 +125,6 @@
 
 .hamurgerIcon_active > span:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
-
 }
 
 .hamurgerIcon_active > span:nth-child(2) {
@@ -124,4 +133,22 @@
 
 .hamurgerIcon_active > span:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
+}
+
+.nestedMenu {
+  width: 100%;
+}
+
+.nestedMenu label {
+  display: flex;
+  width: 100%;
+  font-size: 24px;
+  padding-left: 2vw;
+  font-weight: 700;
+  margin: 1vh 0;
+}
+
+.nestedMenu ul a {
+  width: 100%;
+  padding-left: 4vw;
 }
