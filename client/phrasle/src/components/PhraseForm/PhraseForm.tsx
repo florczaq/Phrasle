@@ -4,6 +4,9 @@ import star from '../../assets/image/star.png';
 import yellowStar from '../../assets/image/yellow_star.png';
 import { addPhrase, editPhrase } from '../../services/phrase';
 import './PhraseForm.css';
+import { GroupListDropdown } from '../List/GroupListDropdown/GroupListDropdown';
+import { Group } from '../../App';
+import { getGroupList } from '../../services/group';
 
 export const AddPhrasePage = () => {
   const [phraseId, setPhraseId] = useState<number>(-1);
@@ -12,20 +15,30 @@ export const AddPhrasePage = () => {
   const [definition, setDefiniton] = useState<string>('');
   const [groupId, setGroupId] = useState<number>(-1);
   const [edit, setEdit] = useState<boolean>(false);
+  const [groupList, setGroupList] = useState<Group[]>([]);
 
   const navigate = useNavigate();
   const state = useLocation();
 
   useEffect(() => {
     const phrase = state?.state?.phrase || undefined;
-    if (phrase) {
-      setPhraseId(phrase.id || -1);
-      setStarred(phrase.starred || false);
-      setValue(phrase.value);
-      setDefiniton(phrase.definition);
-      setGroupId(phrase.groupId);
-      setEdit(true);
-    }
+
+    getGroupList()
+      .then((res) => {
+        setGroupList(res.data);
+        setGroupId(res.data[0].id);
+      })
+      .then(() => {
+        if (phrase) {
+          setPhraseId(phrase.id || -1);
+          setStarred(phrase.starred || false);
+          setValue(phrase.value);
+          setDefiniton(phrase.definition);
+          setEdit(true);
+          setGroupId(phrase.groupId);
+        }
+      });
+
     return () => {};
   }, [state?.state?.phrase]);
 
@@ -37,20 +50,17 @@ export const AddPhrasePage = () => {
     if (element.includes('definition')) setDefiniton(e.target.value);
   };
 
+  const handleGroupChange = (gid: number) => {
+    console.log(gid);
+    setGroupId(gid);
+  };
+
   const onSumbit = () => {
-    !edit
-      ? addPhrase({ value: value, definition, starred, groupId })
-          .then(() => navigate('/list'))
-          .catch((error) => {
-            if (error.response.status === 409) {
-              console.log(error.response.status);
-            }
-          })
-      : editPhrase({ id: phraseId, value, definition, starred, groupId })
-          .then(() => navigate('/list'))
-          .catch((error) => {
-            console.log(error.response.status);
-          });
+    const query = edit ? editPhrase : addPhrase;
+    console.log({ id: phraseId, value: value, definition, starred, groupId });
+    query({ id: phraseId, value: value, definition, starred, groupId })
+      .then(() => navigate('/list'))
+      .catch((error) => console.log(error.response.status));
   };
 
   return (
@@ -58,6 +68,7 @@ export const AddPhrasePage = () => {
       id='addPhrasePageContainer'
       className='center'>
       <div className='fields center'>
+        <label>Phrase:</label>
         <input
           type='text'
           className='phrase'
@@ -65,13 +76,24 @@ export const AddPhrasePage = () => {
           onChange={handleInput}
           placeholder='Phrase...'
         />
+        <div className='groupInput'>
+          <label>Group:</label>
+          <div className='groupForm'>
+            <GroupListDropdown
+              groupList={groupList}
+              currentGroupId={groupId}
+              onChange={handleGroupChange}
+            />
+          </div>
+        </div>
+        <label>Definition:</label>
         <textarea
           className='definition'
           value={definition}
           onChange={handleInput}
           placeholder='Definition...'
         />
-        <button onClick={() => onSumbit()}>{edit ? 'Edit' : 'Add'}</button>
+        <button onClick={() => onSumbit()}>{edit ? 'Save' : 'Add'}</button>
       </div>
       <div className='star'>
         <img

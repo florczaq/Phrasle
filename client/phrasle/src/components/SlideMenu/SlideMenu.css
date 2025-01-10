@@ -80,7 +80,7 @@
   font-size: 20px;
 }
 
-.slideOptionList > ol:last-child a {
+.slideOptionList ol:last-child a {
   border: 0;
 }
 

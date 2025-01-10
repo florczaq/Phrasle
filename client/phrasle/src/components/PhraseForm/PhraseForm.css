@@ -8,6 +8,7 @@
   height: 70%;
   flex-direction: column;
   justify-content: space-between;
+  gap: 2vh;
 }
 
 #addPhrasePageContainer > .fields input,
@@ -39,7 +40,6 @@ textarea {
   cursor: pointer;
 }
 
-
 #addPhrasePageContainer .star {
   width: fit-content;
   height: 70%;
@@ -51,4 +51,22 @@ textarea {
 
 #addPhrasePageContainer .star img:hover {
   cursor: pointer;
+}
+
+.groupInput {
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
+}
+
+.groupInput label {
+  text-align: center;
+  width: 100%;
+}
+
+.groupInput .groupForm {
+  width: 40%;
 }
