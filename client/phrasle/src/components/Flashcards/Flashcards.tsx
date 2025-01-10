@@ -100,6 +100,14 @@ export const Flashcards = () => {
     );
   };
 
+  /**
+   * Toggles the shuffle state and resets the current index.
+   */
+  const handleShuffleSwitch = () => {
+    setShuffle((prev) => !prev);
+    setCurrentIndex(0);
+  };
+
   return (
     <div
       id='flashCardContainer'
@@ -132,7 +140,7 @@ export const Flashcards = () => {
           <input
             type='checkbox'
             checked={shuffle}
-            onChange={() => setShuffle((prev) => !prev)}
+            onChange={handleShuffleSwitch}
           />
           <img
             src={shuffleIcon}
