@@ -141,14 +141,49 @@
 
 .nestedMenu label {
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
   font-size: 24px;
   padding-left: 2vw;
   font-weight: 700;
-  margin: 1vh 0;
+  height: 50px;
+}
+
+.nestedMenu label:hover {
+  cursor: pointer;
+  background-color: #1b1b1b;
 }
 
 .nestedMenu ul a {
   width: 100%;
   padding-left: 4vw;
+}
+
+.nestedMenu ul {
+  transition: max-height 0.4s ease-out;
+  height: fit-content;
+}
+
+.optionList {
+  overflow: hidden;
+  text-wrap-mode: nowrap;
+  max-height: 0;
+}
+
+.optionList_expand {
+  max-height: 10vh;
+}
+
+.slideOptionList .stateArrow {
+  margin: 0 1vw;
+  transition: 0.25s;
+  border-top: 7px solid #ffffff;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+}
+
+.slideOptionList ._right {
+  transform: rotate(-90deg);
+  transition: 0.3s;
 }

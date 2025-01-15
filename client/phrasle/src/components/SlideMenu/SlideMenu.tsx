@@ -8,7 +8,16 @@ interface SlideMenuInt {
 export const SlideMenu = ({ options }: SlideMenuInt) => {
   const [active, setActive] = useState<boolean>(false);
 
-  console.log(options);
+
+  const toggleClass = (elementId: string, className: string) => {
+    const element = document.getElementById(elementId);
+    element?.classList.toggle(className);
+  };
+
+  const changeListExpand = (index: number) => {
+    toggleClass(`menuGroupList_${index}`, 'optionList_expand');
+    toggleClass(`stateArrow_${index}`, '_right');
+  };
 
   return (
     <div>
@@ -31,8 +40,16 @@ export const SlideMenu = ({ options }: SlideMenuInt) => {
                 <div key={i}>
                   {'name' in option ? (
                     <div className='nestedMenu'>
-                      <label>{option.name}</label>
-                      <ul>
+                      <label onClick={() => changeListExpand(index)}>
+                        {option.name}
+                        <div
+                          className={`stateArrow _right`}
+                          id={`stateArrow_${index}`}
+                        />
+                      </label>
+                      <ul
+                        id={`menuGroupList_${index}`}
+                        className='optionList'>
                         {option.data.map((item, idx) => (
                           <ol key={idx}>
                             <a href={item.href}>{item.label}</a>
