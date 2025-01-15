@@ -161,7 +161,7 @@
 }
 
 .nestedMenu ul {
-  transition: max-height 0.4s ease-out;
+  transition: max-height 0.3s ease-in-out;
   height: fit-content;
 }
 
@@ -172,7 +172,7 @@
 }
 
 .optionList_expand {
-  max-height: 10vh;
+  max-height: 20vh;
 }
 
 .slideOptionList .stateArrow {
