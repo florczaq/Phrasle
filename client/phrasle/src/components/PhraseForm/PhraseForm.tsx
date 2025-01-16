@@ -45,19 +45,23 @@ export const AddPhrasePage = () => {
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    const element = e.target.classList.toString();
-    if (element.includes('phrase')) setValue(e.target.value);
-    if (element.includes('definition')) setDefiniton(e.target.value);
+    switch (e.target.id.toString()) {
+      case 'phrase':
+        setValue(e.target.value);
+        break;
+      case 'definition':
+        setDefiniton(e.target.value);
+        break;
+    }
   };
 
-  const handleGroupChange = (gid: number) => {
-    console.log(gid);
-    setGroupId(gid);
-  };
+  const handleGroupChange = (gid: number) => setGroupId(gid);
 
   const onSumbit = () => {
     const query = edit ? editPhrase : addPhrase;
+    //TODO delete
     console.log({ id: phraseId, value: value, definition, starred, groupId });
+    //TODO
     query({ id: phraseId, value: value, definition, starred, groupId })
       .then(() => navigate('/list'))
       .catch((error) => console.log(error.response.status));
@@ -73,6 +77,7 @@ export const AddPhrasePage = () => {
           type='text'
           className='phrase'
           value={value}
+          id='phrase'
           onChange={handleInput}
           placeholder='Phrase...'
         />
@@ -89,6 +94,7 @@ export const AddPhrasePage = () => {
         <label>Definition:</label>
         <textarea
           className='definition'
+          id='definition'
           value={definition}
           onChange={handleInput}
           placeholder='Definition...'

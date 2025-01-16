@@ -33,6 +33,27 @@ export const getAmountOfPhrases = (): Promise<any> => {
 };
 
 /**
+ * Fetches the total number of phrases for the current user based on the specified group and starred status.
+ *
+ * @param {boolean | null} starred - Indicates whether to filter phrases by their starred status.
+ *                                   Pass `true` for starred, `false` for non-starred, or `null` for all.
+ * @param {number} groupId - The ID of the group for which phrases are being counted.
+ * @returns {Promise<any>} - A promise that resolves to the count of phrases.
+ */
+export const getAmountOfPhrasesByGroup = (
+  starred: boolean | null,
+  groupId: number
+): Promise<any> => {
+  const [token, userId] = getTokenAndId();
+  return axios.get(
+    `${origin}/amount?u=${userId}&&gid=${groupId}${starred != null ? `&&s=${starred}` : ''}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
+/**
  * Retrieves a list of phrases associated with the current user.
  *
  * @param {boolean | null} starred - Filter to specify phrase type:
@@ -45,9 +66,7 @@ export const getAmountOfPhrases = (): Promise<any> => {
 export const getListOfPhrases = (starred: boolean | null, groupId: number): Promise<any> => {
   const [token, userId] = getTokenAndId();
   return axios.get(
-    `${origin}/list?u=${userId}&&gid=${groupId}${
-      starred !== null ? (starred ? '&&s=true' : '&&s=false') : ''
-    }`,
+    `${origin}/list?u=${userId}&&gid=${groupId}${starred !== null ? `&&s=${starred}` : ''}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -64,7 +83,10 @@ export const getListOfPhrases = (starred: boolean | null, groupId: number): Prom
  * @param {number} groupId - The ID of the group to fetch phrases for.
  * @returns {Promise} - A promise resolving to the server's response containing the shuffled list.
  */
-export const getShuffledListOfPhrases = (starred: boolean | null, groupId: number): Promise<any> => {
+export const getShuffledListOfPhrases = (
+  starred: boolean | null,
+  groupId: number
+): Promise<any> => {
   const [token, userId] = getTokenAndId();
   return axios.get(
     `${origin}/list/shuffle?u=${userId}&&gid=${groupId}${

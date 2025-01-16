@@ -15,8 +15,8 @@ const AuthenticatedUserOptions: MenuOption[][] = [
     {
       name: 'Phrase',
       data: [
-        { href: '/phrases', label: 'Flashcards' },
         { href: '/phraseForm?m=add', label: 'Add' },
+        { href: '/phrases', label: 'Flashcards' },
         { href: '/list', label: 'List' },
       ],
     },
@@ -33,7 +33,7 @@ const AuthenticatedUserOptions: MenuOption[][] = [
   [
     {
       name: 'Games', //TODO transform page into menu options
-      data: [{ href: '/play', label: 'Game menu' }],
+      data: [{ href: '/play/quiz/settings', label: 'Quiz' }],
     },
   ],
   [

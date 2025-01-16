@@ -24,7 +24,7 @@ export interface Phrase {
   groupId: number;
 }
 
-export interface Group{
+export interface Group {
   id: number;
   name: string;
   userId: string;
@@ -43,17 +43,13 @@ const Logout = () => {
     signOut();
     navigate('/login');
     reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
   return <></>;
 };
 
 const ChangeRoute = ({ path = '' }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    navigate(path);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => navigate(path));
   return <></>;
 };
 
@@ -64,11 +60,10 @@ const AuthenticateOnLoad = ({ component }: AuthenticateOnLoadInterface) => {
   const navigate = useNavigate();
   useEffect(() => {
     !getUserId() && navigate('/login');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
   return component;
 };
-
+//TODO Error route
 const router = createBrowserRouter([
   {
     path: '/',
