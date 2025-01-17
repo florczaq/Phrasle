@@ -19,9 +19,16 @@ import java.util.Optional;
 public class PhraseController {
     private final PhraseService service;
 
-    @GetMapping("/amount")
+    @GetMapping("/amount/all")
     public long getNumberOfRecords(@RequestParam(name = "u") String userId) {
         return service.getAllUserPhrases(userId).size();
+    }
+
+    @GetMapping("/amount")
+    public long getNumberOfRecordsByGroup(@RequestParam(name = "u") String userId, @RequestParam(name = "gid") int groupId, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
+        return starred
+            .map(b -> service.getAllUserPhrasesByGroup(userId, b, groupId).size())
+            .orElseGet(() -> service.getAllUserPhrasesByGroup(userId, groupId).size());
     }
 
     @GetMapping("/list")
@@ -37,7 +44,7 @@ public class PhraseController {
     }
 
     @GetMapping("/list/shuffle")
-    public List<Phrase> getAllValuesShuffled(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred,@RequestParam(name = "gid") int groupId) {
+    public List<Phrase> getAllValuesShuffled(@RequestParam(name = "u") String uid, @RequestParam(required = false, name = "s") Optional<Boolean> starred, @RequestParam(name = "gid") int groupId) {
         List<Phrase> response;
         System.out.println(groupId);
         response = starred.isEmpty() ? service.getAllUserPhrasesByGroup(uid, groupId) : service.getAllUserPhrasesByGroup(uid, starred.get(), groupId);

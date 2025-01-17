@@ -30,14 +30,21 @@ export const QuizPage = () => {
   const [avaibleAnswers, setAvaibleAnswers] = useState<Array<string>>([]);
   const [questionCounter, setQuestionCounter] = useState<number>(1);
   const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
-  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({ value: '', definition: '', groupId: -1 });
+  const [correctAnswer, setCorrectAnswer] = useState<Phrase>({
+    value: '',
+    definition: '',
+    groupId: -1,
+  });
   const [finish, setFinish] = useState<boolean>(false);
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
 
+  const [groupId, setGroupId] = useState<number>(-1);
+  const [starred, setStarred] = useState<boolean | null>(null);
+
   const navigate = useNavigate();
 
-  const pickNewSet = () => {
-    getNewQuizSet()
+  const pickNewSet = (gid?: number) => {
+    getNewQuizSet(gid || groupId, starred)
       .then((response) => {
         if (response.status === 204) {
           alert('No more words');
@@ -52,12 +59,14 @@ export const QuizPage = () => {
 
   useEffect(() => {
     setFinish(false);
+    const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
     finishQuizAndClearRecord()
       .then(() => {
-        const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
         setNumberOfQuestions(quizData.numberOfQuestions);
+        setGroupId(quizData.groupId);
+        setStarred(quizData.starred);
       })
-      .then(() => pickNewSet())
+      .then(() => pickNewSet(quizData.groupId))
       .catch((err) => console.error(err.message));
   }, [setNumberOfQuestions]);
 
@@ -75,16 +84,14 @@ export const QuizPage = () => {
         setQuestionAnswered(true);
       })
       .catch((error) => console.error(error))
-      .finally(() => {
-        if (questionCounter === numberOfQuestions) setFinish(true);
-      });
+      .finally(() => setFinish(questionCounter === numberOfQuestions));
   };
 
   const onFinish = () => {
     const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
     quizData.score = countCorrectAnswers;
     save(TYPE.SESSION, KEY.QUIZ, JSON.stringify(quizData));
-    navigate("../play/score");
+    navigate('../play/score');
   };
 
   return (

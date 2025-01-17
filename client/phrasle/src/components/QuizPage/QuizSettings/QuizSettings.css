@@ -1,7 +1,9 @@
 .container {
   display: flex;
   width: 50vw;
-  height: 50vh;
+  height: 60vh;
+  min-width: 700px;
+  min-height: none;
   border: 4px solid;
   flex-direction: column;
   border-radius: 20px;
@@ -12,7 +14,18 @@
 .startButton {
   width: 10vw;
   height: 5vh;
+  min-width: 100px;
   font-size: 20px;
+}
+
+
+.startButton:disabled {
+  background-color: #555555;
+}
+
+.startButton:disabled:hover {
+  background-color: #555555;
+  cursor: auto;
 }
 
 .container button {
@@ -25,6 +38,10 @@
 .container button:hover {
   background-color: #000000cc;
   cursor: pointer;
+}
+
+.container .startButton {
+  height: 7vh;
 }
 
 .questionAmount {
@@ -69,14 +86,21 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .groupDropdown {
-  width: 15vw;
+  width: 60%;
+  min-width: 200px;
   height: 20%;
   font-size: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1vw;
+}
+
+.groupDropdown > div {
+  width: 50%;
+  min-width: 40px;
 }

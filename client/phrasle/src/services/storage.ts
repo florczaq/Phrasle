@@ -8,10 +8,10 @@ export enum KEY {
   TOKEN = 'token',
   /** Key for storing user identifier */
   UID = 'uid',
-   /** Key for storing the number of questions in a quiz */
-  QUIZ_QUESTION_AMOUNT="qqa",
+  /** Key for storing the number of questions in a quiz */
+  QUIZ_QUESTION_AMOUNT = 'qqa',
   /** Key for storing quiz-related data */
-  QUIZ="qz"
+  QUIZ = 'qz',
 }
 
 /**
@@ -26,20 +26,22 @@ export enum TYPE {
 /**
  * Interface representing the structure of a quiz object.
  */
-export interface QUIZ{
+export interface QUIZ {
   /** Optional property to store quiz score */
-  score?: number,
+  score?: number;
   /** Required property to store the number of questions in the quiz */
   numberOfQuestions: number;
+  groupId: number;
+  starred: boolean | null;
 }
 
 /**
  * Saves data to a specified storage type.
- * 
+ *
  * @param {TYPE} type - The type of storage (SESSION, LOCAL, COOKIE).
  * @param {KEY} key - The key used to identify the data.
  * @param {string} data - The data to store, as a string.
- * 
+ *
  * @returns {void}
  */
 export const save = (type: TYPE, key: KEY, data: string): void => {
@@ -58,10 +60,10 @@ export const save = (type: TYPE, key: KEY, data: string): void => {
 
 /**
  * Retrieves data from a specified storage type.
- * 
+ *
  * @param {TYPE} type - The type of storage (SESSION, LOCAL, COOKIE).
  * @param {KEY} key - The key used to identify the data.
- * 
+ *
  * @returns {string | null} - The retrieved data as a string, or null if not found.
  */
 export const get = (type: TYPE, key: KEY): string | null => {
@@ -77,10 +79,10 @@ export const get = (type: TYPE, key: KEY): string | null => {
 
 /**
  * Removes data from a specified storage type.
- * 
+ *
  * @param {TYPE} type - The type of storage (SESSION, LOCAL, COOKIE).
  * @param {KEY} key - The key used to identify the data to remove.
- * 
+ *
  * @returns {void}
  */
 export const remove = (type: TYPE, key: KEY): void => {

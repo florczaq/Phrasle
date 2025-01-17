@@ -13,8 +13,12 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
     Optional<Quiz> findByPhraseId(int phraseId);
     Optional<Quiz> findById(int id);
 
+
+
     @Query("SELECT q.phraseId FROM Quiz q WHERE q.userId = ?1")
     List<Integer> findAll(@Param("uid") String userId);
+    @Query("SELECT q.phraseId FROM Quiz q WHERE q.userId = ?1")
+    List<Integer> findAllByGroupAndStarred(@Param("uid") String userId);
     @Transactional
     void deleteByUserId(String userId);
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.rmi.NoSuchObjectException;
 import java.util.EmptyStackException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/games/quiz")
@@ -18,9 +19,9 @@ public class QuizController {
     private final QuizService service;
 
     @GetMapping("/renderNew")
-    public ResponseEntity<QuizResponse> getNewSet(@RequestParam(name = "u") String userId) {
+    public ResponseEntity<QuizResponse> getNewSet(@RequestParam(name = "u") String userId, @RequestParam(name = "gid") int groupId, @RequestParam(required = false, name = "s") Optional<Boolean> starred) {
         try {
-            return ResponseEntity.ok(service.pickAnotherQuiz(userId));
+            return ResponseEntity.ok(service.pickAnotherQuiz(userId, groupId, starred));
         } catch (NoSuchObjectException | EmptyStackException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {

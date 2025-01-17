@@ -27,12 +27,12 @@ export const QuizSettings = () => {
     getGroupList().then((res) => {
       setGroupList(res.data);
       if (currentGroupId === -1) setCurrentGroupId(res.data[0].id);
+
       getAmountOfPhrasesByGroup(
         starred,
         currentGroupId === -1 ? res.data[0].id : currentGroupId
       ).then((r) => {
         setMaxAmount(Math.max(r.data - 3, 0));
-        setCount(r.data - 3 <= 0 ? 0 : r.data - 3);
       });
     });
     return () => {};
@@ -44,15 +44,13 @@ export const QuizSettings = () => {
 
   const onInputChange = (event: any) => setCount(event.target.value);
 
-  const reloadMaxQuestionCount = (strd: boolean | null, gid: number) => {
+  const reloadMaxQuestionCount = (strd: boolean | null, gid: number) =>
     getAmountOfPhrasesByGroup(strd, gid).then((r) => {
       setMaxAmount(Math.max(r.data - 3, 0));
     });
-  };
 
   const onStart = () => {
-    // console.log('Group: ', currentGroupId, 'Starred: ', starred, 'Count: ', count);
-    const result: QUIZ = { numberOfQuestions: count };
+    const result: QUIZ = { numberOfQuestions: count, groupId: currentGroupId, starred };
     save(TYPE.SESSION, KEY.QUIZ, JSON.stringify(result));
     navigate('../play/quiz/game');
   };
@@ -117,11 +115,13 @@ export const QuizSettings = () => {
         </form>
         <div className='groupDropdown'>
           <label>Group:</label>
-          <GroupListDropdown
-            currentGroupId={currentGroupId}
-            groupList={groupList}
-            onChange={onGroupChange}
-          />
+          <div>
+            <GroupListDropdown
+              currentGroupId={currentGroupId}
+              groupList={groupList}
+              onChange={onGroupChange}
+            />
+          </div>
         </div>
         <div className='questionAmount'>
           <label>How many questions?</label>
@@ -133,7 +133,7 @@ export const QuizSettings = () => {
             </button>
             <input
               type='number'
-              value={count}
+              value={maxAmount <= 0 ? 0 : count}
               onChange={onInputChange}
               onBlur={() => validateInputChange()}
             />
@@ -145,7 +145,7 @@ export const QuizSettings = () => {
           </div>
         </div>
         <button
-          disabled={maxAmount === 0}
+          disabled={maxAmount <= 0}
           className='startButton'
           onClick={onStart}>
           Start
