@@ -25,8 +25,8 @@ public class PhraseService {
     }
 
     public void addNewPhrase(Phrase phrase) throws RecordAlreadyExistsException, IllegalArgumentException {
-        if (repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId()).isPresent())
-            throw new RecordAlreadyExistsException();
+//        if (repository.findByValueAndUserId(phrase.getValue(), phrase.getUserId()).isPresent())
+//            throw new RecordAlreadyExistsException();
         if (phrase.getUserId().length() < 36) throw new IllegalArgumentException();
         repository.save(phrase);
     }

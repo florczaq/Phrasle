@@ -47,6 +47,7 @@ export const QuizSettings = () => {
   const reloadMaxQuestionCount = (strd: boolean | null, gid: number) =>
     getAmountOfPhrasesByGroup(strd, gid).then((r) => {
       setMaxAmount(Math.max(r.data - 3, 0));
+      setCount(Math.max(r.data - 3, 0));
     });
 
   const onStart = () => {

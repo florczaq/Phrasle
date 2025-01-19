@@ -15,24 +15,47 @@ import { Spinner } from './components/Spinner/Spinner';
 import { TopBar } from './components/TopBar/TopBar';
 import { getUserId, signOut } from './services/authentication';
 import { testServerConnection } from './services/connection';
+import { GroupList } from './components/GroupList/GroupList';
 
+// Represents a phrase with its attributes
+/**
+ * Interface for a phrase.
+ * @property {number} [id] - Optional unique identifier for the phrase.
+ * @property {string} value - The text of the phrase.
+ * @property {string} definition - The definition or meaning of the phrase.
+ * @property {boolean} [starred] - Optional flag indicating if the phrase is marked as important or favorite.
+ * @property {number} groupId - Identifier for the group to which the phrase belongs.
+ */
 export interface Phrase {
-  id?: number;
-  value: string;
-  definition: string;
-  starred?: boolean;
-  groupId: number;
+  id?: number; // Optional unique identifier for the phrase
+  value: string; // The text of the phrase
+  definition: string; // The definition or meaning of the phrase
+  starred?: boolean; // Optional flag indicating if the phrase is marked as important or favorite
+  groupId: number; // Identifier for the group to which the phrase belongs
 }
 
+// Represents a group with its attributes
+/**
+ * Interface for a group.
+ * @property {number} id - Unique identifier for the group.
+ * @property {string} name - Name of the group.
+ * @property {string} userId - Identifier for the user who owns the group.
+ */
 export interface Group {
-  id: number;
-  name: string;
-  userId: string;
+  id: number; // Unique identifier for the group
+  name: string; // Name of the group
+  userId: string; // Identifier for the user who owns the group
 }
 
+// Represents a user with email and password properties
+/**
+ * Represents a user.
+ * @property {string} email - The user's email address.
+ * @property {string} password - The user's password (ensure to handle this securely in a real application).
+ */
 export const User = {
-  email: '',
-  password: '',
+  email: '', // The user's email address
+  password: '', // The user's password (ensure to handle this securely in a real application)
 };
 
 const Logout = () => {
@@ -93,6 +116,10 @@ const router = createBrowserRouter([
   {
     path: '/phraseForm',
     element: <AuthenticateOnLoad component={<AddPhrasePage />} />,
+  },
+  {
+    path: '/group/list',
+    element: <AuthenticateOnLoad component={<GroupList />} />,
   },
   {
     path: '/play',

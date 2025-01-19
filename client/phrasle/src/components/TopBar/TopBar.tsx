@@ -25,8 +25,7 @@ const AuthenticatedUserOptions: MenuOption[][] = [
     {
       name: 'Group',
       data: [
-        { href: '/', label: 'Add' },
-        { href: '/', label: 'List' },
+        { href: '/group/list', label: 'List' },
       ],
     },
   ],
