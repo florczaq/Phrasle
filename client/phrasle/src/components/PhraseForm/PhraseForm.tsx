@@ -16,9 +16,11 @@ export const AddPhrasePage = () => {
   const [groupId, setGroupId] = useState<number>(-1);
   const [edit, setEdit] = useState<boolean>(false);
   const [groupList, setGroupList] = useState<Group[]>([]);
-
+  
   const navigate = useNavigate();
   const state = useLocation();
+
+  //TODO fix picking new question on reload
 
   useEffect(() => {
     const phrase = state?.state?.phrase || undefined;

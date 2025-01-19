@@ -21,12 +21,14 @@ export const ScoreWindow = () => {
   };
 
   return (
-    <div>
-      <div>Your score is:</div>
-      <p>
-        {score}/{numberOfQuestions}
-      </p>
-      <button onClick={onClick}>Ok</button>
+    <div className='score_container center'>
+      <div className='score_box center'>
+        <label>Your score is</label>
+        <p>
+          {score}/{numberOfQuestions}
+        </p>
+        <button onClick={onClick}>Ok</button>
+      </div>
     </div>
   );
 };
