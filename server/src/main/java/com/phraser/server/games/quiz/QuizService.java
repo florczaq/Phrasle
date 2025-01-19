@@ -1,15 +1,11 @@
 package com.phraser.server.games.quiz;
 
-import com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.phraser.server.phrase.PhraseRepository;
 import com.phraser.server.phrase.object.Phrase;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.sound.midi.Soundbank;
 import java.rmi.NoSuchObjectException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,30 +17,41 @@ public class QuizService {
     private final QuizRepository quizRepository;
 
     private ArrayList<Phrase> pickNewAnswersSet(String userId, int groupId, Optional<Boolean> starred) throws NoSuchObjectException, EmptyStackException {
-        List<Phrase> userPhrases = starred.map(b -> phraseRepository.findByUserIdAndStarredAndGroupId(userId, b, groupId)).orElseGet(() -> phraseRepository.findByUserIdAndGroupId(userId, groupId));
+        List<Phrase> userPhrases =
+            starred
+                .map(b -> phraseRepository.findByUserIdAndStarredAndGroupId(userId, b, groupId))
+                .orElseGet(() -> phraseRepository.findByUserIdAndGroupId(userId, groupId));
 
         Collections.shuffle(userPhrases);
 
-        List<Integer> alreadyUsedPhrases = quizRepository.findAll(userId);
 
-        userPhrases = userPhrases.stream().filter(item -> !alreadyUsedPhrases.contains(item.getId())).collect(Collectors.toList());
+
+        List<Integer> alreadyUsedPhrasesId = quizRepository.findAll(userId);
+
+        userPhrases =
+            userPhrases.stream()
+                .filter(item -> !alreadyUsedPhrasesId.contains(item.getId()))
+                .collect(Collectors.toList());
 
         if (userPhrases.isEmpty()) throw new NoSuchObjectException("This user doesn't have any phrases added yet.");
 
         if (userPhrases.size() < 4) throw new EmptyStackException();
 
-        Set<Phrase> result = new HashSet<>();
+        Set<Phrase> result = new LinkedHashSet<>();
         Random random = new Random();
-        do result.add(userPhrases.get(random.nextInt(userPhrases.size())).clone()); while (result.size() < 4);
+        do result.add(userPhrases.get(random.nextInt(userPhrases.size())).clone());
+        while (result.size() < 4);
 
         return new ArrayList<>(result);
     }
 
     public QuizResponse pickAnotherQuiz(String userId, int groupId, Optional<Boolean> starred) throws NoSuchObjectException, EmptyStackException {
         ArrayList<Phrase> response = pickNewAnswersSet(userId, groupId, starred);
+
         Phrase correctAnswer = response.get(0);
 
         quizRepository.save(new Quiz(correctAnswer.getId(), correctAnswer.getUserId()));
+
 
         var game = quizRepository.findByPhraseId(correctAnswer.getId());
 
