@@ -41,6 +41,7 @@ export const QuizPage = () => {
   const [groupId, setGroupId] = useState<number>(-1);
   const [starred, setStarred] = useState<boolean | null>(null);
 
+
   const navigate = useNavigate();
 
   const pickNewSet = (gid?: number) => {
@@ -59,15 +60,20 @@ export const QuizPage = () => {
 
   useEffect(() => {
     setFinish(false);
-    const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}');
+    if(!get(TYPE.SESSION, KEY.QUIZ)){
+      navigate("/list");      
+      return;
+    }
+    const quizData: QUIZ = JSON.parse(get(TYPE.SESSION, KEY.QUIZ) || '{numberOfQuestions: 0}') ;
     finishQuizAndClearRecord()
       .then(() => {
-        setNumberOfQuestions(quizData.numberOfQuestions);
+        setNumberOfQuestions(Number(quizData.numberOfQuestions));
         setGroupId(quizData.groupId);
         setStarred(quizData.starred);
       })
       .then(() => pickNewSet(quizData.groupId))
       .catch((err) => console.error(err.message));
+
   }, [setNumberOfQuestions]);
 
   const goNext = () => {
@@ -84,7 +90,7 @@ export const QuizPage = () => {
         setQuestionAnswered(true);
       })
       .catch((error) => console.error(error))
-      .finally(() => setFinish(questionCounter === numberOfQuestions));
+      .finally(() => setFinish(questionCounter >= numberOfQuestions));
   };
 
   const onFinish = () => {

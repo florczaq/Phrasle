@@ -16,6 +16,7 @@ import { TopBar } from './components/TopBar/TopBar';
 import { getUserId, signOut } from './services/authentication';
 import { testServerConnection } from './services/connection';
 import { GroupList } from './components/GroupList/GroupList';
+import { MemoryGameSettings } from './components/MemoryGame/MemorySettings/MemoryGameSettings';
 
 // Represents a phrase with its attributes
 /**
@@ -138,9 +139,13 @@ const router = createBrowserRouter([
     element: <AuthenticateOnLoad component={<QuizSettings />} />,
   },
   {
-    path: '/play/quiz/settings',
-    element: <AuthenticateOnLoad component={<QuizSettings />} />,
+    path: "/play/memory/settings",
+    element: <AuthenticateOnLoad component={<MemoryGameSettings />} />
   },
+  {
+    path: "/play/memory/game",
+    element: <></>
+  }
 ]);
 
 function App() {

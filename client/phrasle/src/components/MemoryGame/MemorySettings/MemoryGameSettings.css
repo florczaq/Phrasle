@@ -1,0 +1,71 @@
+.memoryGameSettings_container{
+  height: 95vh;
+  width: 100vw;
+}
+
+.memoryGameSettings{
+  border: 5px solid black;
+  border-radius: 20px;
+  width: 40vw;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.memoryGameSettings h2{
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.memoryGameSettings_groupPicker{
+  width: 50%;
+  text-align: center;
+}
+
+
+.memoryGameSettings_selectContainer{
+  width: 50%;
+  text-align: center;
+}
+
+.memoryGameSettings_select{
+  font-size: 20px;
+  text-align: center;
+  background-color: #fff;
+  border: 3px solid black;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  padding: 1vh 1vw;
+}
+
+.memoryGameSettings_select:hover{
+  background-color: #fcfcfc;
+  cursor: pointer;
+}
+
+.memoryHameSettings_select option{
+  background-color: #ffffff;
+}
+
+.memoryGameSettings_startButton{
+  background-color: black;
+  border: 0;
+  color: #fff;
+  width: 150px;
+  height: 50px;
+  border-radius: 20px;
+  font-size: 25px;
+}
+
+.memoryGameSettings_startButton:hover{
+  cursor: pointer;
+  background-color: rgb(29, 29, 29);
+}
+
+.memoryGameSettings_startButton:disabled{
+  cursor: auto;
+  background-color: rgb(78, 78, 78);
+}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import './GroupList.css';
 import { Group } from '../../App';
-import { addGroup, deleteGroup, getGroupList, getGroupListDetails } from '../../services/group';
 import { getUserId } from '../../services/authentication';
+import { addGroup, deleteGroup, getGroupListDetails } from '../../services/group';
+import './GroupList.css';
 
 interface GroupElement {
   group: Group;
@@ -56,26 +56,25 @@ export const GroupList = () => {
             <button onClick={() => deleteGroupById(index)}>Delete</button>
           </ol>
         ))}
-        {addActive && (
-          <ol>
-            <div className='groupElement_text'>
-              <p>
-                <input
-                  type='text'
-                  placeholder='Name...'
-                  onChange={handleInputChange}
-                  value={newGroupName}
-                />
-              </p>
-              <p>0</p>
-            </div>
-            <button
-              className='groupElement_saveButton'
-              onClick={addNewGroup}>
-              Save
-            </button>
-          </ol>
-        )}
+        <ol className={`${!addActive ? 'groupElement_hidden' : ''}`}>
+          <div className='groupElement_text'>
+            <p>
+              <input
+                disabled={Boolean(!addActive)}
+                type='text'
+                placeholder='Name...'
+                onChange={handleInputChange}
+                value={newGroupName}
+              />
+            </p>
+            <p>0</p>
+          </div>
+          <button
+            className='groupElement_saveButton'
+            onClick={addNewGroup}>
+            Save
+          </button>
+        </ol>
         <div className='groupList_addNewGroup center'>
           {addActive ? (
             <button

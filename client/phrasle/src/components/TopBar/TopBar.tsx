@@ -24,15 +24,16 @@ const AuthenticatedUserOptions: MenuOption[][] = [
   [
     {
       name: 'Group',
-      data: [
-        { href: '/group/list', label: 'List' },
-      ],
+      data: [{ href: '/group/list', label: 'List' }],
     },
   ],
   [
     {
       name: 'Games', //TODO transform page into menu options
-      data: [{ href: '/play/quiz/settings', label: 'Quiz' }],
+      data: [
+        { href: '/play/quiz/settings', label: 'Quiz' },
+        { href: '/play/memory/settings', label: 'Memory Game' },
+      ],
     },
   ],
   [
